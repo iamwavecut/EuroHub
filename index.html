@@ -1,0 +1,2805 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EuroHub - Directive Compliance Engine</title>
+  <style>
+    :root {
+      --blue: #0757a6;
+      --blue-strong: #004494;
+      --blue-deep: #073f7d;
+      --blue-soft: #eaf3ff;
+      --gold: #f7c948;
+      --ink: #24292f;
+      --muted: #57606a;
+      --subtle: #6e7781;
+      --line: #d8dee4;
+      --soft-line: #eaeef2;
+      --surface: #ffffff;
+      --surface-2: #f6f8fa;
+      --surface-3: #eef3f8;
+      --danger: #cf222e;
+      --danger-soft: #fff1f1;
+      --warning: #9a6700;
+      --warning-soft: #fff8db;
+      --success: #1a7f37;
+      --success-soft: #dafbe1;
+      --shadow: 0 22px 60px rgba(31, 35, 40, 0.18);
+      --shadow-soft: 0 14px 30px rgba(31, 35, 40, 0.12);
+      --radius: 8px;
+      --font: "Aptos", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      min-height: 100%;
+      background: #edf1f5;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100dvh;
+      color: var(--ink);
+      font-family: var(--font);
+      background:
+        linear-gradient(180deg, #f7f9fb 0, #eef2f6 60%, #e8eef5 100%);
+      letter-spacing: 0;
+      overflow-x: hidden;
+      color-scheme: light;
+      -webkit-tap-highlight-color: rgba(9, 105, 218, 0.16);
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      color: inherit;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+
+    a {
+      color: #0969da;
+      text-decoration: none;
+      touch-action: manipulation;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    input {
+      touch-action: manipulation;
+    }
+
+    :where(a, button, input):focus-visible {
+      outline: 3px solid rgba(9, 105, 218, 0.72);
+      outline-offset: 2px;
+      border-radius: 6px;
+    }
+
+    .skip-link {
+      position: fixed;
+      left: 16px;
+      top: 12px;
+      transform: translateY(-140%);
+      z-index: 80;
+      padding: 8px 12px;
+      border-radius: 6px;
+      background: #ffffff;
+      border: 1px solid #0969da;
+      box-shadow: var(--shadow-soft);
+      font-weight: 700;
+      transition: transform 160ms ease;
+    }
+
+    .skip-link:focus-visible {
+      transform: translateY(0);
+    }
+
+    :is(h1, h2, h3, h4) {
+      text-wrap: balance;
+    }
+
+    :is(h1, h2, h3, h4)[id] {
+      scroll-margin-top: 88px;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .icon {
+      width: 16px;
+      height: 16px;
+      display: inline-block;
+      flex: 0 0 auto;
+      vertical-align: -2px;
+      stroke-width: 1.9;
+    }
+
+    .browser-frame {
+      background: #eef1f5;
+      border-bottom: 1px solid #cfd7df;
+      color: #4f5b67;
+      font-size: 13px;
+      box-shadow: 0 1px 0 rgba(255,255,255,0.8) inset;
+    }
+
+    .browser-tabs {
+      height: 46px;
+      display: grid;
+      grid-template-columns: 86px minmax(240px, 1fr) 1fr;
+      align-items: end;
+      gap: 10px;
+      padding: 0 12px;
+      max-width: 1480px;
+      margin: 0 auto;
+    }
+
+    .traffic {
+      align-self: center;
+      display: flex;
+      gap: 8px;
+      padding-left: 4px;
+    }
+
+    .traffic span {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      display: block;
+      border: 1px solid rgba(31, 35, 40, 0.08);
+    }
+
+    .traffic span:nth-child(1) { background: #ff5f57; }
+    .traffic span:nth-child(2) { background: #ffbd2e; }
+    .traffic span:nth-child(3) { background: #28c840; }
+
+    .fake-tab {
+      align-self: stretch;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 14px;
+      background: #ffffff;
+      border: 1px solid #d0d7de;
+      border-bottom-color: #ffffff;
+      border-radius: 9px 9px 0 0;
+      max-width: 310px;
+      min-width: 0;
+    }
+
+    .fake-tab span:last-child {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: #24292f;
+    }
+
+    .browser-controls {
+      height: 42px;
+      display: grid;
+      grid-template-columns: auto auto minmax(180px, 1fr) auto;
+      gap: 10px;
+      align-items: center;
+      padding: 6px 12px 8px;
+      max-width: 1480px;
+      margin: 0 auto;
+    }
+
+    .round-tool,
+    .icon-button {
+      width: 32px;
+      height: 32px;
+      border: 0;
+      border-radius: 6px;
+      background: transparent;
+      display: inline-grid;
+      place-items: center;
+      color: #4f5b67;
+      transition: background 160ms ease, transform 160ms ease;
+    }
+
+    .round-tool:hover,
+    .icon-button:hover {
+      background: #dde4ec;
+    }
+
+    .round-tool:active,
+    .icon-button:active,
+    .button:active,
+    .small-button:active,
+    .tab-button:active {
+      transform: translateY(1px) scale(0.985);
+    }
+
+    .address {
+      height: 33px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 12px;
+      background: #ffffff;
+      border: 1px solid #d0d7de;
+      border-radius: 8px;
+      min-width: 0;
+      color: #57606a;
+      box-shadow: 0 1px 0 rgba(31,35,40,0.04) inset;
+    }
+
+    .address span {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .app {
+      min-height: calc(100dvh - 88px);
+      background: #ffffff;
+      box-shadow: 0 0 0 1px rgba(31, 35, 40, 0.04);
+    }
+
+    .topbar {
+      background: linear-gradient(180deg, var(--blue) 0%, var(--blue-strong) 100%);
+      color: #ffffff;
+      border-bottom: 1px solid #003b7f;
+    }
+
+    .topbar-inner {
+      max-width: 1480px;
+      margin: 0 auto;
+      min-height: 68px;
+      display: grid;
+      grid-template-columns: minmax(230px, 300px) minmax(260px, 600px) 1fr;
+      align-items: center;
+      gap: 20px;
+      padding: 10px 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .brand-name {
+      display: flex;
+      align-items: baseline;
+      gap: 9px;
+      color: #ffffff;
+      line-height: 1.05;
+    }
+
+    .brand-name strong {
+      font-size: 24px;
+      letter-spacing: -0.01em;
+    }
+
+    .brand small {
+      display: block;
+      margin-top: 2px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.9);
+    }
+
+    .tag {
+      border: 1px solid rgba(31,35,40,0.15);
+      background: var(--gold);
+      color: #3b3100;
+      border-radius: 999px;
+      padding: 2px 7px;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .eu-mark {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, #0a67c2 0, #064a94 60%, #053d7a 100%);
+      position: relative;
+      flex: 0 0 auto;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.16), 0 8px 18px rgba(0,0,0,0.18);
+    }
+
+    .eu-mark.small {
+      width: 20px;
+      height: 20px;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.15);
+    }
+
+    .eu-star {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 4px;
+      height: 4px;
+      margin: -2px;
+      background: var(--gold);
+      clip-path: polygon(50% 0%, 62% 35%, 99% 35%, 69% 56%, 80% 91%, 50% 70%, 20% 91%, 31% 56%, 1% 35%, 38% 35%);
+      transform: rotate(var(--a)) translateY(-21px) rotate(calc(-1 * var(--a)));
+    }
+
+    .eu-mark.small .eu-star {
+      width: 2px;
+      height: 2px;
+      margin: -1px;
+      transform: rotate(var(--a)) translateY(-7px) rotate(calc(-1 * var(--a)));
+    }
+
+    .search-wrap {
+      position: relative;
+      min-width: 0;
+    }
+
+    .search {
+      height: 46px;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255,255,255,0.98);
+      color: #57606a;
+      border-radius: 8px;
+      padding: 0 12px;
+      border: 1px solid rgba(255,255,255,0.28);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.18);
+    }
+
+    .search input {
+      width: 100%;
+      min-width: 0;
+      border: 0;
+      outline: 2px solid transparent;
+      color: var(--ink);
+      background: transparent;
+      font-size: 15px;
+    }
+
+    .search:focus-within {
+      border-color: rgba(255,255,255,0.88);
+      box-shadow: 0 0 0 3px rgba(255,255,255,0.2), 0 2px 10px rgba(0,0,0,0.18);
+    }
+
+    .kbd {
+      font-family: var(--mono);
+      font-size: 12px;
+      border: 1px solid #d0d7de;
+      border-radius: 4px;
+      color: #6e7781;
+      padding: 2px 6px;
+      background: #f6f8fa;
+    }
+
+    .search-panel {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: calc(100% + 8px);
+      background: #ffffff;
+      color: var(--ink);
+      border: 1px solid #d0d7de;
+      border-radius: 8px;
+      box-shadow: var(--shadow-soft);
+      padding: 12px;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-4px);
+      transition: opacity 160ms ease, transform 160ms ease;
+      z-index: 9;
+    }
+
+    .search-panel.visible {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .search-panel strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+
+    .search-panel p {
+      margin: 0 0 10px;
+      font-size: 12px;
+      color: #57606a;
+      line-height: 1.45;
+    }
+
+    .purpose-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      align-items: center;
+      border-top: 1px solid #eaeef2;
+      padding-top: 10px;
+    }
+
+    .purpose-row input {
+      height: 32px;
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      padding: 0 9px;
+    }
+
+    .top-actions {
+      justify-self: end;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .compliant-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      padding-right: 8px;
+      white-space: nowrap;
+    }
+
+    .count-badge {
+      position: absolute;
+      right: -7px;
+      top: -7px;
+      min-width: 18px;
+      height: 18px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      background: var(--gold);
+      color: #3b3100;
+      font-size: 11px;
+      font-weight: 900;
+      border: 1px solid rgba(31,35,40,0.18);
+    }
+
+    .top-actions .icon-button {
+      position: relative;
+      color: #ffffff;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.08);
+    }
+
+    .profile-button {
+      height: 40px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 10px;
+      border: 1px solid rgba(255,255,255,0.16);
+      border-radius: 8px;
+      background: rgba(255,255,255,0.08);
+      color: #ffffff;
+    }
+
+    .strip {
+      min-height: 36px;
+      background: #fff8db;
+      border-bottom: 1px solid #eac54f;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      padding: 6px 18px;
+      font-size: 14px;
+      color: #3b3100;
+      flex-wrap: wrap;
+    }
+
+    .strip span {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      white-space: nowrap;
+    }
+
+    .dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: #7d6b12;
+      opacity: 0.8;
+    }
+
+    .layout {
+      max-width: 1480px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 290px minmax(0, 1fr) 330px;
+      min-height: calc(100dvh - 192px);
+      border-left: 1px solid #d8dee4;
+      border-right: 1px solid #d8dee4;
+    }
+
+    .sidebar {
+      background: #f6f8fa;
+      border-right: 1px solid #d8dee4;
+      padding: 18px 16px 110px;
+    }
+
+    .org {
+      display: grid;
+      grid-template-columns: 54px 1fr;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+
+    .org .eu-mark {
+      width: 52px;
+      height: 52px;
+    }
+
+    .org .eu-star {
+      transform: rotate(var(--a)) translateY(-19px) rotate(calc(-1 * var(--a)));
+    }
+
+    .org h1 {
+      margin: 0 0 4px;
+      font-size: 16px;
+      line-height: 1.2;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .verified {
+      width: 15px;
+      height: 15px;
+      color: #0969da;
+    }
+
+    .org p {
+      margin: 0;
+      color: #57606a;
+      font-size: 13px;
+    }
+
+    .repo-chip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      color: #0969da;
+      margin-bottom: 10px;
+      min-width: 0;
+    }
+
+    .repo-chip span:nth-child(2) {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .public {
+      margin-left: auto;
+      color: #57606a;
+      border: 1px solid #d0d7de;
+      border-radius: 999px;
+      padding: 1px 7px;
+      font-size: 11px;
+      font-weight: 600;
+      background: #ffffff;
+    }
+
+    .sidebar-desc {
+      margin: 0 0 18px;
+      color: #57606a;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .side-nav {
+      display: grid;
+      gap: 4px;
+      margin-bottom: 20px;
+    }
+
+    .side-link {
+      min-height: 34px;
+      display: grid;
+      grid-template-columns: 20px 1fr auto;
+      gap: 9px;
+      align-items: center;
+      padding: 6px 9px;
+      border-radius: 6px;
+      color: #24292f;
+      font-size: 13px;
+      border: 1px solid transparent;
+    }
+
+    .side-link:hover {
+      background: #eef3f8;
+      text-decoration: none;
+    }
+
+    .side-link.active {
+      background: #eaf3ff;
+      color: #0969da;
+      font-weight: 700;
+    }
+
+    .side-link .badge {
+      font-size: 11px;
+      border-radius: 999px;
+      padding: 3px 7px;
+      font-weight: 700;
+      color: #4f3a00;
+      background: #fff2b8;
+      white-space: nowrap;
+    }
+
+    .badge.red { color: #8c1d18; background: #ffebe9; }
+    .badge.green { color: #116329; background: #dafbe1; }
+    .badge.blue { color: #0969da; background: #ddf4ff; }
+    .badge.pink { color: #663c00; background: #fae8ff; }
+
+    .funding-card,
+    .consent-card,
+    .right-panel,
+    .floating-card,
+    .readme,
+    .repo-table,
+    .governance-modal {
+      background: #ffffff;
+      border: 1px solid #d8dee4;
+      border-radius: 8px;
+    }
+
+    .funding-card {
+      display: grid;
+      grid-template-columns: 48px 1fr;
+      gap: 11px;
+      padding: 13px;
+      margin-top: 18px;
+      box-shadow: 0 1px 0 rgba(31,35,40,0.04);
+    }
+
+    .funding-card p {
+      margin: 0;
+      color: #57606a;
+      line-height: 1.45;
+      font-size: 12px;
+    }
+
+    .funding-card a {
+      display: inline-flex;
+      gap: 6px;
+      align-items: center;
+      margin-top: 9px;
+      font-size: 12px;
+    }
+
+    .content {
+      position: relative;
+      min-width: 0;
+      background: #ffffff;
+      padding: 14px 18px 120px;
+    }
+
+    .alert {
+      display: grid;
+      grid-template-columns: auto 1fr auto auto;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      border-radius: 8px;
+      border: 1px solid #ffd7d7;
+      background: var(--danger-soft);
+      color: #5c191c;
+      box-shadow: 0 1px 0 rgba(31,35,40,0.04);
+      margin-bottom: 20px;
+    }
+
+    .alert strong {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 2px;
+    }
+
+    .alert span {
+      color: #6e3a3c;
+      font-size: 12px;
+    }
+
+    .repo-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .repo-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .repo-title h2 {
+      margin: 0;
+      font-size: 25px;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      overflow-wrap: anywhere;
+    }
+
+    .repo-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .button,
+    .small-button,
+    .tab-button {
+      border: 1px solid #d0d7de;
+      background: #f6f8fa;
+      border-radius: 6px;
+      min-height: 32px;
+      padding: 0 11px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      font-size: 12px;
+      font-weight: 700;
+      transition: background 160ms ease, border-color 160ms ease, transform 160ms ease, box-shadow 160ms ease;
+      white-space: nowrap;
+    }
+
+    .button:hover,
+    .small-button:hover,
+    .tab-button:hover {
+      background: #eef3f8;
+      border-color: #afb8c1;
+    }
+
+    .button.primary {
+      background: #0969da;
+      color: #ffffff;
+      border-color: #075fc4;
+    }
+
+    .button.primary:hover {
+      background: #075fc4;
+    }
+
+    .button.gold {
+      background: var(--gold);
+      color: #3b3100;
+      border-color: #d4a72c;
+    }
+
+    .button.ghost {
+      background: #ffffff;
+    }
+
+    .button.split {
+      padding-right: 0;
+      overflow: hidden;
+    }
+
+    .button .count {
+      min-height: 30px;
+      padding: 0 10px;
+      display: inline-flex;
+      align-items: center;
+      border-left: 1px solid rgba(31,35,40,0.13);
+      background: rgba(255,255,255,0.45);
+    }
+
+    .branch-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      color: #57606a;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .branch-select {
+      border: 1px solid #d0d7de;
+      background: #f6f8fa;
+      border-radius: 6px;
+      min-height: 32px;
+      padding: 0 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: #24292f;
+    }
+
+    .merge-blocked {
+      min-height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      border: 1px solid #d8dee4;
+      background: #f6f8fa;
+      border-radius: 6px;
+      padding: 0 12px;
+      margin-bottom: 18px;
+      font-size: 13px;
+    }
+
+    .merge-blocked strong {
+      color: #0969da;
+    }
+
+    .spinner {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 2px solid #d0d7de;
+      border-top-color: #57606a;
+      animation: spin 1.1s linear infinite;
+      display: inline-block;
+      vertical-align: -3px;
+      margin-left: 6px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .review-panel {
+      display: none;
+      border: 1px solid #d8dee4;
+      border-radius: 8px;
+      margin: -8px 0 14px;
+      overflow: hidden;
+      background: #ffffff;
+    }
+
+    .review-panel.visible {
+      display: block;
+      animation: rise 180ms ease both;
+    }
+
+    .review-step {
+      display: grid;
+      grid-template-columns: 26px 1fr auto;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 12px;
+      border-top: 1px solid #eaeef2;
+      font-size: 13px;
+    }
+
+    .review-step:first-child {
+      border-top: 0;
+    }
+
+    .step-dot {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      border: 1px solid #d0d7de;
+      color: #57606a;
+      background: #f6f8fa;
+      font-family: var(--mono);
+      font-size: 11px;
+    }
+
+    .step-dot.current {
+      color: #3b3100;
+      border-color: #d4a72c;
+      background: #fff8db;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      height: 21px;
+      border: 1px solid #d0d7de;
+      border-radius: 999px;
+      padding: 0 8px;
+      font-size: 11px;
+      color: #57606a;
+      background: #ffffff;
+      white-space: nowrap;
+    }
+
+    .status-pill.green {
+      border-color: #a4d6af;
+      background: #dafbe1;
+      color: #116329;
+    }
+
+    .status-pill.red {
+      border-color: #ffb4b4;
+      background: #fff1f1;
+      color: #8c1d18;
+    }
+
+    .status-pill.gold {
+      border-color: #eac54f;
+      background: #fff8db;
+      color: #7d4e00;
+    }
+
+    .repo-table {
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+
+    .table-head {
+      min-height: 40px;
+      background: #f6f8fa;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 10px;
+      align-items: center;
+      padding: 0 12px;
+      border-bottom: 1px solid #d8dee4;
+      font-size: 13px;
+      color: #57606a;
+    }
+
+    .table-head strong {
+      color: #24292f;
+    }
+
+    .file-row {
+      display: grid;
+      grid-template-columns: 24px minmax(140px, 1fr) minmax(190px, 1.4fr) auto;
+      gap: 10px;
+      align-items: center;
+      width: 100%;
+      min-height: 36px;
+      padding: 0 12px;
+      border: 0;
+      border-top: 1px solid #eaeef2;
+      background: #ffffff;
+      color: inherit;
+      font: inherit;
+      text-align: left;
+      font-size: 13px;
+      cursor: pointer;
+      transition: background 140ms ease;
+    }
+
+    .file-row:first-of-type {
+      border-top: 0;
+    }
+
+    .file-row:hover {
+      background: #f6f8fa;
+    }
+
+    .file-row .name {
+      color: #0969da;
+      font-weight: 600;
+    }
+
+    .file-row .msg,
+    .file-row time {
+      color: #57606a;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .readme {
+      overflow: hidden;
+    }
+
+    .readme-head {
+      min-height: 42px;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 0 14px;
+      border-bottom: 1px solid #d8dee4;
+      background: #f6f8fa;
+      color: #57606a;
+      font-size: 13px;
+    }
+
+    .readme-body {
+      padding: 18px 18px 22px;
+    }
+
+    .readme-body h2 {
+      margin: 0 0 8px;
+      font-size: 24px;
+      letter-spacing: -0.02em;
+    }
+
+    .readme-body p {
+      margin: 0 0 14px;
+      color: #57606a;
+      line-height: 1.55;
+      max-width: 68ch;
+    }
+
+    .directive-card {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 116px;
+      gap: 18px;
+      align-items: center;
+      border-top: 1px solid #eaeef2;
+      padding-top: 16px;
+    }
+
+    .mini-flag {
+      height: 92px;
+      border-radius: 8px;
+      background:
+        radial-gradient(circle at 50% 50%, transparent 0 22px, rgba(255,255,255,0.08) 23px),
+        linear-gradient(135deg, #0757a6, #003f87);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(31,35,40,0.12);
+    }
+
+    .mini-flag .eu-mark {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 58px;
+      height: 58px;
+      transform: translate(-50%, -50%);
+      box-shadow: none;
+    }
+
+    .rightbar {
+      background: #ffffff;
+      border-left: 1px solid #d8dee4;
+      padding: 178px 16px 120px;
+    }
+
+    .right-panel {
+      padding: 14px;
+      margin-bottom: 16px;
+      box-shadow: 0 1px 0 rgba(31,35,40,0.04);
+    }
+
+    .right-panel h3 {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin: 0 0 10px;
+      font-size: 15px;
+    }
+
+    .right-panel p {
+      margin: 0 0 12px;
+      color: #57606a;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .about-list {
+      display: grid;
+      gap: 8px;
+      margin: 14px 0;
+      color: #57606a;
+      font-size: 13px;
+    }
+
+    .about-list span {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .score-card {
+      display: grid;
+      grid-template-columns: 86px 1fr;
+      gap: 12px;
+      align-items: center;
+      border: 1px solid #d8dee4;
+      border-radius: 8px;
+      padding: 12px;
+      background: #f8fbff;
+    }
+
+    .score-ring {
+      width: 76px;
+      height: 76px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      position: relative;
+      background: conic-gradient(#1a7f37 0 88%, #d0d7de 88% 100%);
+    }
+
+    .score-ring::before {
+      content: "";
+      position: absolute;
+      inset: 7px;
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: inset 0 0 0 1px #eaeef2;
+    }
+
+    .score-ring strong {
+      position: relative;
+      z-index: 1;
+      font-size: 20px;
+      letter-spacing: -0.04em;
+    }
+
+    .score-list {
+      display: grid;
+      gap: 5px;
+      font-size: 12px;
+      color: #57606a;
+    }
+
+    .score-list span {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .fine-print {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: #57606a;
+    }
+
+    .bottom-bar {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      min-height: 32px;
+      background: #0757a6;
+      color: #ffffff;
+      z-index: 20;
+      display: flex;
+      justify-content: center;
+      border-top: 1px solid #004494;
+      box-shadow: 0 -4px 14px rgba(31,35,40,0.15);
+    }
+
+    .bottom-inner {
+      width: min(1480px, 100%);
+      padding: 0 18px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      font-size: 12px;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .bottom-inner span {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .consent-card {
+      position: fixed;
+      left: 16px;
+      bottom: 54px;
+      width: min(264px, calc(100vw - 32px));
+      padding: 14px;
+      box-shadow: var(--shadow-soft);
+      z-index: 40;
+      transform-origin: bottom left;
+    }
+
+    .card-head {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .card-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 800;
+      font-size: 14px;
+    }
+
+    .consent-card p,
+    .floating-card p {
+      margin: 0 0 12px;
+      color: #57606a;
+      line-height: 1.45;
+      font-size: 12px;
+    }
+
+    .button-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .floating-card {
+      position: fixed;
+      box-shadow: var(--shadow-soft);
+      z-index: 32;
+      padding: 14px;
+      animation: rise 260ms ease both;
+    }
+
+    .export-card {
+      right: 16px;
+      top: 210px;
+      width: min(250px, calc(100vw - 32px));
+      z-index: 44;
+    }
+
+    .language-card {
+      right: 18px;
+      bottom: 48px;
+      width: min(405px, calc(100vw - 36px));
+      padding: 0;
+      overflow: hidden;
+      z-index: 41;
+    }
+
+    .language-card .card-head {
+      padding: 12px 14px 8px;
+      margin: 0;
+      border-bottom: 1px solid #eaeef2;
+    }
+
+    .language-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 5px 11px;
+      padding: 10px 14px 12px;
+      font-size: 11px;
+    }
+
+    .language-grid button {
+      border: 0;
+      background: transparent;
+      text-align: left;
+      padding: 3px 2px;
+      border-radius: 4px;
+      color: #24292f;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      min-width: 0;
+    }
+
+    .language-grid button:hover {
+      background: #f6f8fa;
+    }
+
+    .flag {
+      width: 13px;
+      height: 9px;
+      border-radius: 1px;
+      border: 1px solid rgba(31,35,40,0.16);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.15);
+      flex: 0 0 auto;
+    }
+
+    .flag.f1 { background: linear-gradient(180deg, #c8102e 0 33%, #ffffff 33% 66%, #012169 66%); }
+    .flag.f2 { background: linear-gradient(180deg, #000 0 33%, #dd0000 33% 66%, #ffce00 66%); }
+    .flag.f3 { background: linear-gradient(90deg, #0055a4 0 33%, #ffffff 33% 66%, #ef4135 66%); }
+    .flag.f4 { background: linear-gradient(90deg, #009246 0 33%, #ffffff 33% 66%, #ce2b37 66%); }
+    .flag.f5 { background: linear-gradient(180deg, #ae1c28 0 33%, #ffffff 33% 66%, #21468b 66%); }
+    .flag.f6 { background: linear-gradient(90deg, #005bbb 0 50%, #ffd500 50%); }
+    .flag.f7 { background: linear-gradient(180deg, #ffffff 0 50%, #d7141a 50%); }
+    .flag.f8 { background: linear-gradient(90deg, #002b7f 0 33%, #fcd116 33% 66%, #ce1126 66%); }
+
+    .language-card footer {
+      padding: 9px 14px;
+      border-top: 1px solid #eaeef2;
+      text-align: center;
+      font-size: 12px;
+    }
+
+    .assist-card {
+      left: 56%;
+      bottom: 44px;
+      width: min(230px, calc(100vw - 32px));
+      transform: translateX(-50%);
+      z-index: 41;
+    }
+
+    .assist-card.floating-card {
+      animation: rise-centered 260ms ease both;
+    }
+
+    .modal-shell {
+      position: fixed;
+      inset: 0;
+      display: none;
+      place-items: center;
+      background: rgba(31,35,40,0.16);
+      z-index: 36;
+      padding: 18px;
+      overscroll-behavior: contain;
+    }
+
+    .modal-shell.visible {
+      display: grid;
+      animation: fade 160ms ease both;
+    }
+
+    .privacy-modal,
+    .governance-modal {
+      width: min(610px, 100%);
+      max-height: min(84dvh, 720px);
+      overflow: auto;
+      background: rgba(255,255,255,0.98);
+      box-shadow: var(--shadow);
+      border-radius: 8px;
+      border: 1px solid #d8dee4;
+    }
+
+    .privacy-modal {
+      transform: translateY(8px);
+      animation: rise 220ms ease both;
+    }
+
+    .modal-titlebar {
+      min-height: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 0 14px;
+      border-bottom: 1px solid #d8dee4;
+    }
+
+    .modal-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .modal-title h3 {
+      margin: 0;
+      font-size: 17px;
+    }
+
+    .modal-title small {
+      display: block;
+      color: #57606a;
+      margin-top: 2px;
+    }
+
+    .tabs {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(88px, 1fr);
+      overflow-x: auto;
+      border-bottom: 1px solid #d8dee4;
+      background: #f6f8fa;
+    }
+
+    .tab-button {
+      min-height: 42px;
+      border-radius: 0;
+      border: 0;
+      border-right: 1px solid #d8dee4;
+      background: transparent;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .tab-button.active {
+      color: #0969da;
+      background: #ffffff;
+      box-shadow: inset 0 -2px 0 #0969da;
+    }
+
+    .privacy-body {
+      padding: 14px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px 18px;
+    }
+
+    .setting {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: center;
+      min-height: 50px;
+      border-bottom: 1px solid #eaeef2;
+      padding: 7px 0;
+    }
+
+    .setting strong {
+      display: block;
+      font-size: 12px;
+      margin-bottom: 3px;
+    }
+
+    .setting span {
+      color: #57606a;
+      font-size: 11px;
+      line-height: 1.35;
+    }
+
+    .switch {
+      width: 32px;
+      height: 18px;
+      border: 0;
+      border-radius: 999px;
+      background: #d8dee4;
+      padding: 2px;
+      display: flex;
+      align-items: center;
+      transition: background 160ms ease;
+    }
+
+    .switch::before {
+      content: "";
+      width: 14px;
+      height: 14px;
+      background: #ffffff;
+      border-radius: 50%;
+      box-shadow: 0 1px 2px rgba(31,35,40,0.26);
+      transition: transform 160ms ease;
+    }
+
+    .switch.on {
+      background: #0969da;
+    }
+
+    .switch.on::before {
+      transform: translateX(14px);
+    }
+
+    .always {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 18px;
+      border-radius: 999px;
+      padding: 0 8px;
+      background: var(--success-soft);
+      color: #116329;
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .privacy-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 14px;
+      border-top: 1px solid #d8dee4;
+      flex-wrap: wrap;
+    }
+
+    .rights {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .cookie-banner {
+      position: fixed;
+      left: 50%;
+      bottom: 76px;
+      transform: translateX(-50%);
+      width: min(640px, calc(100vw - 32px));
+      background: linear-gradient(180deg, #0757a6 0%, #004494 100%);
+      color: #ffffff;
+      border: 1px solid rgba(255,255,255,0.22);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      z-index: 42;
+      overflow: hidden;
+      transition: transform 220ms ease, width 220ms ease, opacity 220ms ease;
+    }
+
+    .cookie-inner {
+      display: grid;
+      grid-template-columns: 126px 1fr 120px;
+      gap: 18px;
+      align-items: center;
+      padding: 17px 18px 16px;
+    }
+
+    .cookie-banner h3 {
+      margin: 0 0 6px;
+      font-size: 18px;
+      letter-spacing: -0.01em;
+    }
+
+    .cookie-banner p {
+      margin: 0 0 10px;
+      font-size: 12px;
+      line-height: 1.5;
+      color: rgba(255,255,255,0.92);
+    }
+
+    .cookie-actions {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      grid-column: 1 / -1;
+      margin-top: 1px;
+    }
+
+    .cookie-actions .button {
+      min-height: 40px;
+      border-color: rgba(255,255,255,0.78);
+      color: #ffffff;
+      background: rgba(0,0,0,0.08);
+      font-size: 13px;
+    }
+
+    .cookie-actions .button.gold {
+      color: #3b3100;
+      border-color: #d4a72c;
+      background: var(--gold);
+    }
+
+    .cookie-banner.compact {
+      width: min(390px, calc(100vw - 32px));
+    }
+
+    .cookie-banner.compact .cookie-inner {
+      grid-template-columns: 54px 1fr;
+      padding: 12px;
+    }
+
+    .cookie-banner.compact .cookie-art-big,
+    .cookie-banner.compact .cookie-officer,
+    .cookie-banner.compact .cookie-actions {
+      display: none;
+    }
+
+    .cookie-banner.compact h3 {
+      font-size: 14px;
+      margin: 0 0 3px;
+    }
+
+    .cookie-banner.compact p {
+      margin: 0;
+      font-size: 11px;
+    }
+
+    .cookie-crest {
+      width: 112px;
+      height: 112px;
+      display: grid;
+      place-items: center;
+      position: relative;
+    }
+
+    .cookie-art-big {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: #e6ad45;
+      border: 4px solid #ffd16f;
+      position: relative;
+      box-shadow: inset -9px -9px 0 rgba(80,46,0,0.15);
+    }
+
+    .chip {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #7b4d18;
+    }
+
+    .chip.c1 { left: 18px; top: 17px; }
+    .chip.c2 { right: 18px; top: 23px; }
+    .chip.c3 { left: 28px; bottom: 18px; }
+    .chip.c4 { right: 29px; bottom: 28px; }
+
+    .cookie-crest .eu-star {
+      width: 5px;
+      height: 5px;
+      transform: rotate(var(--a)) translateY(-50px) rotate(calc(-1 * var(--a)));
+    }
+
+    .cookie-officer svg {
+      width: 112px;
+      height: 132px;
+      display: block;
+    }
+
+    .toast-stack {
+      position: fixed;
+      right: 18px;
+      top: 88px;
+      z-index: 60;
+      display: grid;
+      gap: 8px;
+      width: min(360px, calc(100vw - 36px));
+      pointer-events: none;
+    }
+
+    .toast {
+      background: #ffffff;
+      border: 1px solid #d8dee4;
+      border-left: 4px solid #0969da;
+      border-radius: 8px;
+      box-shadow: var(--shadow-soft);
+      padding: 10px 12px;
+      font-size: 13px;
+      line-height: 1.45;
+      animation: slide-in 180ms ease both;
+    }
+
+    .count,
+    .count-badge,
+    .fine-print,
+    .score-ring strong,
+    .status-pill,
+    time {
+      font-variant-numeric: tabular-nums;
+    }
+
+    .link-button {
+      border: 0;
+      background: transparent;
+      color: #0969da;
+      padding: 0;
+      font: inherit;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .link-button:hover {
+      text-decoration: underline;
+    }
+
+    .link-button.on-dark {
+      color: #ffffff;
+      text-decoration: underline;
+    }
+
+    .toast.warning {
+      border-left-color: #d4a72c;
+    }
+
+    .toast.danger {
+      border-left-color: var(--danger);
+    }
+
+    .governance-body {
+      padding: 14px;
+    }
+
+    .queue {
+      display: grid;
+      gap: 10px;
+    }
+
+    .queue-item {
+      display: grid;
+      grid-template-columns: 42px 1fr auto;
+      gap: 12px;
+      align-items: start;
+      padding: 12px;
+      border: 1px solid #d8dee4;
+      border-radius: 8px;
+      background: #f6f8fa;
+    }
+
+    .queue-number {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-family: var(--mono);
+      background: #ffffff;
+      border: 1px solid #d0d7de;
+      color: #57606a;
+    }
+
+    .queue-item h4 {
+      margin: 0 0 4px;
+      font-size: 14px;
+    }
+
+    .queue-item p {
+      margin: 0;
+      color: #57606a;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    body.accessibility-profile {
+      --line: #a6b6c7;
+    }
+
+    body.accessibility-profile .file-row:hover,
+    body.accessibility-profile .side-link:hover {
+      outline: 2px solid #0969da;
+      outline-offset: -2px;
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes rise-centered {
+      from { opacity: 0; transform: translate(-50%, 10px); }
+      to { opacity: 1; transform: translate(-50%, 0); }
+    }
+
+    @keyframes fade {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slide-in {
+      from { opacity: 0; transform: translateX(12px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    @media (max-width: 1180px) {
+      .layout {
+        grid-template-columns: 260px minmax(0, 1fr);
+      }
+
+      .rightbar {
+        grid-column: 1 / -1;
+        border-left: 0;
+        border-top: 1px solid #d8dee4;
+        padding: 18px 18px 118px;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .right-panel {
+        margin-bottom: 0;
+      }
+
+      .topbar-inner {
+        grid-template-columns: minmax(200px, 280px) minmax(220px, 1fr);
+      }
+
+      .top-actions {
+        grid-column: 1 / -1;
+        justify-self: stretch;
+        justify-content: space-between;
+      }
+    }
+
+    @media (max-width: 850px) {
+      .browser-tabs {
+        grid-template-columns: 64px minmax(160px, 1fr);
+      }
+
+      .browser-tabs > div:last-child {
+        display: none;
+      }
+
+      .browser-controls {
+        grid-template-columns: auto minmax(0, 1fr) auto;
+      }
+
+      .browser-controls .round-tool:nth-child(2) {
+        display: none;
+      }
+
+      .topbar-inner {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .top-actions {
+        gap: 8px;
+        overflow-x: auto;
+      }
+
+      .layout {
+        grid-template-columns: 1fr;
+        border-left: 0;
+        border-right: 0;
+      }
+
+      .sidebar {
+        border-right: 0;
+        border-bottom: 1px solid #d8dee4;
+        padding-bottom: 16px;
+      }
+
+      .side-nav {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .content {
+        padding: 14px 12px 120px;
+      }
+
+      .repo-head {
+        grid-template-columns: 1fr;
+      }
+
+      .repo-actions {
+        justify-content: flex-start;
+      }
+
+      .file-row {
+        grid-template-columns: 24px minmax(120px, 1fr) auto;
+      }
+
+      .file-row .msg {
+        display: none;
+      }
+
+      .rightbar {
+        grid-template-columns: 1fr;
+        padding-inline: 12px;
+      }
+
+      .privacy-body {
+        grid-template-columns: 1fr;
+      }
+
+      .cookie-inner {
+        grid-template-columns: 76px 1fr;
+      }
+
+      .cookie-officer {
+        display: none;
+      }
+
+      .cookie-actions {
+        grid-template-columns: 1fr;
+      }
+
+      .assist-card {
+        left: 16px;
+        transform: none;
+        bottom: 194px;
+      }
+
+      .assist-card.floating-card {
+        animation: rise 260ms ease both;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .strip {
+        justify-content: flex-start;
+        gap: 10px;
+      }
+
+      .strip .dot {
+        display: none;
+      }
+
+      .side-nav {
+        grid-template-columns: 1fr;
+      }
+
+      .alert {
+        grid-template-columns: auto 1fr auto;
+      }
+
+      .alert .button {
+        grid-column: 2 / -1;
+        justify-self: start;
+      }
+
+      .directive-card {
+        grid-template-columns: 1fr;
+      }
+
+      .language-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .bottom-inner {
+        gap: 14px;
+        overflow-x: auto;
+      }
+
+      .export-card {
+        top: auto;
+        bottom: 304px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#mainContent">Skip to Repository Content</a>
+  <h1 class="sr-only">EuroHub Directive Compliance Engine Repository</h1>
+  <svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
+    <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="5" y="10" width="14" height="10" rx="2"></rect>
+      <path d="M8 10V7a4 4 0 0 1 8 0v3"></path>
+    </symbol>
+    <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="11" cy="11" r="7"></circle>
+      <path d="m16.5 16.5 4 4"></path>
+    </symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M6 9a6 6 0 1 1 12 0c0 7 3 7 3 9H3c0-2 3-2 3-9"></path>
+      <path d="M10 21h4"></path>
+    </symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 3 20 6v6c0 5-3.4 7.7-8 9-4.6-1.3-8-4-8-9V6l8-3Z"></path>
+      <path d="M12 8v6"></path>
+      <path d="M9 11h6"></path>
+    </symbol>
+    <symbol id="i-help" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="9"></circle>
+      <path d="M9.7 9a2.7 2.7 0 1 1 4.6 1.9c-.9.8-1.8 1.3-1.8 2.6"></path>
+      <path d="M12 17h.01"></path>
+    </symbol>
+    <symbol id="i-repo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M6 3h10a2 2 0 0 1 2 2v16H8a2 2 0 0 1-2-2V3Z"></path>
+      <path d="M8 19a2 2 0 0 1 2-2h8"></path>
+      <path d="M9 7h5"></path>
+    </symbol>
+    <symbol id="i-branch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="6" cy="6" r="2.5"></circle>
+      <circle cx="18" cy="6" r="2.5"></circle>
+      <circle cx="6" cy="18" r="2.5"></circle>
+      <path d="M6 8.5v7"></path>
+      <path d="M8.5 6H14a4 4 0 0 1 4 4v0"></path>
+    </symbol>
+    <symbol id="i-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2L12 17.3l-5.6 2.9 1.1-6.2L3 9.6l6.2-.9L12 3Z"></path>
+    </symbol>
+    <symbol id="i-fork" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="6" cy="5" r="2"></circle>
+      <circle cx="18" cy="5" r="2"></circle>
+      <circle cx="12" cy="19" r="2"></circle>
+      <path d="M6 7v3a5 5 0 0 0 5 5h1"></path>
+      <path d="M18 7v3a5 5 0 0 1-5 5h-1"></path>
+      <path d="M12 15v2"></path>
+    </symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"></path>
+      <circle cx="12" cy="12" r="2.5"></circle>
+    </symbol>
+    <symbol id="i-folder" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M3 6.5A2.5 2.5 0 0 1 5.5 4h4l2 2h7A2.5 2.5 0 0 1 21 8.5v9A2.5 2.5 0 0 1 18.5 20h-13A2.5 2.5 0 0 1 3 17.5v-11Z"></path>
+    </symbol>
+    <symbol id="i-file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M7 3h7l4 4v14H7V3Z"></path>
+      <path d="M14 3v5h5"></path>
+    </symbol>
+    <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m8 9-4 3 4 3"></path>
+      <path d="m16 9 4 3-4 3"></path>
+      <path d="m14 5-4 14"></path>
+    </symbol>
+    <symbol id="i-issue" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="9"></circle>
+      <path d="M12 7v6"></path>
+      <path d="M12 17h.01"></path>
+    </symbol>
+    <symbol id="i-pull" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="6" cy="18" r="2"></circle>
+      <circle cx="18" cy="6" r="2"></circle>
+      <path d="M6 16V6"></path>
+      <path d="M6 6h8"></path>
+      <path d="M14 6l-2-2"></path>
+      <path d="M14 6l-2 2"></path>
+      <path d="M18 8v10"></path>
+    </symbol>
+    <symbol id="i-discuss" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v7a2.5 2.5 0 0 1-2.5 2.5H10l-5 4v-4.5A2.5 2.5 0 0 1 4 12.5v-7Z"></path>
+    </symbol>
+    <symbol id="i-action" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m13 2-7 12h6l-1 8 7-12h-6l1-8Z"></path>
+    </symbol>
+    <symbol id="i-project" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="4" y="5" width="16" height="14" rx="2"></rect>
+      <path d="M8 9h8"></path>
+      <path d="M8 13h5"></path>
+    </symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 19V5"></path>
+      <path d="M4 19h16"></path>
+      <path d="m8 15 3-4 3 2 4-6"></path>
+    </symbol>
+    <symbol id="i-audit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M7 3h10v4H7z"></path>
+      <path d="M5 7h14v14H5z"></path>
+      <path d="M8 12h8"></path>
+      <path d="M8 16h5"></path>
+    </symbol>
+    <symbol id="i-scale" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 3v18"></path>
+      <path d="M5 6h14"></path>
+      <path d="m6 6-3 7h6L6 6Z"></path>
+      <path d="m18 6-3 7h6l-3-7Z"></path>
+      <path d="M8 21h8"></path>
+    </symbol>
+    <symbol id="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M18 6 6 18"></path>
+      <path d="m6 6 12 12"></path>
+    </symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m5 12 5 5L20 7"></path>
+    </symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 3 2.5 20h19L12 3Z"></path>
+      <path d="M12 9v5"></path>
+      <path d="M12 17h.01"></path>
+    </symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="9"></circle>
+      <path d="M3 12h18"></path>
+      <path d="M12 3a14 14 0 0 1 0 18"></path>
+      <path d="M12 3a14 14 0 0 0 0 18"></path>
+    </symbol>
+    <symbol id="i-access" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="4.5" r="2"></circle>
+      <path d="M5 9h14"></path>
+      <path d="M12 9v12"></path>
+      <path d="m8 21 4-8 4 8"></path>
+    </symbol>
+    <symbol id="i-database" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <ellipse cx="12" cy="5" rx="8" ry="3"></ellipse>
+      <path d="M4 5v6c0 1.7 3.6 3 8 3s8-1.3 8-3V5"></path>
+      <path d="M4 11v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"></path>
+    </symbol>
+  </svg>
+
+  <div class="browser-frame" aria-label="Browser chrome satire">
+    <div class="browser-tabs">
+      <div class="traffic" aria-hidden="true"><span></span><span></span><span></span></div>
+      <div class="fake-tab">
+        <span class="eu-mark small" aria-hidden="true">
+          <span class="eu-star" style="--a:0deg"></span><span class="eu-star" style="--a:30deg"></span><span class="eu-star" style="--a:60deg"></span><span class="eu-star" style="--a:90deg"></span><span class="eu-star" style="--a:120deg"></span><span class="eu-star" style="--a:150deg"></span><span class="eu-star" style="--a:180deg"></span><span class="eu-star" style="--a:210deg"></span><span class="eu-star" style="--a:240deg"></span><span class="eu-star" style="--a:270deg"></span><span class="eu-star" style="--a:300deg"></span><span class="eu-star" style="--a:330deg"></span>
+        </span>
+        <span>directive-compliance-engine</span>
+      </div>
+      <div></div>
+    </div>
+    <div class="browser-controls">
+      <button class="round-tool" aria-label="Back"><svg class="icon"><use href="#i-branch"></use></svg></button>
+      <button class="round-tool" aria-label="Reload"><svg class="icon"><use href="#i-action"></use></svg></button>
+      <div class="address">
+        <svg class="icon"><use href="#i-lock"></use></svg>
+        <span>https://eurohub.eu/eu/commission/directive-compliance-engine</span>
+      </div>
+      <button class="round-tool" aria-label="Compliance menu"><svg class="icon"><use href="#i-globe"></use></svg></button>
+    </div>
+  </div>
+
+  <div class="app">
+    <header class="topbar">
+      <div class="topbar-inner">
+        <div class="brand">
+          <div class="eu-mark" aria-hidden="true">
+            <span class="eu-star" style="--a:0deg"></span><span class="eu-star" style="--a:30deg"></span><span class="eu-star" style="--a:60deg"></span><span class="eu-star" style="--a:90deg"></span><span class="eu-star" style="--a:120deg"></span><span class="eu-star" style="--a:150deg"></span><span class="eu-star" style="--a:180deg"></span><span class="eu-star" style="--a:210deg"></span><span class="eu-star" style="--a:240deg"></span><span class="eu-star" style="--a:270deg"></span><span class="eu-star" style="--a:300deg"></span><span class="eu-star" style="--a:330deg"></span>
+          </div>
+          <div>
+            <div class="brand-name"><strong>EuroHub</strong><span class="tag">Beta</span></div>
+            <small>Code. Comply. Contribute.</small>
+          </div>
+        </div>
+
+        <div class="search-wrap">
+          <label class="search">
+            <svg class="icon"><use href="#i-search"></use></svg>
+            <input id="globalSearch" name="global-search" type="search" autocomplete="off" placeholder="Search repositories, directives, issues, everything…">
+            <span class="kbd">/</span>
+          </label>
+          <div id="searchPanel" class="search-panel">
+            <strong>Purpose limitation notice</strong>
+            <p>Before searching, declare why this query is necessary, proportionate, and not merely curiosity with a keyboard.</p>
+            <div class="purpose-row">
+              <input id="purposeInput" name="search-purpose" type="text" autocomplete="off" placeholder="Example: find README for lawful collaboration…">
+              <button class="small-button" data-action="purpose">Declare</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="top-actions">
+          <div class="compliant-badge">
+            <span class="eu-mark small" aria-hidden="true">
+              <span class="eu-star" style="--a:0deg"></span><span class="eu-star" style="--a:30deg"></span><span class="eu-star" style="--a:60deg"></span><span class="eu-star" style="--a:90deg"></span><span class="eu-star" style="--a:120deg"></span><span class="eu-star" style="--a:150deg"></span><span class="eu-star" style="--a:180deg"></span><span class="eu-star" style="--a:210deg"></span><span class="eu-star" style="--a:240deg"></span><span class="eu-star" style="--a:270deg"></span><span class="eu-star" style="--a:300deg"></span><span class="eu-star" style="--a:330deg"></span>
+            </span>
+            <span>Digital Europe Compliant</span>
+            <svg class="icon"><use href="#i-check"></use></svg>
+          </div>
+          <button class="icon-button" aria-label="Notifications" data-action="toast" data-message="You have 12 unread procedural safeguards. None are actionable until translated."><svg class="icon"><use href="#i-bell"></use></svg><span class="count-badge">12</span></button>
+          <button class="icon-button" aria-label="Security"><svg class="icon"><use href="#i-shield"></use></svg></button>
+          <button class="icon-button" aria-label="Help" data-action="toast" data-message="Help is available after accepting the Helpdesk Data Processing Annex."><svg class="icon"><use href="#i-help"></use></svg></button>
+          <button class="profile-button" data-action="language">
+            <span class="eu-mark small" aria-hidden="true">
+              <span class="eu-star" style="--a:0deg"></span><span class="eu-star" style="--a:30deg"></span><span class="eu-star" style="--a:60deg"></span><span class="eu-star" style="--a:90deg"></span><span class="eu-star" style="--a:120deg"></span><span class="eu-star" style="--a:150deg"></span><span class="eu-star" style="--a:180deg"></span><span class="eu-star" style="--a:210deg"></span><span class="eu-star" style="--a:240deg"></span><span class="eu-star" style="--a:270deg"></span><span class="eu-star" style="--a:300deg"></span><span class="eu-star" style="--a:330deg"></span>
+            </span>
+            <span>EC</span>
+            <svg class="icon"><use href="#i-branch"></use></svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div class="strip">
+      <span><span class="eu-mark small" aria-hidden="true"><span class="eu-star" style="--a:0deg"></span><span class="eu-star" style="--a:30deg"></span><span class="eu-star" style="--a:60deg"></span><span class="eu-star" style="--a:90deg"></span><span class="eu-star" style="--a:120deg"></span><span class="eu-star" style="--a:150deg"></span><span class="eu-star" style="--a:180deg"></span><span class="eu-star" style="--a:210deg"></span><span class="eu-star" style="--a:240deg"></span><span class="eu-star" style="--a:270deg"></span><span class="eu-star" style="--a:300deg"></span><span class="eu-star" style="--a:330deg"></span></span> Fully compliant in 24 official languages</span>
+      <span class="dot"></span>
+      <span>Hosted in the EU</span>
+      <span class="dot"></span>
+      <span>Subject to EU law and jurisdiction</span>
+      <span class="dot"></span>
+      <span>Transparency by design</span>
+      <span class="dot"></span>
+      <span>Accessibility first</span>
+      <span class="dot"></span>
+      <span>Interoperable by obligation</span>
+      <button class="link-button" data-action="toast" data-message="Learn more requires opening 24 language-specific transparency summaries.">Learn more</button>
+    </div>
+
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="org">
+          <div class="eu-mark" aria-hidden="true">
+            <span class="eu-star" style="--a:0deg"></span><span class="eu-star" style="--a:30deg"></span><span class="eu-star" style="--a:60deg"></span><span class="eu-star" style="--a:90deg"></span><span class="eu-star" style="--a:120deg"></span><span class="eu-star" style="--a:150deg"></span><span class="eu-star" style="--a:180deg"></span><span class="eu-star" style="--a:210deg"></span><span class="eu-star" style="--a:240deg"></span><span class="eu-star" style="--a:270deg"></span><span class="eu-star" style="--a:300deg"></span><span class="eu-star" style="--a:330deg"></span>
+          </div>
+          <div>
+            <h1>European Commission <svg class="verified"><use href="#i-check"></use></svg></h1>
+            <p>@eu-commission</p>
+          </div>
+        </div>
+
+        <div class="repo-chip">
+          <svg class="icon"><use href="#i-repo"></use></svg>
+          <span>directive-compliance-engine</span>
+          <span class="public">Public</span>
+        </div>
+        <p class="sidebar-desc">Automating compliance with EU directives, regulations and associated guidance frameworks.</p>
+
+        <nav class="side-nav" aria-label="Repository">
+          <a class="side-link active" href="#"><svg class="icon"><use href="#i-repo"></use></svg><span>Overview</span></a>
+          <a class="side-link" href="#" data-action="file-block"><svg class="icon"><use href="#i-code"></use></svg><span>Code</span></a>
+          <a class="side-link" href="#" data-action="toast" data-message="Issues are open, but each comment begins with a consultation period."><svg class="icon"><use href="#i-issue"></use></svg><span>Issues</span><span>42</span></a>
+          <a class="side-link" href="#" data-action="consent"><svg class="icon"><use href="#i-pull"></use></svg><span>Pull requests</span><span>17</span></a>
+          <a class="side-link" href="#"><svg class="icon"><use href="#i-discuss"></use></svg><span>Discussions</span><span class="badge blue">Public feedback</span></a>
+          <a class="side-link" href="#" data-action="governance"><svg class="icon"><use href="#i-action"></use></svg><span>Actions</span><span class="badge red">Requires approval</span></a>
+          <a class="side-link" href="#"><svg class="icon"><use href="#i-project"></use></svg><span>Projects</span><span>8</span></a>
+          <a class="side-link" href="#"><svg class="icon"><use href="#i-shield"></use></svg><span>Security and Privacy</span><span class="badge green">Compliant</span></a>
+          <a class="side-link" href="#"><svg class="icon"><use href="#i-chart"></use></svg><span>Insights</span></a>
+          <a class="side-link" href="#" data-action="governance"><svg class="icon"><use href="#i-scale"></use></svg><span>Compliance Center</span><span class="badge blue">New</span></a>
+          <a class="side-link" href="#"><svg class="icon"><use href="#i-audit"></use></svg><span>Audit Log</span><span class="badge green">BETA</span></a>
+        </nav>
+
+        <div class="funding-card">
+          <div class="eu-mark small" aria-hidden="true">
+            <span class="eu-star" style="--a:0deg"></span><span class="eu-star" style="--a:30deg"></span><span class="eu-star" style="--a:60deg"></span><span class="eu-star" style="--a:90deg"></span><span class="eu-star" style="--a:120deg"></span><span class="eu-star" style="--a:150deg"></span><span class="eu-star" style="--a:180deg"></span><span class="eu-star" style="--a:210deg"></span><span class="eu-star" style="--a:240deg"></span><span class="eu-star" style="--a:270deg"></span><span class="eu-star" style="--a:300deg"></span><span class="eu-star" style="--a:330deg"></span>
+          </div>
+          <div>
+            <p>This platform is co-financed by the Connecting Europe Facility.</p>
+            <button class="link-button" data-action="toast" data-message="Funding disclosure opens after public procurement notice review.">More information</button>
+          </div>
+        </div>
+      </aside>
+
+      <main class="content" id="mainContent" tabindex="-1">
+        <div class="alert">
+          <svg class="icon" style="width:32px;height:32px"><use href="#i-scale"></use></svg>
+          <div>
+            <strong>Repository actions require consensus from 27 maintainers within 10 working days.</strong>
+            <span>See Article 6(4) of the EuroHub Governance Regulation (EGR) 2024/1024.</span>
+          </div>
+          <button class="button ghost" data-action="governance">View governance process</button>
+          <button class="icon-button" aria-label="Dismiss alert" data-close=".alert"><svg class="icon"><use href="#i-close"></use></svg></button>
+        </div>
+
+        <section class="repo-head">
+          <div class="repo-title">
+            <svg class="icon" style="color:#0969da"><use href="#i-lock"></use></svg>
+            <h2>directive-compliance-engine</h2>
+          </div>
+          <div class="repo-actions">
+            <button class="button split" data-action="toast" data-message="Watching requires a notification impact assessment."><svg class="icon"><use href="#i-eye"></use></svg> Watch <span class="count">89</span></button>
+            <button class="button primary split" data-action="consent"><svg class="icon"><use href="#i-star"></use></svg> Star (requires consent) <span class="count">1.2k</span></button>
+            <button class="button split" data-action="governance"><svg class="icon"><use href="#i-fork"></use></svg> Fork (requires approval) <span class="count">314</span></button>
+          </div>
+        </section>
+
+        <div class="branch-row">
+          <button class="branch-select"><svg class="icon"><use href="#i-branch"></use></svg> main <svg class="icon"><use href="#i-branch"></use></svg></button>
+          <span><svg class="icon"><use href="#i-branch"></use></svg> 27 branches</span>
+          <span><svg class="icon"><use href="#i-repo"></use></svg> 102 directives</span>
+        </div>
+
+        <div class="merge-blocked">
+          <span><svg class="icon"><use href="#i-issue"></use></svg> <strong>Merge blocked:</strong> pending regulatory review <span class="spinner"></span></span>
+          <button class="link-button" data-action="details">Details</button>
+        </div>
+
+        <div id="reviewPanel" class="review-panel">
+          <div class="review-step">
+            <span class="step-dot">1</span>
+            <span>Data Protection Impact Assessment translated into all official languages.</span>
+            <span class="status-pill green">complete</span>
+          </div>
+          <div class="review-step">
+            <span class="step-dot current">2</span>
+            <span>Subsidiarity proportionality note awaiting committee rapporteur.</span>
+            <span class="status-pill gold">7 days left</span>
+          </div>
+          <div class="review-step">
+            <span class="step-dot">3</span>
+            <span>Consensus check among maintainers, observer states, and machine-readable annex owners.</span>
+            <span class="status-pill red">blocked</span>
+          </div>
+        </div>
+
+        <section class="repo-table" aria-label="Repository files">
+          <div class="table-head">
+            <svg class="icon"><use href="#i-branch"></use></svg>
+            <span><strong>main</strong> updated Article 9 recital index after trilogue</span>
+            <time datetime="2026-05-02T10:00:00+02:00">2 hours ago</time>
+          </div>
+          <button class="file-row" type="button" data-action="file-block">
+            <svg class="icon" style="color:#54aeff"><use href="#i-folder"></use></svg>
+            <span class="name">src/</span>
+            <span class="msg">harmonize lawful bases with linting pipeline</span>
+            <time datetime="2026-05-01T17:00:00+02:00">yesterday</time>
+          </button>
+          <button class="file-row" type="button" data-action="file-block">
+            <svg class="icon" style="color:#54aeff"><use href="#i-folder"></use></svg>
+            <span class="name">tests/</span>
+            <span class="msg">add proportionality snapshots for dark patterns</span>
+            <time datetime="2026-04-29T13:00:00+02:00">3 days ago</time>
+          </button>
+          <button class="file-row" type="button" data-action="file-block">
+            <svg class="icon" style="color:#54aeff"><use href="#i-folder"></use></svg>
+            <span class="name">docs/</span>
+            <span class="msg">publish 24 language summaries, minus Maltese footnotes</span>
+            <time datetime="2026-04-25T09:30:00+02:00">last week</time>
+          </button>
+          <button class="file-row" type="button" data-action="file-block">
+            <svg class="icon" style="color:#54aeff"><use href="#i-folder"></use></svg>
+            <span class="name">.github/</span>
+            <span class="msg">rename workflows to procedures pending consent</span>
+            <time datetime="2026-04-24T12:30:00+02:00">last week</time>
+          </button>
+          <button class="file-row" type="button" data-action="file-block">
+            <svg class="icon"><use href="#i-file"></use></svg>
+            <span class="name">.editorconfig</span>
+            <span class="msg">standardize indentation for cross-border whitespace</span>
+            <time datetime="2026-04-18T11:20:00+02:00">2 weeks ago</time>
+          </button>
+          <button class="file-row" type="button" data-action="file-block">
+            <svg class="icon"><use href="#i-file"></use></svg>
+            <span class="name">README.md</span>
+            <span class="msg">because legislation is code</span>
+            <time datetime="2026-04-17T14:20:00+02:00">2 weeks ago</time>
+          </button>
+          <button class="file-row" type="button" data-action="file-block">
+            <svg class="icon"><use href="#i-file"></use></svg>
+            <span class="name">LICENSE-EUPL</span>
+            <span class="msg">add legally binding code of conduct annex</span>
+            <time datetime="2026-04-11T15:10:00+02:00">3 weeks ago</time>
+          </button>
+          <button class="file-row" type="button" data-action="file-block">
+            <svg class="icon"><use href="#i-file"></use></svg>
+            <span class="name">DPIA.md</span>
+            <span class="msg">document why a repository list is high risk when starred</span>
+            <time datetime="2026-04-02T10:40:00+02:00">1 month ago</time>
+          </button>
+        </section>
+
+        <section class="readme">
+          <div class="readme-head"><svg class="icon"><use href="#i-repo"></use></svg> README.md</div>
+          <div class="readme-body">
+            <h2>Directive Compliance Engine</h2>
+            <p>Because legislation is code. Every pull request compiles against policy intent, data retention schedules, AI Act risk classes, accessibility rules, procurement clauses, and the quiet fear of a misplaced recital.</p>
+            <div class="directive-card">
+              <div>
+                <p><strong>Current release:</strong> 2024.1024-consensus.17</p>
+                <p><strong>Fast path:</strong> unavailable. Fast paths were deprecated after the transparency impact assessment found them emotionally misleading.</p>
+              </div>
+              <div class="mini-flag" aria-hidden="true">
+                <div class="eu-mark">
+                  <span class="eu-star" style="--a:0deg"></span><span class="eu-star" style="--a:30deg"></span><span class="eu-star" style="--a:60deg"></span><span class="eu-star" style="--a:90deg"></span><span class="eu-star" style="--a:120deg"></span><span class="eu-star" style="--a:150deg"></span><span class="eu-star" style="--a:180deg"></span><span class="eu-star" style="--a:210deg"></span><span class="eu-star" style="--a:240deg"></span><span class="eu-star" style="--a:270deg"></span><span class="eu-star" style="--a:300deg"></span><span class="eu-star" style="--a:330deg"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <aside class="rightbar">
+        <section class="right-panel">
+          <h3>About <button class="icon-button" aria-label="Configure about" data-action="toast" data-message="About edits require an accessibility wording review."><svg class="icon"><use href="#i-action"></use></svg></button></h3>
+          <p>Compliance engine for EU legal acts with auditability, explainability and proportionality-by-default.</p>
+          <div class="about-list">
+            <span><svg class="icon"><use href="#i-scale"></use></svg> MIT License (EU variant)</span>
+            <span><svg class="icon"><use href="#i-shield"></use></svg> Code of Conduct (legally binding)</span>
+            <span><svg class="icon"><use href="#i-audit"></use></svg> Security Policy (EN 303 645)</span>
+            <span><svg class="icon"><use href="#i-database"></use></svg> Data Protection Impact Assessment</span>
+            <span><svg class="icon"><use href="#i-alert"></use></svg> AI Act Compliance: <span class="status-pill red">High Risk</span></span>
+          </div>
+        </section>
+
+        <section class="right-panel">
+          <h3>Repository compliance score</h3>
+          <div class="score-card">
+            <div class="score-ring"><strong>98%</strong></div>
+            <div class="score-list">
+              <span>GDPR Ready <svg class="icon" style="color:#1a7f37"><use href="#i-check"></use></svg></span>
+              <span>Accessibility <svg class="icon" style="color:#1a7f37"><use href="#i-check"></use></svg></span>
+              <span>Interoperability <svg class="icon" style="color:#1a7f37"><use href="#i-check"></use></svg></span>
+              <span>Security Baseline <svg class="icon" style="color:#1a7f37"><use href="#i-check"></use></svg></span>
+            </div>
+          </div>
+          <p style="margin-top:10px"><button class="link-button" data-action="governance">View full scorecard</button></p>
+        </section>
+
+        <section class="right-panel">
+          <h3><span><span class="eu-mark small" aria-hidden="true"><span class="eu-star" style="--a:0deg"></span><span class="eu-star" style="--a:30deg"></span><span class="eu-star" style="--a:60deg"></span><span class="eu-star" style="--a:90deg"></span><span class="eu-star" style="--a:120deg"></span><span class="eu-star" style="--a:150deg"></span><span class="eu-star" style="--a:180deg"></span><span class="eu-star" style="--a:210deg"></span><span class="eu-star" style="--a:240deg"></span><span class="eu-star" style="--a:270deg"></span><span class="eu-star" style="--a:300deg"></span><span class="eu-star" style="--a:330deg"></span></span> Digital Services Tax</span></h3>
+          <p>This service is subject to the EU Digital Services Tax (Reg. 2020/1253).</p>
+          <p class="fine-print">VAT ID: EU826000184</p>
+          <button class="link-button" data-action="toast" data-message="VAT receipt generated. It is available after the retention preference sync completes.">View VAT invoice / receipts</button>
+        </section>
+      </aside>
+    </div>
+  </div>
+
+  <section class="floating-card export-card" id="exportCard">
+    <div class="card-head">
+      <div class="card-title">
+        <span class="eu-mark small" aria-hidden="true">
+          <span class="eu-star" style="--a:0deg"></span><span class="eu-star" style="--a:30deg"></span><span class="eu-star" style="--a:60deg"></span><span class="eu-star" style="--a:90deg"></span><span class="eu-star" style="--a:120deg"></span><span class="eu-star" style="--a:150deg"></span><span class="eu-star" style="--a:180deg"></span><span class="eu-star" style="--a:210deg"></span><span class="eu-star" style="--a:240deg"></span><span class="eu-star" style="--a:270deg"></span><span class="eu-star" style="--a:300deg"></span><span class="eu-star" style="--a:330deg"></span>
+        </span>
+        Data export request
+      </div>
+      <button class="icon-button" aria-label="Close export request" data-close="#exportCard"><svg class="icon"><use href="#i-close"></use></svg></button>
+    </div>
+    <p id="exportText">You have the right to obtain a copy of your personal data in a portable format.</p>
+    <button class="button primary" style="width:100%" data-action="export">Confirm export request</button>
+    <p style="margin-top:10px"><button class="link-button" data-action="toast" data-message="Rights summary is available in 24 language variants and 3 machine-readable annexes.">Learn about your rights</button></p>
+  </section>
+
+  <section class="consent-card" id="starConsent">
+    <div class="card-head">
+      <div class="card-title">
+        <span class="eu-mark small" aria-hidden="true">
+          <span class="eu-star" style="--a:0deg"></span><span class="eu-star" style="--a:30deg"></span><span class="eu-star" style="--a:60deg"></span><span class="eu-star" style="--a:90deg"></span><span class="eu-star" style="--a:120deg"></span><span class="eu-star" style="--a:150deg"></span><span class="eu-star" style="--a:180deg"></span><span class="eu-star" style="--a:210deg"></span><span class="eu-star" style="--a:240deg"></span><span class="eu-star" style="--a:270deg"></span><span class="eu-star" style="--a:300deg"></span><span class="eu-star" style="--a:330deg"></span>
+        </span>
+        Star action requires consent
+      </div>
+      <button class="icon-button" aria-label="Close star consent" data-close="#starConsent"><svg class="icon"><use href="#i-close"></use></svg></button>
+    </div>
+    <p>Under the ePrivacy Directive, we need your explicit consent to record this action.</p>
+    <div class="button-row">
+      <button class="button primary" data-action="grant-star">Give consent</button>
+      <button class="button ghost" data-action="toast" data-message="No action recorded. The intent to not consent was logged for compliance purposes.">Not now</button>
+    </div>
+    <p style="margin-top:10px"><button class="link-button" data-action="privacy">Learn more</button></p>
+  </section>
+
+  <section class="floating-card assist-card" id="assistCard">
+    <div class="card-title"><svg class="icon" style="color:#0969da"><use href="#i-access"></use></svg> Accessibility assistant</div>
+    <p>This site is WCAG 2.2 AA compliant. Need help? Enable accessibility profile.</p>
+    <button class="button ghost" style="width:100%" data-action="accessibility">Enable profile</button>
+    <p style="margin-top:10px;text-align:center"><button class="link-button" data-action="toast" data-message="Accessibility statement references EN 301 549 and still needs committee-friendly prose.">Accessibility statement</button></p>
+  </section>
+
+  <section class="floating-card language-card" id="languageCard">
+    <div class="card-head">
+      <div class="card-title"><svg class="icon"><use href="#i-globe"></use></svg> Choose your language</div>
+      <button class="icon-button" aria-label="Close language chooser" data-close="#languageCard"><svg class="icon"><use href="#i-close"></use></svg></button>
+    </div>
+    <div class="language-grid">
+      <button data-action="language-choice"><span class="flag f1"></span>English</button>
+      <button data-action="language-choice"><span class="flag f2"></span>Deutsch</button>
+      <button data-action="language-choice"><span class="flag f3"></span>Francais</button>
+      <button data-action="language-choice"><span class="flag f4"></span>Italiano</button>
+      <button data-action="language-choice"><span class="flag f5"></span>Nederlands</button>
+      <button data-action="language-choice"><span class="flag f6"></span>Svenska</button>
+      <button data-action="language-choice"><span class="flag f7"></span>Polski</button>
+      <button data-action="language-choice"><span class="flag f8"></span>Romana</button>
+      <button data-action="language-choice"><span class="flag f1"></span>Espanol</button>
+      <button data-action="language-choice"><span class="flag f2"></span>Dansk</button>
+      <button data-action="language-choice"><span class="flag f3"></span>Suomi</button>
+      <button data-action="language-choice"><span class="flag f4"></span>Gaeilge</button>
+      <button data-action="language-choice"><span class="flag f5"></span>Slovencina</button>
+      <button data-action="language-choice"><span class="flag f6"></span>Hrvatski</button>
+      <button data-action="language-choice"><span class="flag f7"></span>Latviesu</button>
+      <button data-action="language-choice"><span class="flag f8"></span>Malti</button>
+    </div>
+    <footer><button class="link-button" data-action="toast" data-message="The remaining languages are loading through the interoperability gateway.">Show all 24 languages</button></footer>
+  </section>
+
+  <div class="modal-shell visible" id="privacyShell" aria-modal="true" role="dialog">
+    <section class="privacy-modal" aria-labelledby="privacyTitle">
+      <div class="modal-titlebar">
+        <div class="modal-title">
+          <span class="eu-mark small" aria-hidden="true">
+            <span class="eu-star" style="--a:0deg"></span><span class="eu-star" style="--a:30deg"></span><span class="eu-star" style="--a:60deg"></span><span class="eu-star" style="--a:90deg"></span><span class="eu-star" style="--a:120deg"></span><span class="eu-star" style="--a:150deg"></span><span class="eu-star" style="--a:180deg"></span><span class="eu-star" style="--a:210deg"></span><span class="eu-star" style="--a:240deg"></span><span class="eu-star" style="--a:270deg"></span><span class="eu-star" style="--a:300deg"></span><span class="eu-star" style="--a:330deg"></span>
+          </span>
+          <div>
+            <h3 id="privacyTitle">Privacy and Compliance Settings</h3>
+            <small>Data controller: EuroHub EU SA</small>
+          </div>
+        </div>
+        <button class="icon-button" aria-label="Close privacy settings" data-close="#privacyShell"><svg class="icon"><use href="#i-close"></use></svg></button>
+      </div>
+      <div class="tabs" role="tablist" aria-label="Privacy tabs">
+        <button class="tab-button active" data-tab="overview">Overview</button>
+        <button class="tab-button" data-tab="cookies">Cookie preferences</button>
+        <button class="tab-button" data-tab="interest">Legitimate interest</button>
+        <button class="tab-button" data-tab="portability">Data portability</button>
+        <button class="tab-button" data-tab="retention">Data retention</button>
+        <button class="tab-button" data-tab="countries">Third countries</button>
+        <button class="tab-button" data-tab="more">More (11)</button>
+      </div>
+      <div class="privacy-body" id="privacyBody">
+        <div class="setting">
+          <div><strong>Strictly necessary cookies</strong><span>Essential for platform operation and security.</span></div>
+          <span class="always">Always on</span>
+        </div>
+        <div class="setting">
+          <div><strong>Marketing and profiling cookies</strong><span>Used to deliver relevant content with consent.</span></div>
+          <button class="switch" aria-label="Toggle marketing cookies"></button>
+        </div>
+        <div class="setting">
+          <div><strong>Functionality cookies</strong><span>Remember your settings and preferences.</span></div>
+          <button class="switch on" aria-label="Toggle functionality cookies"></button>
+        </div>
+        <div class="setting">
+          <div><strong>Social media cookies</strong><span>Enable sharing and social features.</span></div>
+          <button class="switch" aria-label="Toggle social media cookies"></button>
+        </div>
+        <div class="setting">
+          <div><strong>Analytics cookies</strong><span>We use Matomo (EU) for privacy-friendly analytics.</span></div>
+          <button class="switch on" aria-label="Toggle analytics cookies"></button>
+        </div>
+        <div class="setting">
+          <div><strong>Personalised ads (special category)</strong><span>Requires explicit consent under GDPR Art. 9.</span></div>
+          <button class="switch" aria-label="Toggle personalised ads"></button>
+        </div>
+      </div>
+      <div class="privacy-footer">
+        <div class="rights">
+          <button class="small-button" data-action="export"><svg class="icon"><use href="#i-database"></use></svg> Export my data</button>
+          <button class="small-button" data-action="delete"><svg class="icon"><use href="#i-alert"></use></svg> Delete my data</button>
+          <button class="small-button" data-action="consent"><svg class="icon"><use href="#i-scale"></use></svg> Manage consents</button>
+        </div>
+        <button class="link-button" data-action="toast" data-message="Privacy notice is available, but each language has a separate checksum.">Privacy notice (24 languages)</button>
+        <button class="button primary" data-action="save">Save preferences</button>
+      </div>
+    </section>
+  </div>
+
+  <div class="modal-shell" id="governanceShell" aria-modal="true" role="dialog">
+    <section class="governance-modal" aria-labelledby="governanceTitle">
+      <div class="modal-titlebar">
+        <div class="modal-title">
+          <svg class="icon" style="width:22px;height:22px;color:#9a6700"><use href="#i-scale"></use></svg>
+          <div>
+            <h3 id="governanceTitle">Governance process queue</h3>
+            <small>Fast enough for regulation, slow enough for certainty.</small>
+          </div>
+        </div>
+        <button class="icon-button" aria-label="Close governance process" data-close="#governanceShell"><svg class="icon"><use href="#i-close"></use></svg></button>
+      </div>
+      <div class="governance-body">
+        <div class="queue">
+          <div class="queue-item">
+            <div class="queue-number">01</div>
+            <div>
+              <h4>Consent collection</h4>
+              <p>All contributors must consent to the act of consenting. Refusal is respected and archived.</p>
+            </div>
+            <span class="status-pill green">done</span>
+          </div>
+          <div class="queue-item">
+            <div class="queue-number">02</div>
+            <div>
+              <h4>Regulatory review</h4>
+              <p>Three committees verify that the action is useful, reversible, interoperable, and emotionally proportionate.</p>
+            </div>
+            <span class="status-pill gold">in review</span>
+          </div>
+          <div class="queue-item">
+            <div class="queue-number">03</div>
+            <div>
+              <h4>Twenty-seven maintainer consensus</h4>
+              <p>A silent maintainer is interpreted as a constructive abstention pending certified translation.</p>
+            </div>
+            <span class="status-pill red">blocked</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section class="cookie-banner" id="cookieBanner" aria-label="Cookie consent">
+    <div class="cookie-inner">
+      <div class="cookie-crest" aria-hidden="true">
+        <span class="eu-star" style="--a:0deg"></span><span class="eu-star" style="--a:30deg"></span><span class="eu-star" style="--a:60deg"></span><span class="eu-star" style="--a:90deg"></span><span class="eu-star" style="--a:120deg"></span><span class="eu-star" style="--a:150deg"></span><span class="eu-star" style="--a:180deg"></span><span class="eu-star" style="--a:210deg"></span><span class="eu-star" style="--a:240deg"></span><span class="eu-star" style="--a:270deg"></span><span class="eu-star" style="--a:300deg"></span><span class="eu-star" style="--a:330deg"></span>
+        <div class="cookie-art-big"><span class="chip c1"></span><span class="chip c2"></span><span class="chip c3"></span><span class="chip c4"></span></div>
+      </div>
+      <div>
+        <h3>EuroHub uses cookies, obviously</h3>
+        <p id="cookieText">We use cookies and similar technologies for 287 partners to ensure legal compliance, functionality, security, performance, analytics, and to uphold the fundamental rights of all users in the European Union and beyond.</p>
+        <button class="link-button on-dark" data-action="privacy">Our cookie policy (24 languages)</button>
+      </div>
+      <div class="cookie-officer" aria-hidden="true">
+        <svg viewBox="0 0 112 132" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="56" cy="24" r="18" fill="#f6c58f" stroke="#1f2328" stroke-width="2"/>
+          <path d="M40 25c2-17 28-17 32 0 0-13-7-23-17-23-11 0-17 8-15 23Z" fill="#8a5a35" stroke="#1f2328" stroke-width="2"/>
+          <circle cx="49" cy="24" r="5" stroke="#1f2328" stroke-width="2"/>
+          <circle cx="64" cy="24" r="5" stroke="#1f2328" stroke-width="2"/>
+          <path d="M54 24h5M52 34c4 3 9 3 13 0" stroke="#1f2328" stroke-width="2" stroke-linecap="round"/>
+          <path d="M32 62c5-14 12-20 24-20s20 6 25 20v52H32V62Z" fill="#dbeafe" stroke="#1f2328" stroke-width="2"/>
+          <path d="M42 58h28M45 72h22M45 83h18" stroke="#1f2328" stroke-width="2" stroke-linecap="round"/>
+          <rect x="70" y="50" width="28" height="38" rx="4" fill="#fff" stroke="#1f2328" stroke-width="2"/>
+          <path d="M76 60h16M76 69h13M76 78h11" stroke="#1f2328" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="20" cy="76" r="14" fill="#e6ad45" stroke="#1f2328" stroke-width="2"/>
+          <circle cx="15" cy="72" r="2.5" fill="#7b4d18"/><circle cx="24" cy="78" r="2.5" fill="#7b4d18"/><circle cx="20" cy="84" r="2.5" fill="#7b4d18"/>
+          <path d="M32 75c10 2 18-1 25-8M80 66c-9-6-15-9-23-5" stroke="#1f2328" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="cookie-actions">
+        <button class="button gold" data-action="accept-cookies">Accept essential cookies</button>
+        <button class="button" data-action="reject-cookies">Reject all</button>
+        <button class="button" data-action="privacy">Customize 287 partners</button>
+      </div>
+    </div>
+  </section>
+
+  <footer class="bottom-bar">
+    <div class="bottom-inner">
+      <span><svg class="icon"><use href="#i-lock"></use></svg> Secure. Encrypted. Sovereign.</span>
+      <span>Hosting region: eu-central-1 (Frankfurt)</span>
+      <span>Uptime: 99.92% <svg class="icon"><use href="#i-check"></use></svg></span>
+      <span>Status: All systems compliant <svg class="icon"><use href="#i-check"></use></svg></span>
+      <span style="margin-left:auto">&copy; 2024 EuroHub EU SA</span>
+      <a href="#" style="color:#ffffff">Legal</a>
+      <button class="link-button on-dark" data-action="privacy">Privacy</button>
+      <button class="link-button on-dark" data-action="privacy">Cookies</button>
+      <a href="#" style="color:#ffffff">Transparency</a>
+    </div>
+  </footer>
+
+  <div class="toast-stack" id="toastStack" aria-live="polite" aria-atomic="false"></div>
+
+  <script>
+    const $ = (selector, root = document) => root.querySelector(selector);
+    const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
+
+    $$("button").forEach((button) => {
+      if (!button.hasAttribute("type")) button.setAttribute("type", "button");
+    });
+
+    $$("svg.icon, svg.verified").forEach((svg) => {
+      svg.setAttribute("aria-hidden", "true");
+      svg.setAttribute("focusable", "false");
+    });
+
+    $$(".flag").forEach((flag) => flag.setAttribute("aria-hidden", "true"));
+
+    const messages = {
+      file: "File preview blocked until jurisdiction, retention, and cross-border transfer notices are acknowledged.",
+      consent: "Consent panel reopened. You are still free to refuse, after reading why refusal is also logged.",
+      save: "Preferences saved locally. Synchronization with 24 language notices is pending.",
+      delete: "Deletion request created. Some audit logs remain retained for compliance with other compliance."
+    };
+
+    function showToast(message, tone = "info") {
+      const toast = document.createElement("div");
+      toast.className = `toast ${tone}`;
+      toast.textContent = message;
+      $("#toastStack").appendChild(toast);
+      window.setTimeout(() => {
+        toast.style.opacity = "0";
+        toast.style.transform = "translateX(12px)";
+        window.setTimeout(() => toast.remove(), 220);
+      }, 5200);
+    }
+
+    function showPanel(selector) {
+      const panel = $(selector);
+      if (!panel) return;
+      panel.classList.remove("hidden");
+      panel.classList.add("visible");
+    }
+
+    function hidePanel(selector) {
+      const panel = $(selector);
+      if (!panel) return;
+      panel.classList.add("hidden");
+      panel.classList.remove("visible");
+    }
+
+    function compactCookieBanner(message) {
+      const banner = $("#cookieBanner");
+      banner.classList.add("compact");
+      $("#cookieText").textContent = message;
+    }
+
+    document.addEventListener("click", (event) => {
+      const closeTarget = event.target.closest("[data-close]");
+      if (closeTarget) {
+        event.preventDefault();
+        hidePanel(closeTarget.dataset.close);
+        return;
+      }
+
+      const actionTarget = event.target.closest("[data-action]");
+      if (!actionTarget) return;
+      event.preventDefault();
+
+      const action = actionTarget.dataset.action;
+
+      if (action === "toast") {
+        showToast(actionTarget.dataset.message || "The request has entered a review queue.");
+      }
+
+      if (action === "consent") {
+        showPanel("#starConsent");
+        showToast(messages.consent, "warning");
+      }
+
+      if (action === "grant-star") {
+        showToast("Consent accepted. Star recorded after a cooling-off period and audit replication.", "warning");
+        actionTarget.textContent = "Consent pending";
+      }
+
+      if (action === "governance") {
+        showPanel("#governanceShell");
+      }
+
+      if (action === "privacy") {
+        showPanel("#privacyShell");
+      }
+
+      if (action === "details") {
+        $("#reviewPanel").classList.toggle("visible");
+      }
+
+      if (action === "file-block") {
+        showToast(messages.file, "warning");
+      }
+
+      if (action === "export") {
+        $("#exportText").textContent = "Export request accepted. Delivery estimate: 30 days, or longer if machine-readable annexes disagree.";
+        showToast("Portable archive queued. Please keep this tab open for the legal basis checksum.", "warning");
+      }
+
+      if (action === "delete") {
+        showToast(messages.delete, "danger");
+      }
+
+      if (action === "save") {
+        hidePanel("#privacyShell");
+        compactCookieBanner("Preferences saved. A compact reminder remains until the retention schedule has feelings.");
+        showToast(messages.save);
+      }
+
+      if (action === "accept-cookies") {
+        compactCookieBanner("Essential cookies accepted. Optional partner refusals still require manual confirmation.");
+        showToast("Essential-only mode enabled. The site will now ask fewer, but more specific, questions.");
+      }
+
+      if (action === "reject-cookies") {
+        compactCookieBanner("All optional cookies rejected. A refusal receipt is being prepared for your records.");
+        showToast("Reject all created a portability record because even no is data.", "warning");
+      }
+
+      if (action === "language") {
+        showPanel("#languageCard");
+      }
+
+      if (action === "language-choice") {
+        showToast(`Language preference '${actionTarget.textContent.trim()}' noted. Certified translation may lag behind the interface.`, "warning");
+      }
+
+      if (action === "accessibility") {
+        document.body.classList.toggle("accessibility-profile");
+        actionTarget.textContent = document.body.classList.contains("accessibility-profile") ? "Profile enabled" : "Enable profile";
+        showToast("Accessibility profile toggled. Some regulatory notices are now even more visible.");
+      }
+
+      if (action === "purpose") {
+        const purpose = $("#purposeInput").value.trim();
+        if (purpose.length < 8) {
+          showToast("Purpose statement too short for a proportionate search.", "danger");
+        } else {
+          showToast("Purpose declared. Search results will appear after lawful-basis indexing.", "warning");
+          $("#searchPanel").classList.remove("visible");
+        }
+      }
+    });
+
+    $$(".switch").forEach((switchButton) => {
+      switchButton.addEventListener("click", () => {
+        switchButton.classList.toggle("on");
+        showToast("Preference toggled. A balancing test has been scheduled.", "warning");
+      });
+    });
+
+    $$(".tab-button").forEach((tab) => {
+      tab.addEventListener("click", () => {
+        $$(".tab-button").forEach((item) => item.classList.remove("active"));
+        tab.classList.add("active");
+        const label = tab.textContent.trim();
+        showToast(`${label} tab opened. The content remains legally adjacent to the overview.`, "warning");
+      });
+    });
+
+    const searchInput = $("#globalSearch");
+    searchInput.addEventListener("focus", () => $("#searchPanel").classList.add("visible"));
+    searchInput.addEventListener("input", () => {
+      if (searchInput.value.length > 2) {
+        $("#searchPanel").classList.add("visible");
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "/" && document.activeElement !== searchInput) {
+        event.preventDefault();
+        searchInput.focus();
+      }
+      if (event.key === "Escape") {
+        $("#searchPanel").classList.remove("visible");
+        hidePanel("#privacyShell");
+        hidePanel("#governanceShell");
+      }
+    });
+
+    window.setTimeout(() => {
+      showToast("Compliance scan complete. One useful action remains blocked by Article 6 review.", "warning");
+    }, 900);
+  </script>
+</body>
+</html>
