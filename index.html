@@ -46,6 +46,7 @@
       min-height: 100dvh;
       color: var(--ink);
       font-family: var(--font);
+      font-size: 15px;
       background:
         linear-gradient(180deg, #f7f9fb 0, #eef2f6 60%, #e8eef5 100%);
       letter-spacing: 0;
@@ -133,78 +134,6 @@
       stroke-width: 1.9;
     }
 
-    .browser-frame {
-      background: #eef1f5;
-      border-bottom: 1px solid #cfd7df;
-      color: #4f5b67;
-      font-size: 13px;
-      box-shadow: 0 1px 0 rgba(255,255,255,0.8) inset;
-    }
-
-    .browser-tabs {
-      height: 46px;
-      display: grid;
-      grid-template-columns: 86px minmax(240px, 1fr) 1fr;
-      align-items: end;
-      gap: 10px;
-      padding: 0 12px;
-      max-width: 1480px;
-      margin: 0 auto;
-    }
-
-    .traffic {
-      align-self: center;
-      display: flex;
-      gap: 8px;
-      padding-left: 4px;
-    }
-
-    .traffic span {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      display: block;
-      border: 1px solid rgba(31, 35, 40, 0.08);
-    }
-
-    .traffic span:nth-child(1) { background: #ff5f57; }
-    .traffic span:nth-child(2) { background: #ffbd2e; }
-    .traffic span:nth-child(3) { background: #28c840; }
-
-    .fake-tab {
-      align-self: stretch;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 0 14px;
-      background: #ffffff;
-      border: 1px solid #d0d7de;
-      border-bottom-color: #ffffff;
-      border-radius: 9px 9px 0 0;
-      max-width: 310px;
-      min-width: 0;
-    }
-
-    .fake-tab span:last-child {
-      min-width: 0;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      color: #24292f;
-    }
-
-    .browser-controls {
-      height: 42px;
-      display: grid;
-      grid-template-columns: auto auto minmax(180px, 1fr) auto;
-      gap: 10px;
-      align-items: center;
-      padding: 6px 12px 8px;
-      max-width: 1480px;
-      margin: 0 auto;
-    }
-
-    .round-tool,
     .icon-button {
       width: 32px;
       height: 32px;
@@ -217,12 +146,10 @@
       transition: background 160ms ease, transform 160ms ease;
     }
 
-    .round-tool:hover,
     .icon-button:hover {
       background: #dde4ec;
     }
 
-    .round-tool:active,
     .icon-button:active,
     .button:active,
     .small-button:active,
@@ -230,29 +157,8 @@
       transform: translateY(1px) scale(0.985);
     }
 
-    .address {
-      height: 33px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 0 12px;
-      background: #ffffff;
-      border: 1px solid #d0d7de;
-      border-radius: 8px;
-      min-width: 0;
-      color: #57606a;
-      box-shadow: 0 1px 0 rgba(31,35,40,0.04) inset;
-    }
-
-    .address span {
-      min-width: 0;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
     .app {
-      min-height: calc(100dvh - 88px);
+      min-height: 100dvh;
       background: #ffffff;
       box-shadow: 0 0 0 1px rgba(31, 35, 40, 0.04);
     }
@@ -264,14 +170,14 @@
     }
 
     .topbar-inner {
-      max-width: 1480px;
+      max-width: min(2520px, calc(100vw - 64px));
       margin: 0 auto;
-      min-height: 68px;
+      min-height: 76px;
       display: grid;
-      grid-template-columns: minmax(230px, 300px) minmax(260px, 600px) 1fr;
+      grid-template-columns: minmax(260px, 360px) minmax(360px, 820px) 1fr;
       align-items: center;
-      gap: 20px;
-      padding: 10px 20px;
+      gap: 22px;
+      padding: 12px 22px;
     }
 
     .brand {
@@ -722,11 +628,11 @@
     }
 
     .layout {
-      max-width: 1480px;
+      max-width: min(2520px, calc(100vw - 64px));
       margin: 0 auto;
       display: grid;
-      grid-template-columns: 290px minmax(0, 1fr) 330px;
-      min-height: calc(100dvh - 192px);
+      grid-template-columns: 360px minmax(0, 1fr) 420px;
+      min-height: calc(100dvh - 114px);
       border-left: 1px solid #d8dee4;
       border-right: 1px solid #d8dee4;
     }
@@ -2580,6 +2486,25 @@
       font-size: 12px;
     }
 
+    .chaos-lock {
+      box-shadow:
+        0 0 0 4px rgba(207,34,46,0.18),
+        0 22px 60px rgba(31,35,40,0.32) !important;
+    }
+
+    .chaos-lock::before {
+      content: "CLOSURE DEPENDENCY LOCK";
+      display: block;
+      margin: -2px -2px 10px;
+      padding: 5px 7px;
+      border-radius: 5px;
+      background: #cf222e;
+      color: #ffffff;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+    }
+
     .fake-form {
       display: grid;
       gap: 10px;
@@ -2801,22 +2726,6 @@
     }
 
     @media (max-width: 850px) {
-      .browser-tabs {
-        grid-template-columns: 64px minmax(160px, 1fr);
-      }
-
-      .browser-tabs > div:last-child {
-        display: none;
-      }
-
-      .browser-controls {
-        grid-template-columns: auto minmax(0, 1fr) auto;
-      }
-
-      .browser-controls .round-tool:nth-child(2) {
-        display: none;
-      }
-
       .topbar-inner {
         grid-template-columns: 1fr;
         gap: 12px;
@@ -3190,28 +3099,6 @@
       <path d="M4 11v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"></path>
     </symbol>
   </svg>
-
-  <div class="browser-frame" aria-label="Browser chrome satire">
-    <div class="browser-tabs">
-      <div class="traffic" aria-hidden="true"><span></span><span></span><span></span></div>
-      <div class="fake-tab">
-        <span class="eu-mark small" aria-hidden="true">
-          <span class="eu-star" style="--a:0deg"></span><span class="eu-star" style="--a:30deg"></span><span class="eu-star" style="--a:60deg"></span><span class="eu-star" style="--a:90deg"></span><span class="eu-star" style="--a:120deg"></span><span class="eu-star" style="--a:150deg"></span><span class="eu-star" style="--a:180deg"></span><span class="eu-star" style="--a:210deg"></span><span class="eu-star" style="--a:240deg"></span><span class="eu-star" style="--a:270deg"></span><span class="eu-star" style="--a:300deg"></span><span class="eu-star" style="--a:330deg"></span>
-        </span>
-        <span>directive-compliance-engine</span>
-      </div>
-      <div></div>
-    </div>
-    <div class="browser-controls">
-      <button class="round-tool" aria-label="Back"><svg class="icon"><use href="#i-branch"></use></svg></button>
-      <button class="round-tool" aria-label="Reload"><svg class="icon"><use href="#i-action"></use></svg></button>
-      <div class="address">
-        <svg class="icon"><use href="#i-lock"></use></svg>
-        <span>https://eurohub.eu/eu/commission/directive-compliance-engine</span>
-      </div>
-      <button class="round-tool" aria-label="Compliance menu"><svg class="icon"><use href="#i-globe"></use></svg></button>
-    </div>
-  </div>
 
   <div class="app">
     <header class="topbar">
@@ -3675,20 +3562,20 @@
     ];
 
     const GAG_SCENARIOS = [
-      ["cookie-partners", "toast", "cookie", 0, "Cookie partner update", "Rejecting optional cookies added 144 partners to process the refusal receipt."],
-      ["remember-refusal", "modal", "close", 0, "Consent to remember refusal", "Before we remember that you refused consent, please consent to the memory of refusal."],
-      ["certificate-expiry", "floating", "timer", 0, "Certificate expires in 2 days", "Renew your repository browsing certificate at the nearest Europost window before continuing confidently."],
-      ["file-proportionality", "modal", "file", 0, "Proportionality statement required", "Reading this file may reveal code. Explain why that is necessary, suitable, and not just Saturday curiosity."],
-      ["src-transfer", "banner", "folder", 0, "Cross-border whitespace transfer", "Opening src/ moves indentation across conceptual borders. A transfer notice has been lodged."],
-      ["copy-impact", "drawer", "copy", 0, "Software Reuse Impact Assessment", "Copying code requires a reusable-software DPIA, even when the code is mostly jokes."],
-      ["search-purpose", "floating", "search", 0, "Purpose limitation declaration", "Search remains disabled until your purpose is specific enough to disappoint a committee."],
-      ["star-cooling", "modal", "star", 0, "14-day cooling-off period", "Your star has entered a cooling-off queue. Enthusiasm is reversible under platform fairness rules."],
-      ["fork-rapporteur", "drawer", "fork", 0, "Committee rapporteur assignment", "Forking creates a parallel legal reality. A rapporteur must be assigned before branching."],
-      ["watch-fatigue", "floating", "watch", 0, "Notification Fatigue Assessment", "Watching this repository may generate vigilance. Please assess your future attention budget."],
+      ["cookie-partners", "toast", "cookie", 0, "Cookie partner update", "Rejecting optional cookies added 144 partners, because saying no is a data-processing party now."],
+      ["remember-refusal", "modal", "close", 0, "Consent to remember refusal", "We can forget your refusal immediately, but remembering that you wanted forgetting requires a tiny ceremonial yes."],
+      ["certificate-expiry", "floating", "timer", 0, "Certificate expires in 2 days", "Renew your repository browsing certificate at Europost window B. Bring two printed screenshots and one emotionally neutral pen."],
+      ["file-proportionality", "modal", "file", 0, "Proportionality statement required", "Reading this file may reveal code, and code can compile into opinions. Explain why your curiosity is not a public-sector procurement shortcut."],
+      ["src-transfer", "banner", "folder", 0, "Cross-border whitespace transfer", "Opening src/ moved indentation across conceptual borders. Tabs are being interviewed separately from spaces."],
+      ["copy-impact", "drawer", "copy", 0, "Software Reuse Impact Assessment", "Copying code requires a reusable-software DPIA, even if the copied line just says return false with a law degree."],
+      ["search-purpose", "floating", "search", 0, "Purpose limitation declaration", "Search remains disabled until your purpose is specific enough to disappoint exactly one committee and confuse two interns."],
+      ["star-cooling", "modal", "star", 0, "14-day cooling-off period", "Your star is too enthusiastic. It has been placed in a small legal fridge until it stops sparkling."],
+      ["fork-rapporteur", "drawer", "fork", 0, "Committee rapporteur assignment", "Forking creates a parallel legal reality. Please appoint a rapporteur, a shadow rapporteur, and someone to watch the fork breathe."],
+      ["watch-fatigue", "floating", "watch", 0, "Notification Fatigue Assessment", "Watching this repository may generate vigilance. Please budget attention in euros, minutes, and sighs."],
       ["readme-recital", "banner", "readme", 0, "Recital-safe mode", "README.md contains legislative-adjacent prose. Recital-safe line wrapping has been requested."],
       ["line-annex", "toast", "file", 0, "Line numbers delayed", "Line numbers are unavailable until the accessibility annex finishes loading, then unavailable with numbers."],
       ["ai-high-risk", "floating", "compliance.ts", 0, "AI Act High Risk", "compliance.ts contains if statements. The classifier has classified classification as high risk."],
-      ["merge-consensus", "banner", "details", 0, "Constructive abstention pending", "Merge remains blocked until 27 maintainers abstain in a machine-readable format."],
+      ["merge-consensus", "banner", "details", 0, "Constructive abstention pending", "Merge remains blocked until 27 maintainers abstain in machine-readable silence. PDF silence was rejected."],
       ["issue-consultation", "drawer", "issues", 0, "Public consultation questionnaire", "Issue comments have been replaced by a questionnaire about the intention to comment."],
       ["trilogue-room", "floating", "pulls", 0, "Trilogue room booking", "Pull request review requires a trilogue room, four observers, and one agenda about the agenda."],
       ["actions-procurement", "banner", "actions", 0, "Runner paused", "The Actions runner is paused for procurement transparency. Estimated wait: one fiscal quarter."],
@@ -3711,8 +3598,8 @@
       ["raw-pdfa", "floating", "raw", 1, "PDF/A conversion pending", "Raw downloads are disabled until the file is converted into a binder-friendly PDF/A."],
       ["tooltip-consent", "toast", "hover", 1, "Tooltip processing consent", "A tooltip tried to help. Please consent to tooltip-adjacent data processing."],
       ["shortcut-interoperability", "floating", "shortcut", 1, "Keyboard layout check", "The slash shortcut requires keyboard-layout interoperability certification."],
-      ["lawful-presence", "modal", "idle", 1, "Still lawfully present?", "You have been idle for 10 seconds. Confirm you are still lawfully present in this tab."],
-      ["anti-dark-pattern", "drawer", "close", 2, "Anti-dark-pattern self-assessment", "Closing three blockers triggered an assessment of whether blockers are manipulative enough."],
+      ["lawful-presence", "modal", "idle", 1, "Still lawfully present?", "You have been idle for 10 seconds. Confirm you are still lawfully present in this tab and not represented by a keyboard weight."],
+      ["anti-dark-pattern", "drawer", "close", 2, "Anti-dark-pattern self-assessment", "Closing three blockers triggered an assessment of whether the blockers are manipulative enough to need a blocker."],
       ["pressure-atlas", "inline", "nightmare", 2, "Procedural pressure atlas", "The old full-screen map was rejected as disproportionate. A smaller atlas has been inserted into the repository flow instead."],
       ["unsubscribe-subscribe", "modal", "final", 2, "Subscription non-subscription", "Would you like to subscribe to updates about not subscribing to future updates?"]
     ].map(([id, ui, trigger, level, title, body]) => ({ id, ui, trigger, level, title, body, cooldown: level === 2 ? 12000 : level === 1 ? 7000 : 5000 }));
@@ -3744,6 +3631,7 @@
       scenarioIndex: 0,
       idleTimer: null,
       pulseTimer: null,
+      lockingScenarioId: "",
       notificationSeq: 0,
       notifications: [],
       expandedNotification: "",
@@ -4092,6 +3980,7 @@
       $("#routeView").innerHTML = renderer(route.path);
       updateActiveNav(routeKey(route));
       decorateDynamicContent();
+      positionNotificationChrome();
       STATE.activeScenarios.forEach((id) => {
         if (!$(`[data-scenario-id="${CSS.escape(id)}"]`)) STATE.activeScenarios.delete(id);
       });
@@ -4118,6 +4007,21 @@
 
     function hashNumber(value) {
       return String(value).split("").reduce((sum, char) => sum + char.charCodeAt(0), 0);
+    }
+
+    function clampNumber(value, min, max) {
+      return Math.max(min, Math.min(max, value));
+    }
+
+    function contentRects() {
+      const layout = $(".layout")?.getBoundingClientRect();
+      const route = $("#routeView")?.getBoundingClientRect();
+      const fallback = { left: 18, top: 126, right: window.innerWidth - 18, bottom: window.innerHeight - 42, width: window.innerWidth - 36, height: window.innerHeight - 168 };
+      return {
+        layout: layout || fallback,
+        route: route || layout || fallback,
+        viewport: { width: window.innerWidth, height: window.innerHeight }
+      };
     }
 
     function toneForScenario(scenario) {
@@ -4157,6 +4061,11 @@
 
     function speciesClass(scenario) {
       return `species-${speciesForScenario(scenario)}`;
+    }
+
+    function shouldLockScenario(scenario) {
+      return ["star-cooling", "file-proportionality", "branch-subsidiarity", "anti-dark-pattern", "unsubscribe-subscribe"].includes(scenario.id)
+        || (scenario.level >= 1 && hashNumber(scenario.id) % 10 === 0);
     }
 
     function zoneForScenario(scenario) {
@@ -4231,9 +4140,27 @@
       const button = $("[data-action='notifications']");
       if (!panel) return;
       const shouldOpen = typeof force === "boolean" ? force : panel.classList.contains("hidden");
+      positionNotificationChrome();
       panel.classList.toggle("hidden", !shouldOpen);
       document.body.classList.toggle("notifications-open", shouldOpen);
       if (button) button.setAttribute("aria-expanded", String(shouldOpen));
+    }
+
+    function positionNotificationChrome() {
+      const { layout, viewport } = contentRects();
+      const panel = $("#notificationCenter");
+      const stack = $("#toastStack");
+      const panelWidth = Math.min(430, viewport.width - 24);
+      const stackWidth = Math.min(380, viewport.width - 24);
+      const panelLeft = clampNumber(layout.right - panelWidth - 12, 12, viewport.width - panelWidth - 12);
+      if (panel) {
+        panel.style.left = `${Math.round(panelLeft)}px`;
+        panel.style.right = "auto";
+      }
+      if (stack) {
+        stack.style.left = `${Math.round(clampNumber(layout.right - stackWidth - 12, 12, viewport.width - stackWidth - 12))}px`;
+        stack.style.right = "auto";
+      }
     }
 
     function toggleNotification(id) {
@@ -4244,6 +4171,7 @@
 
     function pushToast(message, tone = "info", scenarioId = "") {
       const stack = $("#toastStack");
+      positionNotificationChrome();
       const currentToasts = $$(".toast", stack);
       if (currentToasts.length > (pressureLevel() === 0 ? 3 : pressureLevel() === 1 ? 5 : 8)) currentToasts[0].remove();
       const toast = document.createElement("div");
@@ -4372,14 +4300,52 @@
     }
 
     function placeScenarioNode(node, scenario) {
-      const zone = zoneForScenario(scenario);
-      const target = $(`[data-stage-zone="${zone}"]`) || $("[data-stage-zone='left']");
+      const target = $("#scenarioStage");
       if (!target) {
         document.body.appendChild(node);
-        return;
+      } else {
+        target.appendChild(node);
       }
-      target.appendChild(node);
+      if (shouldLockScenario(scenario) && !STATE.lockingScenarioId) {
+        STATE.lockingScenarioId = scenario.id;
+        node.classList.add("chaos-lock");
+        node.dataset.lockingScenario = "true";
+      }
+      applyChaosPlacement(node, scenario);
       decorateDynamicContent();
+    }
+
+    function applyChaosPlacement(node, scenario) {
+      const { layout, route, viewport } = contentRects();
+      const width = scenario.ui === "banner"
+        ? clampNumber(route.width * 0.42, 270, 620)
+        : scenario.ui === "drawer"
+          ? clampNumber(route.width * 0.32, 320, 450)
+          : clampNumber(route.width * 0.3, 300, 430);
+      const estimatedHeight = scenario.ui === "banner" ? 210 : scenario.ui === "drawer" ? 420 : 470;
+      const minLeft = clampNumber(layout.left + 14, 12, viewport.width - width - 12);
+      const maxLeft = clampNumber(route.right - width - 18, minLeft, viewport.width - width - 12);
+      const slots = [
+        [route.left + route.width * 0.04, route.top + 24],
+        [route.left + route.width * 0.31, route.top + 116],
+        [route.left + route.width * 0.58, route.top + 42],
+        [layout.left + 24, route.top + 210],
+        [route.left + route.width * 0.18, route.top + 356],
+        [route.right - width - 26, route.top + 260],
+        [route.left + route.width * 0.45, viewport.height - estimatedHeight - 58],
+        [layout.left + layout.width * 0.28, route.top + 18]
+      ];
+      const [rawLeft, rawTop] = slots[hashNumber(`${scenario.id}-${STATE.scenarioIndex}`) % slots.length];
+      node.style.position = "fixed";
+      node.style.width = `${Math.round(width)}px`;
+      node.style.left = `${Math.round(clampNumber(rawLeft, minLeft, maxLeft))}px`;
+      node.style.top = `${Math.round(clampNumber(rawTop, 86, Math.max(92, viewport.height - estimatedHeight))) }px`;
+      node.style.right = "auto";
+      node.style.bottom = "auto";
+      node.style.maxHeight = scenario.ui === "banner" ? "34dvh" : "58dvh";
+      node.style.overflow = "auto";
+      node.style.zIndex = String(50 + (hashNumber(scenario.id) % 9));
+      if (scenario.ui === "drawer") node.style.borderRadius = "8px";
     }
 
     function insertInlineScenario(scenario) {
@@ -4439,15 +4405,22 @@
     }
 
     function obstructionSlot(scenario) {
+      const { layout, route, viewport } = contentRects();
+      const width = clampNumber(route.width * 0.24, 270, 390);
       const slots = [
-        { left: "318px", top: "322px" },
-        { left: "calc(50vw - 180px)", top: "214px" },
-        { right: "472px", top: "664px" },
-        { left: "34px", top: "418px" },
-        { left: "calc(50vw - 70px)", top: "486px" },
-        { right: "462px", top: "132px" }
+        [route.left + route.width * 0.02, route.top + 94],
+        [route.left + route.width * 0.44, route.top + 8],
+        [route.right - width - 18, route.top + 186],
+        [layout.left + 28, route.top + 330],
+        [route.left + route.width * 0.26, viewport.height - 190],
+        [route.left + route.width * 0.56, route.top + 420]
       ];
-      return slots[hashNumber(scenario.id) % slots.length];
+      const [rawLeft, rawTop] = slots[hashNumber(scenario.id) % slots.length];
+      return {
+        width: `${Math.round(width)}px`,
+        left: `${Math.round(clampNumber(rawLeft, layout.left + 12, route.right - width - 12))}px`,
+        top: `${Math.round(clampNumber(rawTop, 86, viewport.height - 150))}px`
+      };
     }
 
     function placeObstruction(scenario) {
@@ -4459,6 +4432,8 @@
       node.dataset.scenarioId = scenario.id;
       node.dataset.regulatorySpecies = `obstruction-${speciesForScenario(scenario)}`;
       Object.assign(node.style, slot);
+      node.style.right = "auto";
+      node.style.bottom = "auto";
       node.innerHTML = `<div class="card-head"><strong>UI blocked by ${escapeHtml(scenario.title)}</strong><button class="icon-button" aria-label="Close obstruction for ${escapeHtml(scenario.title)}" data-scenario-close="${scenario.id}">${icon("i-close")}</button></div>
         <p>Are you sure this part of EuroHub should remain usable while the form is unresolved?</p>
         <div class="mini-sign"><input name="obstruction-signature-${scenario.id}" autocomplete="off" placeholder="digital signature"><button class="small-button" data-action="double-confirm" data-scenario-ref="${scenario.id}">Sign with eID</button></div>`;
@@ -4476,8 +4451,18 @@
     }
 
     function closeScenario(id) {
+      if (STATE.lockingScenarioId && id !== STATE.lockingScenarioId) {
+        showToast(`Closure refused: close ${STATE.lockingScenarioId} before closing ${id}. The dependency graph is emotionally binding.`, "danger", "closure-refused");
+        const scenario = { id: `${STATE.lockingScenarioId}-closure-guard`, title: "Closure Dependency Office", body: "This popup is supervising the other popup that supervises your attempt to close a popup. Please close the supervisor first.", level: 2, ui: "floating" };
+        placeObstruction(scenario);
+        return;
+      }
       $$(`[data-scenario-id="${CSS.escape(id)}"]`).forEach((node) => node.remove());
       STATE.activeScenarios.delete(id);
+      if (STATE.lockingScenarioId === id) {
+        STATE.lockingScenarioId = "";
+        showToast("Dependency lock released. Navigation is provisionally imaginable.", "warning", "lock-released");
+      }
       STATE.closeCount += 1;
       raisePressure(2, "close");
       if (STATE.closeCount === 3) scheduleScenario("close", "anti-dark-pattern");
@@ -4562,11 +4547,11 @@
     function schedulePressurePulse() {
       window.clearTimeout(STATE.pulseTimer);
       const level = pressureLevel();
-      const interval = Math.max(1800, [7200, 4300, 2400][level] - Math.min(1400, STATE.actionCount * 90));
+      const interval = Math.max(1100, [3600, 2400, 1300][level] - Math.min(900, STATE.actionCount * 70));
       STATE.pulseTimer = window.setTimeout(() => {
         if (Date.now() >= STATE.mutedUntil) {
           const trigger = level === 2 ? "nightmare" : level === 1 ? "route" : "timer";
-          const burst = Math.min(4, 1 + level + Math.floor(STATE.pressure / 72));
+          const burst = Math.min(5, 1 + level + Math.floor(STATE.pressure / 52));
           for (let index = 0; index < burst; index += 1) {
             window.setTimeout(() => {
               const preferred = level === 2 && index === burst - 1 ? "pressure-atlas" : "";
@@ -4602,10 +4587,23 @@
       const closeTarget = event.target.closest("[data-close]");
       if (closeTarget) {
         event.preventDefault();
+        if (STATE.lockingScenarioId && closeTarget.dataset.close !== "#notificationCenter") {
+          showToast(`Panel closure refused: ${STATE.lockingScenarioId} is still holding the pen.`, "danger", "panel-close-refused");
+          return;
+        }
         hidePanel(closeTarget.dataset.close);
         STATE.closeCount += 1;
         raisePressure(2, "close");
         if (STATE.closeCount === 3) scheduleScenario("close", "anti-dark-pattern");
+        return;
+      }
+
+      const routeAttempt = event.target.closest('a[href^="#/"]');
+      if (routeAttempt && STATE.lockingScenarioId && !routeAttempt.closest("#scenarioStage")) {
+        event.preventDefault();
+        showToast(`Navigation blocked: ${STATE.lockingScenarioId} requires a signature before the repository is allowed to move.`, "danger", "navigation-blocked");
+        const scenario = { id: `${STATE.lockingScenarioId}-navigation-guard`, title: "Movement Permit Refusal", body: "The file tree tried to walk away before the paperwork finished putting on its shoes.", level: 2, ui: "floating" };
+        placeObstruction(scenario);
         return;
       }
 
@@ -4642,6 +4640,7 @@
     }, { passive: true });
 
     window.addEventListener("hashchange", renderRoute);
+    window.addEventListener("resize", positionNotificationChrome);
 
     const searchInput = $("#globalSearch");
     searchInput.addEventListener("focus", () => { $("#searchPanel").classList.add("visible"); scheduleScenario("search", "search-purpose"); });
