@@ -59,6 +59,11 @@
       overflow: hidden;
     }
 
+    body.window-dragging {
+      user-select: none;
+      cursor: grabbing;
+    }
+
     button,
     input {
       font: inherit;
@@ -2076,7 +2081,7 @@
     .scenario-stage {
       position: fixed;
       inset: 0;
-      z-index: 48;
+      z-index: 70;
       pointer-events: none;
     }
 
@@ -2186,6 +2191,127 @@
       box-shadow: var(--shadow-soft);
       color: #24292f;
       animation: scenario-pop 210ms cubic-bezier(.2,.8,.2,1) both;
+    }
+
+    .scenario-window {
+      pointer-events: auto;
+      touch-action: auto;
+      isolation: isolate;
+    }
+
+    .scenario-window.is-active-window {
+      box-shadow:
+        0 0 0 2px rgba(9,105,218,0.24),
+        0 24px 70px rgba(31,35,40,0.28) !important;
+    }
+
+    .window-titlebar {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      min-height: 34px;
+      margin: -3px -3px 10px;
+      padding: 5px 5px 5px 9px;
+      border-radius: 6px;
+      color: inherit;
+      cursor: grab;
+      user-select: none;
+      touch-action: none;
+    }
+
+    .window-titlebar:active {
+      cursor: grabbing;
+    }
+
+    .window-titlebar h3,
+    .window-titlebar strong {
+      margin: 0;
+      min-width: 0;
+      font-size: 14px;
+      line-height: 1.2;
+      overflow-wrap: anywhere;
+    }
+
+    .window-titlebar[data-close-layout="left"] {
+      flex-direction: row-reverse;
+      justify-content: flex-end;
+    }
+
+    .window-titlebar[data-close-layout="split"] {
+      border-bottom: 1px solid rgba(110,118,129,0.22);
+      border-radius: 0;
+    }
+
+    .window-titlebar[data-close-layout="corner"] .window-close {
+      position: absolute;
+      right: -10px;
+      top: -10px;
+    }
+
+    .window-close {
+      border: 1px solid rgba(110,118,129,0.3);
+      background: rgba(255,255,255,0.75);
+      color: inherit;
+      flex: 0 0 auto;
+    }
+
+    .window-close[data-close-variant="mac-dot"] {
+      width: 16px;
+      height: 16px;
+      border-radius: 999px;
+      padding: 0;
+      color: transparent;
+      background: #ff5f57;
+      border-color: #d33a31;
+      box-shadow: 22px 0 0 #ffbd2e, 44px 0 0 #28c840;
+    }
+
+    .window-close[data-close-variant="stamp"] {
+      width: auto;
+      min-width: 74px;
+      padding: 0 8px;
+      border-radius: 2px;
+      color: #7c2d12;
+      border: 2px solid currentColor;
+      background: #fff7ed;
+      font-family: var(--mono);
+      font-size: 10px;
+      transform: rotate(-2deg);
+    }
+
+    .window-close[data-close-variant="pill"] {
+      width: auto;
+      min-width: 88px;
+      padding: 0 10px;
+      border-radius: 999px;
+      background: #0969da;
+      color: #ffffff;
+      border-color: #0969da;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .window-close[data-close-variant="tiny-link"] {
+      width: auto;
+      min-width: 0;
+      height: auto;
+      padding: 2px 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      color: #0969da;
+      text-decoration: underline;
+      font-size: 11px;
+    }
+
+    .window-close[data-close-variant="corner-x"] {
+      border-radius: 999px;
+      background: #cf222e;
+      color: #ffffff;
+      border-color: #a40e1c;
+      box-shadow: var(--shadow-soft);
     }
 
     .scenario-surface {
@@ -2396,9 +2522,6 @@
       background: #fff8db;
       color: #4f3a00;
       padding: 10px 12px;
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 12px;
     }
 
     .bureau-banner strong {
@@ -2542,6 +2665,36 @@
         #ffffff;
       color: #24292f;
       animation: lock-arrive 180ms cubic-bezier(.2,.8,.2,1) both;
+    }
+
+    .scenario-stage.has-lock .chaos-lock[data-lock-style="stampede"] {
+      border: 4px double #7c2d12;
+      background:
+        linear-gradient(180deg, rgba(255,247,237,0.98), rgba(255,255,255,0.98)),
+        #fff7ed;
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    .scenario-stage.has-lock .chaos-lock[data-lock-style="terminal"] {
+      border-color: #064e3b;
+      background: #052e2b;
+      color: #d1fae5;
+    }
+
+    .scenario-stage.has-lock .chaos-lock[data-lock-style="terminal"] p,
+    .scenario-stage.has-lock .chaos-lock[data-lock-style="terminal"] .fake-form label,
+    .scenario-stage.has-lock .chaos-lock[data-lock-style="terminal"] .scenario-assurance {
+      color: #bbf7d0;
+    }
+
+    .scenario-stage.has-lock .chaos-lock[data-lock-style="passport"] {
+      border-color: #073f7d;
+      background:
+        linear-gradient(135deg, rgba(7,63,125,0.12), transparent 42%),
+        #f8fbff;
+      box-shadow:
+        0 0 0 4px rgba(7,63,125,0.2),
+        0 22px 70px rgba(7,63,125,0.32) !important;
     }
 
     .scenario-stage.has-lock .chaos-lock p,
@@ -3709,11 +3862,15 @@
       closeCount: 0,
       lastScenario: Object.create(null),
       activeScenarios: new Set(),
+      seenScenarios: new Set(),
       mutedUntil: 0,
       scenarioIndex: 0,
       idleTimer: null,
       pulseTimer: null,
       lockingScenarioId: "",
+      lastLockActionCount: -99,
+      windowZ: 90,
+      drag: null,
       notificationSeq: 0,
       notifications: [],
       expandedNotification: "",
@@ -3822,8 +3979,8 @@
 
     function pressureLevel() {
       const elapsed = Date.now() - STATE.startedAt;
-      if (elapsed > 90000 || STATE.actionCount >= 12) return 2;
-      if (elapsed > 30000 || STATE.actionCount >= 5) return 1;
+      if (elapsed > 60000 || STATE.actionCount >= 12) return 2;
+      if (elapsed > 26000 || STATE.actionCount >= 5) return 1;
       return 0;
     }
 
@@ -4062,6 +4219,7 @@
       $("#routeView").innerHTML = renderer(route.path);
       updateActiveNav(routeKey(route));
       decorateDynamicContent();
+      healOverlayState();
       positionNotificationChrome();
       STATE.activeScenarios.forEach((id) => {
         if (!$(`[data-scenario-id="${CSS.escape(id)}"]`)) STATE.activeScenarios.delete(id);
@@ -4145,9 +4303,35 @@
       return `species-${speciesForScenario(scenario)}`;
     }
 
-    function shouldLockScenario(scenario) {
+    function isScreenLockCandidate(scenario) {
       return ["star-cooling", "file-proportionality", "branch-subsidiarity", "anti-dark-pattern", "unsubscribe-subscribe"].includes(scenario.id)
         || (scenario.level >= 1 && hashNumber(scenario.id) % 10 === 0);
+    }
+
+    function shouldLockScenario(scenario) {
+      if (!isScreenLockCandidate(scenario) || STATE.lockingScenarioId) return false;
+      return STATE.actionCount - STATE.lastLockActionCount >= 15;
+    }
+
+    function lockStyleForScenario(scenario) {
+      const styles = ["passport", "terminal", "stampede", "hearing"];
+      if (scenario.id.includes("star")) return "passport";
+      if (scenario.id.includes("file") || scenario.id.includes("branch")) return "stampede";
+      if (scenario.id.includes("dark") || scenario.id.includes("subscribe")) return "terminal";
+      return styles[hashNumber(scenario.id) % styles.length];
+    }
+
+    function closeVariantForScenario(scenario) {
+      const variants = ["icon", "mac-dot", "stamp", "pill", "tiny-link", "corner-x"];
+      if (scenario.ui === "banner") return "stamp";
+      if (scenario.ui === "drawer") return "pill";
+      if (scenario.id.includes("certificate")) return "mac-dot";
+      return variants[hashNumber(scenario.id) % variants.length];
+    }
+
+    function closeLayoutForScenario(scenario) {
+      const layouts = ["right", "left", "split", "corner"];
+      return layouts[hashNumber(`${scenario.id}-layout`) % layouts.length];
     }
 
     function zoneForScenario(scenario) {
@@ -4319,11 +4503,66 @@
         candidates = GAG_SCENARIOS.filter((scenario) => scenario.level <= level && !STATE.activeScenarios.has(scenario.id));
       }
       if (!candidates.length) return;
-      const scenario = preferredId ? candidates.find((item) => item.id === preferredId) || candidates[0] : candidates[STATE.scenarioIndex % candidates.length];
+      const unseenCandidates = candidates.filter((scenario) => !STATE.seenScenarios.has(scenario.id));
+      const pool = unseenCandidates.length ? unseenCandidates : candidates;
+      const preferred = preferredId ? pool.find((item) => item.id === preferredId) : null;
+      const scenario = preferred || pool[STATE.scenarioIndex % pool.length];
       STATE.scenarioIndex += 1;
       STATE.lastScenario[scenario.id] = Date.now();
+      STATE.seenScenarios.add(scenario.id);
+      if (STATE.seenScenarios.size > Math.max(22, GAG_SCENARIOS.length - 4)) {
+        const stillVisible = [...STATE.activeScenarios];
+        STATE.seenScenarios.clear();
+        stillVisible.forEach((id) => STATE.seenScenarios.add(id));
+      }
       if (scenario.ui !== "toast") STATE.activeScenarios.add(scenario.id);
       showScenario(scenario);
+    }
+
+    function closeControlFor(scenario) {
+      const variant = closeVariantForScenario(scenario);
+      const label = `Close ${scenario.title}`;
+      const text = variant === "stamp" ? "VOID" : variant === "pill" ? "Dismiss locally" : variant === "tiny-link" ? "not now" : icon("i-close");
+      return `<button class="icon-button window-close" aria-label="${escapeHtml(label)}" data-close-variant="${escapeHtml(variant)}" data-scenario-close="${escapeHtml(scenario.id)}">${text}</button>`;
+    }
+
+    function windowTitleBar(scenario, titleTag = "h3") {
+      const layout = closeLayoutForScenario(scenario);
+      const close = closeControlFor(scenario);
+      return `<div class="window-titlebar" data-window-handle data-close-layout="${escapeHtml(layout)}">
+        <${titleTag}>${escapeHtml(scenario.title)}</${titleTag}>
+        ${close}
+      </div>`;
+    }
+
+    function prepareManagedWindow(node, scenario, kind = "scenario") {
+      node.classList.add("scenario-window");
+      node.dataset.windowKind = kind;
+      node.dataset.windowId = scenario.id;
+      node.style.pointerEvents = "auto";
+      bringWindowToFront(node);
+    }
+
+    function nextWindowZ() {
+      STATE.windowZ += 1;
+      return STATE.windowZ;
+    }
+
+    function bringWindowToFront(node) {
+      if (!node) return;
+      $$(".scenario-window.is-active-window").forEach((windowNode) => windowNode.classList.remove("is-active-window"));
+      node.classList.add("is-active-window");
+      node.style.zIndex = String(nextWindowZ());
+    }
+
+    function clampWindowPosition(node, left, top) {
+      const rect = node.getBoundingClientRect();
+      const visibleWidth = Math.min(rect.width || 320, 180);
+      const visibleHeight = Math.min(rect.height || 180, 54);
+      return {
+        left: clampNumber(left, 8 - Math.max(0, (rect.width || 0) - visibleWidth), window.innerWidth - visibleWidth),
+        top: clampNumber(top, 8, window.innerHeight - visibleHeight)
+      };
     }
 
     function showScenario(scenario) {
@@ -4338,7 +4577,7 @@
         node.className = `bureau-banner ${speciesClass(scenario)}`;
         node.dataset.scenarioId = scenario.id;
         node.dataset.regulatorySpecies = speciesForScenario(scenario);
-        node.innerHTML = `<div><strong>${escapeHtml(scenario.title)}</strong><span>${escapeHtml(scenario.body)}</span>${scenarioAssurance(scenario)}</div><button class="icon-button" aria-label="Close ${escapeHtml(scenario.title)}" data-scenario-close="${scenario.id}">${icon("i-close")}</button>`;
+        node.innerHTML = `${windowTitleBar(scenario, "strong")}<div><span>${escapeHtml(scenario.body)}</span>${scenarioAssurance(scenario)}</div>`;
         placeScenarioNode(node, scenario);
         if (node.dataset.lockingScenario !== "true") placeObstruction(scenario);
         pushToast(`Banner filed: ${scenario.title}`, tone, scenario.id);
@@ -4362,7 +4601,7 @@
         node.dataset.scenarioId = scenario.id;
         node.dataset.variant = variantForScenario(scenario);
         node.dataset.regulatorySpecies = speciesForScenario(scenario);
-        node.innerHTML = `<div class="card-head"><h3>${escapeHtml(scenario.title)}</h3><button class="icon-button" aria-label="Close ${escapeHtml(scenario.title)}" data-scenario-close="${scenario.id}">${icon("i-close")}</button></div><p>${escapeHtml(scenario.body)}</p>${fakeFormFor(scenario)}${scenarioAssurance(scenario)}${scenarioActions(scenario, "drawer")}`;
+        node.innerHTML = `${windowTitleBar(scenario)}<p>${escapeHtml(scenario.body)}</p>${fakeFormFor(scenario)}${scenarioAssurance(scenario)}${scenarioActions(scenario, "drawer")}`;
         placeScenarioNode(node, scenario);
         if (node.dataset.lockingScenario !== "true") placeObstruction(scenario);
         pushToast(`Side procedure opened: ${scenario.title}`, tone, scenario.id);
@@ -4377,7 +4616,7 @@
       node.dataset.scenarioId = scenario.id;
       node.dataset.variant = variantForScenario(scenario);
       node.dataset.regulatorySpecies = speciesForScenario(scenario);
-      node.innerHTML = `<div class="card-head"><h3>${escapeHtml(scenario.title)}</h3><button class="icon-button" aria-label="Close ${escapeHtml(scenario.title)}" data-scenario-close="${scenario.id}">${icon("i-close")}</button></div><p>${escapeHtml(scenario.body)}</p>${fakeFormFor(scenario)}${scenarioAssurance(scenario)}${scenarioActions(scenario, scenario.ui)}`;
+      node.innerHTML = `${windowTitleBar(scenario)}<p>${escapeHtml(scenario.body)}</p>${fakeFormFor(scenario)}${scenarioAssurance(scenario)}${scenarioActions(scenario, scenario.ui)}`;
       return node;
     }
 
@@ -4390,10 +4629,14 @@
       }
       if (shouldLockScenario(scenario) && !STATE.lockingScenarioId) {
         STATE.lockingScenarioId = scenario.id;
+        STATE.lastLockActionCount = STATE.actionCount;
         node.classList.add("chaos-lock");
         node.dataset.lockingScenario = "true";
+        node.dataset.lockStyle = lockStyleForScenario(scenario);
+        prepareManagedWindow(node, scenario, "screen-lock");
         activateLockScenario(node, scenario);
       } else {
+        prepareManagedWindow(node, scenario, scenario.ui);
         applyChaosPlacement(node, scenario);
       }
       decorateDynamicContent();
@@ -4437,6 +4680,15 @@
         STATE.lockingScenarioId = "";
         clearLockLayer();
       }
+    }
+
+    function healOverlayState() {
+      if (!STATE.lockingScenarioId && ($("#scenarioLockBackdrop") || $("#scenarioStage")?.classList.contains("has-lock"))) {
+        clearLockLayer();
+      }
+      $$(".scenario-window").forEach((node) => {
+        node.style.pointerEvents = "auto";
+      });
     }
 
     function applyLockPlacement(node, scenario) {
@@ -4495,7 +4747,7 @@
       node.style.bottom = "auto";
       node.style.maxHeight = scenario.ui === "banner" ? "34dvh" : "58dvh";
       node.style.overflow = "auto";
-      node.style.zIndex = String(50 + (hashNumber(scenario.id) % 9));
+      bringWindowToFront(node);
       if (scenario.ui === "drawer") node.style.borderRadius = "8px";
     }
 
@@ -4575,7 +4827,7 @@
     }
 
     function placeObstruction(scenario) {
-      const target = $("[data-stage-zone='obstruction']");
+      const target = $("#scenarioStage");
       if (!target) return;
       const slot = obstructionSlot(scenario);
       const node = document.createElement("aside");
@@ -4585,10 +4837,12 @@
       Object.assign(node.style, slot);
       node.style.right = "auto";
       node.style.bottom = "auto";
-      node.innerHTML = `<div class="card-head"><strong>UI blocked by ${escapeHtml(scenario.title)}</strong><button class="icon-button" aria-label="Close obstruction for ${escapeHtml(scenario.title)}" data-scenario-close="${scenario.id}">${icon("i-close")}</button></div>
+      const obstructionScenario = { ...scenario, title: `UI blocked by ${scenario.title}` };
+      node.innerHTML = `${windowTitleBar(obstructionScenario, "strong")}
         <p>Are you sure this part of EuroHub should remain usable while the form is unresolved?</p>
         <div class="mini-sign"><input name="obstruction-signature-${scenario.id}" autocomplete="off" placeholder="digital signature"><button class="small-button" data-action="double-confirm" data-scenario-ref="${scenario.id}">Sign with eID</button></div>`;
       target.appendChild(node);
+      prepareManagedWindow(node, scenario, "obstruction");
       decorateDynamicContent();
     }
 
@@ -4610,14 +4864,18 @@
       }
       $$(`[data-scenario-id="${CSS.escape(id)}"]`).forEach((node) => node.remove());
       STATE.activeScenarios.delete(id);
-      if (STATE.lockingScenarioId === id) {
+      const releasedLock = STATE.lockingScenarioId === id;
+      if (releasedLock) {
         STATE.lockingScenarioId = "";
         clearLockLayer();
         showToast("Dependency lock released. Navigation is provisionally imaginable.", "warning", "lock-released");
       }
       STATE.closeCount += 1;
       raisePressure(2, "close");
+      if (releasedLock) STATE.lastLockActionCount = STATE.actionCount;
       if (STATE.closeCount === 3) scheduleScenario("close", "anti-dark-pattern");
+      else if (STATE.closeCount <= 2) window.setTimeout(() => scheduleScenario("timer"), 850);
+      else if (STATE.closeCount % 2 === 0) window.setTimeout(() => scheduleScenario("close"), 650);
     }
 
     function scheduleFileScenarios(path) {
@@ -4699,16 +4957,17 @@
     function schedulePressurePulse() {
       window.clearTimeout(STATE.pulseTimer);
       const level = pressureLevel();
-      const interval = Math.max(1100, [3600, 2400, 1300][level] - Math.min(900, STATE.actionCount * 70));
+      const interval = Math.max(2600, [14000, 8200, 3600][level] - Math.min(1600, STATE.actionCount * 90));
       STATE.pulseTimer = window.setTimeout(() => {
+        healOverlayState();
         if (Date.now() >= STATE.mutedUntil) {
           const trigger = level === 2 ? "nightmare" : level === 1 ? "route" : "timer";
-          const burst = Math.min(5, 1 + level + Math.floor(STATE.pressure / 52));
+          const burst = Math.min(4, Math.max(1, level) + Math.floor(STATE.pressure / 58));
           for (let index = 0; index < burst; index += 1) {
             window.setTimeout(() => {
               const preferred = level === 2 && index === burst - 1 ? "pressure-atlas" : "";
               scheduleScenario(trigger, preferred);
-            }, index * 520);
+            }, index * 760);
           }
           STATE.pressure = Math.min(100, STATE.pressure + 3 + level * 2);
           updatePressureMeter();
@@ -4717,18 +4976,68 @@
       }, interval);
     }
 
+    function beginWindowDrag(event) {
+      const handle = event.target.closest("[data-window-handle]");
+      const node = event.target.closest(".scenario-window");
+      if (node) bringWindowToFront(node);
+      if (!handle || !node || event.target.closest("button, a, input, textarea, select")) return;
+      event.preventDefault();
+      const rect = node.getBoundingClientRect();
+      node.style.left = `${Math.round(rect.left)}px`;
+      node.style.top = `${Math.round(rect.top)}px`;
+      node.style.right = "auto";
+      node.style.bottom = "auto";
+      node.style.transform = "none";
+      STATE.drag = {
+        node,
+        pointerId: event.pointerId,
+        startX: event.clientX,
+        startY: event.clientY,
+        left: rect.left,
+        top: rect.top
+      };
+      document.body.classList.add("window-dragging");
+      handle.setPointerCapture?.(event.pointerId);
+    }
+
+    function moveWindowDrag(event) {
+      if (!STATE.drag || STATE.drag.pointerId !== event.pointerId) return;
+      event.preventDefault();
+      const next = clampWindowPosition(
+        STATE.drag.node,
+        STATE.drag.left + event.clientX - STATE.drag.startX,
+        STATE.drag.top + event.clientY - STATE.drag.startY
+      );
+      STATE.drag.node.style.left = `${Math.round(next.left)}px`;
+      STATE.drag.node.style.top = `${Math.round(next.top)}px`;
+    }
+
+    function endWindowDrag(event) {
+      if (!STATE.drag || STATE.drag.pointerId !== event.pointerId) return;
+      STATE.drag = null;
+      document.body.classList.remove("window-dragging");
+      raisePressure(1, "drag-window");
+    }
+
     function bootstrap() {
       if (!location.hash || location.hash === "#") location.hash = "#/repo";
       seedNotifications();
       decorateDynamicContent();
       renderRoute();
+      healOverlayState();
       showPanel("#cookieBanner");
       window.setTimeout(() => { scheduleScenario("timer", "certificate-expiry"); showToast("Compliance scan complete. One useful action remains blocked by Article 6 review.", "warning", "startup-scan"); }, 1000);
       schedulePressurePulse();
       resetIdleTimer();
     }
 
+    document.addEventListener("pointerdown", beginWindowDrag);
+    document.addEventListener("pointermove", moveWindowDrag);
+    document.addEventListener("pointerup", endWindowDrag);
+    document.addEventListener("pointercancel", endWindowDrag);
+
     document.addEventListener("click", (event) => {
+      healOverlayState();
       const lockBackdrop = event.target.closest("[data-lock-backdrop]");
       if (lockBackdrop) {
         event.preventDefault();
