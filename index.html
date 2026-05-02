@@ -2258,14 +2258,17 @@
     }
 
     .window-close[data-close-variant="mac-dot"] {
-      width: 16px;
+      width: 58px;
       height: 16px;
-      border-radius: 999px;
+      border-radius: 4px;
       padding: 0;
       color: transparent;
-      background: #ff5f57;
-      border-color: #d33a31;
-      box-shadow: 22px 0 0 #ffbd2e, 44px 0 0 #28c840;
+      border: 0;
+      background:
+        radial-gradient(circle at 8px 50%, #ff5f57 0 6px, transparent 7px),
+        radial-gradient(circle at 29px 50%, #ffbd2e 0 6px, transparent 7px),
+        radial-gradient(circle at 50px 50%, #28c840 0 6px, transparent 7px);
+      box-shadow: none;
     }
 
     .window-close[data-close-variant="stamp"] {
@@ -3871,6 +3874,7 @@
       lastLockActionCount: -99,
       windowZ: 90,
       drag: null,
+      windowSeq: 0,
       notificationSeq: 0,
       notifications: [],
       expandedNotification: "",
@@ -4331,6 +4335,7 @@
 
     function closeLayoutForScenario(scenario) {
       const layouts = ["right", "left", "split", "corner"];
+      if (closeVariantForScenario(scenario) === "mac-dot") return "right";
       return layouts[hashNumber(`${scenario.id}-layout`) % layouts.length];
     }
 
@@ -4538,7 +4543,13 @@
     function prepareManagedWindow(node, scenario, kind = "scenario") {
       node.classList.add("scenario-window");
       node.dataset.windowKind = kind;
+      const instanceId = `${scenario.id}-${kind}-${STATE.windowSeq}`;
+      STATE.windowSeq += 1;
       node.dataset.windowId = scenario.id;
+      node.dataset.windowInstanceId = instanceId;
+      $$("[data-scenario-close]", node).forEach((button) => {
+        button.dataset.windowClose = instanceId;
+      });
       node.style.pointerEvents = "auto";
       bringWindowToFront(node);
     }
@@ -4855,15 +4866,19 @@
       </div>`;
     }
 
-    function closeScenario(id) {
+    function closeScenario(id, instanceId = "") {
       if (STATE.lockingScenarioId && id !== STATE.lockingScenarioId) {
         showToast(`Closure refused: close ${STATE.lockingScenarioId} before closing ${id}. The dependency graph is emotionally binding.`, "danger", "closure-refused");
         const scenario = { id: `${STATE.lockingScenarioId}-closure-guard`, title: "Closure Dependency Office", body: "This popup is supervising the other popup that supervises your attempt to close a popup. Please close the supervisor first.", level: 2, ui: "floating" };
         placeObstruction(scenario);
         return;
       }
-      $$(`[data-scenario-id="${CSS.escape(id)}"]`).forEach((node) => node.remove());
-      STATE.activeScenarios.delete(id);
+      const nodes = instanceId
+        ? $$(`[data-window-instance-id="${CSS.escape(instanceId)}"]`)
+        : $$(`[data-scenario-id="${CSS.escape(id)}"]`);
+      nodes.forEach((node) => node.remove());
+      const scenarioStillVisible = Boolean($(`[data-scenario-id="${CSS.escape(id)}"]`));
+      if (!scenarioStillVisible) STATE.activeScenarios.delete(id);
       const releasedLock = STATE.lockingScenarioId === id;
       if (releasedLock) {
         STATE.lockingScenarioId = "";
@@ -5048,7 +5063,8 @@
       const scenarioClose = event.target.closest("[data-scenario-close]");
       if (scenarioClose) {
         event.preventDefault();
-        closeScenario(scenarioClose.dataset.scenarioClose);
+        const windowNode = scenarioClose.closest("[data-window-instance-id]");
+        closeScenario(scenarioClose.dataset.scenarioClose, scenarioClose.dataset.windowClose || windowNode?.dataset.windowInstanceId || "");
         return;
       }
 
