@@ -1691,6 +1691,467 @@
       text-decoration: underline;
     }
 
+    .route-view {
+      min-width: 0;
+    }
+
+    .repo-kicker {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin: -4px 0 12px;
+      flex-wrap: wrap;
+    }
+
+    .breadcrumbs {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      min-width: 0;
+      color: #57606a;
+      font-size: 13px;
+      flex-wrap: wrap;
+    }
+
+    .breadcrumbs a {
+      font-weight: 700;
+      color: #0969da;
+    }
+
+    .breadcrumbs .slash {
+      color: #8c959f;
+    }
+
+    .repo-tabs {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow-x: auto;
+      margin: 0 0 14px;
+      padding-bottom: 2px;
+    }
+
+    .repo-tab {
+      min-height: 32px;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 0 10px;
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      color: #24292f;
+      background: #ffffff;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+      text-decoration: none;
+    }
+
+    .repo-tab:hover {
+      background: #f6f8fa;
+      text-decoration: none;
+    }
+
+    .repo-tab.active {
+      color: #0969da;
+      border-color: #b6d7ff;
+      background: #eaf3ff;
+      box-shadow: inset 0 -2px 0 #0969da;
+    }
+
+    .pressure-meter {
+      border: 1px solid #d8dee4;
+      background: #f6f8fa;
+      border-radius: 8px;
+      padding: 10px 12px;
+      margin-bottom: 14px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .pressure-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      color: #57606a;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .pressure-track {
+      height: 8px;
+      border-radius: 999px;
+      background: #d8dee4;
+      overflow: hidden;
+    }
+
+    .pressure-fill {
+      height: 100%;
+      width: var(--pressure, 12%);
+      border-radius: inherit;
+      background: linear-gradient(90deg, #1a7f37, #d4a72c 54%, #cf222e);
+      transition: width 260ms ease;
+    }
+
+    .file-row {
+      text-decoration: none;
+    }
+
+    .file-row:hover {
+      text-decoration: none;
+    }
+
+    .view-panel {
+      border: 1px solid #d8dee4;
+      border-radius: 8px;
+      background: #ffffff;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+
+    .view-panel-head {
+      min-height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 0 14px;
+      border-bottom: 1px solid #d8dee4;
+      background: #f6f8fa;
+    }
+
+    .view-panel-head strong {
+      font-size: 14px;
+    }
+
+    .view-panel-body {
+      padding: 14px;
+    }
+
+    .blob-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+
+    .blob-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #57606a;
+      font-size: 12px;
+      flex-wrap: wrap;
+    }
+
+    .code-view {
+      border: 1px solid #d8dee4;
+      border-radius: 8px;
+      overflow: auto;
+      background: #f6f8fa;
+      max-height: 570px;
+    }
+
+    .code-line {
+      display: grid;
+      grid-template-columns: 52px minmax(0, 1fr);
+      min-width: 620px;
+      font-family: var(--mono);
+      font-size: 12px;
+      line-height: 1.55;
+      border-top: 1px solid rgba(216,222,228,0.72);
+    }
+
+    .code-line:first-child {
+      border-top: 0;
+    }
+
+    .code-line-number {
+      color: #6e7781;
+      text-align: right;
+      padding: 0 12px;
+      user-select: none;
+      background: #eef2f6;
+      border-right: 1px solid #d8dee4;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .code-line-code {
+      white-space: pre;
+      padding: 0 12px;
+      color: #24292f;
+    }
+
+    .markdownish h2,
+    .markdownish h3 {
+      margin: 14px 0 8px;
+      letter-spacing: -0.01em;
+    }
+
+    .markdownish h2:first-child {
+      margin-top: 0;
+    }
+
+    .markdownish p,
+    .markdownish li {
+      color: #57606a;
+      line-height: 1.55;
+    }
+
+    .markdownish code {
+      font-family: var(--mono);
+      background: #f6f8fa;
+      border: 1px solid #d8dee4;
+      border-radius: 4px;
+      padding: 1px 4px;
+      color: #24292f;
+    }
+
+    .mock-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .mock-item {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: start;
+      padding: 12px;
+      border: 1px solid #d8dee4;
+      border-radius: 8px;
+      background: #ffffff;
+    }
+
+    .mock-item h3,
+    .mock-item h4 {
+      margin: 0 0 4px;
+      font-size: 14px;
+    }
+
+    .mock-item p {
+      margin: 0;
+      color: #57606a;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .mini-metric-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(120px, 1fr));
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .mini-metric {
+      border: 1px solid #d8dee4;
+      border-radius: 8px;
+      padding: 12px;
+      background: #ffffff;
+    }
+
+    .mini-metric strong {
+      display: block;
+      font-size: 22px;
+      letter-spacing: -0.03em;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .mini-metric span {
+      color: #57606a;
+      font-size: 12px;
+    }
+
+    .bureau-banner {
+      position: fixed;
+      left: 50%;
+      top: 98px;
+      width: min(760px, calc(100vw - 32px));
+      transform: translateX(-50%);
+      z-index: 45;
+      border: 1px solid #eac54f;
+      background: #fff8db;
+      color: #4f3a00;
+      border-radius: 8px;
+      box-shadow: var(--shadow-soft);
+      padding: 10px 12px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      animation: rise-centered 220ms ease both;
+    }
+
+    .bureau-banner strong {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 2px;
+    }
+
+    .bureau-banner span {
+      color: #6f5a00;
+      font-size: 12px;
+    }
+
+    .scenario-float {
+      position: fixed;
+      z-index: 43;
+      width: min(315px, calc(100vw - 32px));
+      right: 18px;
+      top: 304px;
+      background: #ffffff;
+      border: 1px solid #d8dee4;
+      border-radius: 8px;
+      box-shadow: var(--shadow-soft);
+      padding: 13px;
+      animation: slide-in 180ms ease both;
+    }
+
+    .scenario-float:nth-child(2n) {
+      top: auto;
+      bottom: 104px;
+      left: 18px;
+      right: auto;
+    }
+
+    .scenario-float h3,
+    .scenario-modal h3,
+    .scenario-drawer h3 {
+      margin: 0 0 7px;
+      font-size: 15px;
+    }
+
+    .scenario-float p,
+    .scenario-modal p,
+    .scenario-drawer p {
+      margin: 0 0 11px;
+      color: #57606a;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .scenario-modal-shell {
+      position: fixed;
+      inset: 0;
+      z-index: 48;
+      display: grid;
+      place-items: center;
+      padding: 18px;
+      background: rgba(31,35,40,0.18);
+      animation: fade 160ms ease both;
+    }
+
+    .scenario-modal {
+      width: min(510px, 100%);
+      background: #ffffff;
+      border: 1px solid #d8dee4;
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      padding: 16px;
+    }
+
+    .scenario-drawer {
+      position: fixed;
+      right: 0;
+      top: 0;
+      bottom: 32px;
+      z-index: 46;
+      width: min(390px, 100vw);
+      background: #ffffff;
+      border-left: 1px solid #d8dee4;
+      box-shadow: var(--shadow);
+      padding: 18px;
+      overflow: auto;
+      animation: drawer-in 220ms ease both;
+    }
+
+    .fake-form {
+      display: grid;
+      gap: 10px;
+      margin: 10px 0;
+    }
+
+    .fake-form label {
+      display: grid;
+      gap: 5px;
+      color: #24292f;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .fake-form input,
+    .fake-form textarea,
+    .fake-form select {
+      width: 100%;
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      min-height: 34px;
+      padding: 7px 9px;
+      font: inherit;
+      color: #24292f;
+      background: #ffffff;
+    }
+
+    .fake-form textarea {
+      min-height: 78px;
+      resize: vertical;
+    }
+
+    .labyrinth {
+      position: fixed;
+      inset: 18px;
+      z-index: 58;
+      border: 1px solid #d8dee4;
+      border-radius: 8px;
+      background: #ffffff;
+      box-shadow: var(--shadow);
+      padding: 18px;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 14px;
+      animation: rise 220ms ease both;
+    }
+
+    .labyrinth-map {
+      border: 1px solid #d8dee4;
+      border-radius: 8px;
+      background:
+        linear-gradient(90deg, rgba(9,105,218,0.08) 1px, transparent 1px),
+        linear-gradient(rgba(9,105,218,0.08) 1px, transparent 1px),
+        #f6f8fa;
+      background-size: 36px 36px;
+      padding: 16px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .labyrinth-node {
+      position: absolute;
+      min-width: 120px;
+      max-width: 190px;
+      border: 1px solid #d0d7de;
+      background: #ffffff;
+      border-radius: 8px;
+      padding: 9px;
+      box-shadow: 0 8px 18px rgba(31,35,40,0.12);
+      font-size: 12px;
+    }
+
+    .bottom-inner .derogation-button {
+      border-color: rgba(255,255,255,0.4);
+      background: rgba(255,255,255,0.12);
+      color: #ffffff;
+      min-height: 26px;
+    }
+
+    @keyframes drawer-in {
+      from { opacity: 0; transform: translateX(20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
     .toast.warning {
       border-left-color: #d4a72c;
     }
@@ -1875,10 +2336,37 @@
 
       .file-row {
         grid-template-columns: 24px minmax(120px, 1fr) auto;
+        min-width: 0;
       }
 
       .file-row .msg {
         display: none;
+      }
+
+      .mini-metric-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .mock-item {
+        grid-template-columns: auto minmax(0, 1fr);
+      }
+
+      .mock-item .status-pill {
+        grid-column: 2;
+        justify-self: start;
+      }
+
+      .code-line {
+        min-width: 560px;
+      }
+
+      .bureau-banner {
+        top: 92px;
+      }
+
+      .scenario-drawer {
+        width: min(360px, 100vw);
+        bottom: 32px;
       }
 
       .rightbar {
@@ -1942,6 +2430,35 @@
 
       .language-grid {
         grid-template-columns: repeat(2, 1fr);
+      }
+
+      .mini-metric-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .repo-kicker,
+      .blob-toolbar,
+      .view-panel-head,
+      .pressure-top {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .scenario-modal-shell {
+        padding: 10px;
+        place-items: start center;
+      }
+
+      .scenario-modal {
+        margin-top: 112px;
+        max-height: calc(100dvh - 170px);
+        overflow: auto;
+      }
+
+      .labyrinth {
+        inset: 8px;
+        bottom: 40px;
+        padding: 12px;
       }
 
       .bottom-inner {
@@ -2203,17 +2720,17 @@
         <p class="sidebar-desc">Automating compliance with EU directives, regulations and associated guidance frameworks.</p>
 
         <nav class="side-nav" aria-label="Repository">
-          <a class="side-link active" href="#"><svg class="icon"><use href="#i-repo"></use></svg><span>Overview</span></a>
-          <a class="side-link" href="#" data-action="file-block"><svg class="icon"><use href="#i-code"></use></svg><span>Code</span></a>
-          <a class="side-link" href="#" data-action="toast" data-message="Issues are open, but each comment begins with a consultation period."><svg class="icon"><use href="#i-issue"></use></svg><span>Issues</span><span>42</span></a>
-          <a class="side-link" href="#" data-action="consent"><svg class="icon"><use href="#i-pull"></use></svg><span>Pull requests</span><span>17</span></a>
-          <a class="side-link" href="#"><svg class="icon"><use href="#i-discuss"></use></svg><span>Discussions</span><span class="badge blue">Public feedback</span></a>
-          <a class="side-link" href="#" data-action="governance"><svg class="icon"><use href="#i-action"></use></svg><span>Actions</span><span class="badge red">Requires approval</span></a>
-          <a class="side-link" href="#"><svg class="icon"><use href="#i-project"></use></svg><span>Projects</span><span>8</span></a>
-          <a class="side-link" href="#"><svg class="icon"><use href="#i-shield"></use></svg><span>Security and Privacy</span><span class="badge green">Compliant</span></a>
-          <a class="side-link" href="#"><svg class="icon"><use href="#i-chart"></use></svg><span>Insights</span></a>
-          <a class="side-link" href="#" data-action="governance"><svg class="icon"><use href="#i-scale"></use></svg><span>Compliance Center</span><span class="badge blue">New</span></a>
-          <a class="side-link" href="#"><svg class="icon"><use href="#i-audit"></use></svg><span>Audit Log</span><span class="badge green">BETA</span></a>
+          <a class="side-link active" href="#/repo" data-route-link="repo"><svg class="icon"><use href="#i-repo"></use></svg><span>Overview</span></a>
+          <a class="side-link" href="#/tree/main" data-route-link="code"><svg class="icon"><use href="#i-code"></use></svg><span>Code</span></a>
+          <a class="side-link" href="#/issues" data-route-link="issues"><svg class="icon"><use href="#i-issue"></use></svg><span>Issues</span><span>42</span></a>
+          <a class="side-link" href="#/pulls" data-route-link="pulls"><svg class="icon"><use href="#i-pull"></use></svg><span>Pull requests</span><span>17</span></a>
+          <a class="side-link" href="#/discussions" data-route-link="discussions"><svg class="icon"><use href="#i-discuss"></use></svg><span>Discussions</span><span class="badge blue">Public feedback</span></a>
+          <a class="side-link" href="#/actions" data-route-link="actions"><svg class="icon"><use href="#i-action"></use></svg><span>Actions</span><span class="badge red">Requires approval</span></a>
+          <a class="side-link" href="#/projects" data-route-link="projects"><svg class="icon"><use href="#i-project"></use></svg><span>Projects</span><span>8</span></a>
+          <a class="side-link" href="#/security" data-route-link="security"><svg class="icon"><use href="#i-shield"></use></svg><span>Security and Privacy</span><span class="badge green">Compliant</span></a>
+          <a class="side-link" href="#/insights" data-route-link="insights"><svg class="icon"><use href="#i-chart"></use></svg><span>Insights</span></a>
+          <a class="side-link" href="#/compliance" data-route-link="compliance"><svg class="icon"><use href="#i-scale"></use></svg><span>Compliance Center</span><span class="badge blue">New</span></a>
+          <a class="side-link" href="#/audit" data-route-link="audit"><svg class="icon"><use href="#i-audit"></use></svg><span>Audit Log</span><span class="badge green">BETA</span></a>
         </nav>
 
         <div class="funding-card">
@@ -2228,131 +2745,7 @@
       </aside>
 
       <main class="content" id="mainContent" tabindex="-1">
-        <div class="alert">
-          <svg class="icon" style="width:32px;height:32px"><use href="#i-scale"></use></svg>
-          <div>
-            <strong>Repository actions require consensus from 27 maintainers within 10 working days.</strong>
-            <span>See Article 6(4) of the EuroHub Governance Regulation (EGR) 2024/1024.</span>
-          </div>
-          <button class="button ghost" data-action="governance">View governance process</button>
-          <button class="icon-button" aria-label="Dismiss alert" data-close=".alert"><svg class="icon"><use href="#i-close"></use></svg></button>
-        </div>
-
-        <section class="repo-head">
-          <div class="repo-title">
-            <svg class="icon" style="color:#0969da"><use href="#i-lock"></use></svg>
-            <h2>directive-compliance-engine</h2>
-          </div>
-          <div class="repo-actions">
-            <button class="button split" data-action="toast" data-message="Watching requires a notification impact assessment."><svg class="icon"><use href="#i-eye"></use></svg> Watch <span class="count">89</span></button>
-            <button class="button primary split" data-action="consent"><svg class="icon"><use href="#i-star"></use></svg> Star (requires consent) <span class="count">1.2k</span></button>
-            <button class="button split" data-action="governance"><svg class="icon"><use href="#i-fork"></use></svg> Fork (requires approval) <span class="count">314</span></button>
-          </div>
-        </section>
-
-        <div class="branch-row">
-          <button class="branch-select"><svg class="icon"><use href="#i-branch"></use></svg> main <svg class="icon"><use href="#i-branch"></use></svg></button>
-          <span><svg class="icon"><use href="#i-branch"></use></svg> 27 branches</span>
-          <span><svg class="icon"><use href="#i-repo"></use></svg> 102 directives</span>
-        </div>
-
-        <div class="merge-blocked">
-          <span><svg class="icon"><use href="#i-issue"></use></svg> <strong>Merge blocked:</strong> pending regulatory review <span class="spinner"></span></span>
-          <button class="link-button" data-action="details">Details</button>
-        </div>
-
-        <div id="reviewPanel" class="review-panel">
-          <div class="review-step">
-            <span class="step-dot">1</span>
-            <span>Data Protection Impact Assessment translated into all official languages.</span>
-            <span class="status-pill green">complete</span>
-          </div>
-          <div class="review-step">
-            <span class="step-dot current">2</span>
-            <span>Subsidiarity proportionality note awaiting committee rapporteur.</span>
-            <span class="status-pill gold">7 days left</span>
-          </div>
-          <div class="review-step">
-            <span class="step-dot">3</span>
-            <span>Consensus check among maintainers, observer states, and machine-readable annex owners.</span>
-            <span class="status-pill red">blocked</span>
-          </div>
-        </div>
-
-        <section class="repo-table" aria-label="Repository files">
-          <div class="table-head">
-            <svg class="icon"><use href="#i-branch"></use></svg>
-            <span><strong>main</strong> updated Article 9 recital index after trilogue</span>
-            <time datetime="2026-05-02T10:00:00+02:00">2 hours ago</time>
-          </div>
-          <button class="file-row" type="button" data-action="file-block">
-            <svg class="icon" style="color:#54aeff"><use href="#i-folder"></use></svg>
-            <span class="name">src/</span>
-            <span class="msg">harmonize lawful bases with linting pipeline</span>
-            <time datetime="2026-05-01T17:00:00+02:00">yesterday</time>
-          </button>
-          <button class="file-row" type="button" data-action="file-block">
-            <svg class="icon" style="color:#54aeff"><use href="#i-folder"></use></svg>
-            <span class="name">tests/</span>
-            <span class="msg">add proportionality snapshots for dark patterns</span>
-            <time datetime="2026-04-29T13:00:00+02:00">3 days ago</time>
-          </button>
-          <button class="file-row" type="button" data-action="file-block">
-            <svg class="icon" style="color:#54aeff"><use href="#i-folder"></use></svg>
-            <span class="name">docs/</span>
-            <span class="msg">publish 24 language summaries, minus Maltese footnotes</span>
-            <time datetime="2026-04-25T09:30:00+02:00">last week</time>
-          </button>
-          <button class="file-row" type="button" data-action="file-block">
-            <svg class="icon" style="color:#54aeff"><use href="#i-folder"></use></svg>
-            <span class="name">.github/</span>
-            <span class="msg">rename workflows to procedures pending consent</span>
-            <time datetime="2026-04-24T12:30:00+02:00">last week</time>
-          </button>
-          <button class="file-row" type="button" data-action="file-block">
-            <svg class="icon"><use href="#i-file"></use></svg>
-            <span class="name">.editorconfig</span>
-            <span class="msg">standardize indentation for cross-border whitespace</span>
-            <time datetime="2026-04-18T11:20:00+02:00">2 weeks ago</time>
-          </button>
-          <button class="file-row" type="button" data-action="file-block">
-            <svg class="icon"><use href="#i-file"></use></svg>
-            <span class="name">README.md</span>
-            <span class="msg">because legislation is code</span>
-            <time datetime="2026-04-17T14:20:00+02:00">2 weeks ago</time>
-          </button>
-          <button class="file-row" type="button" data-action="file-block">
-            <svg class="icon"><use href="#i-file"></use></svg>
-            <span class="name">LICENSE-EUPL</span>
-            <span class="msg">add legally binding code of conduct annex</span>
-            <time datetime="2026-04-11T15:10:00+02:00">3 weeks ago</time>
-          </button>
-          <button class="file-row" type="button" data-action="file-block">
-            <svg class="icon"><use href="#i-file"></use></svg>
-            <span class="name">DPIA.md</span>
-            <span class="msg">document why a repository list is high risk when starred</span>
-            <time datetime="2026-04-02T10:40:00+02:00">1 month ago</time>
-          </button>
-        </section>
-
-        <section class="readme">
-          <div class="readme-head"><svg class="icon"><use href="#i-repo"></use></svg> README.md</div>
-          <div class="readme-body">
-            <h2>Directive Compliance Engine</h2>
-            <p>Because legislation is code. Every pull request compiles against policy intent, data retention schedules, AI Act risk classes, accessibility rules, procurement clauses, and the quiet fear of a misplaced recital.</p>
-            <div class="directive-card">
-              <div>
-                <p><strong>Current release:</strong> 2024.1024-consensus.17</p>
-                <p><strong>Fast path:</strong> unavailable. Fast paths were deprecated after the transparency impact assessment found them emotionally misleading.</p>
-              </div>
-              <div class="mini-flag" aria-hidden="true">
-                <div class="eu-mark">
-                  <span class="eu-star" style="--a:0deg"></span><span class="eu-star" style="--a:30deg"></span><span class="eu-star" style="--a:60deg"></span><span class="eu-star" style="--a:90deg"></span><span class="eu-star" style="--a:120deg"></span><span class="eu-star" style="--a:150deg"></span><span class="eu-star" style="--a:180deg"></span><span class="eu-star" style="--a:210deg"></span><span class="eu-star" style="--a:240deg"></span><span class="eu-star" style="--a:270deg"></span><span class="eu-star" style="--a:300deg"></span><span class="eu-star" style="--a:330deg"></span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+        <div class="route-view" id="routeView" data-route-view></div>
       </main>
 
       <aside class="rightbar">
@@ -2392,7 +2785,7 @@
     </div>
   </div>
 
-  <section class="floating-card export-card" id="exportCard">
+  <section class="floating-card export-card hidden" id="exportCard">
     <div class="card-head">
       <div class="card-title">
         <span class="eu-mark small" aria-hidden="true">
@@ -2407,7 +2800,7 @@
     <p style="margin-top:10px"><button class="link-button" data-action="toast" data-message="Rights summary is available in 24 language variants and 3 machine-readable annexes.">Learn about your rights</button></p>
   </section>
 
-  <section class="consent-card" id="starConsent">
+  <section class="consent-card hidden" id="starConsent">
     <div class="card-head">
       <div class="card-title">
         <span class="eu-mark small" aria-hidden="true">
@@ -2425,14 +2818,14 @@
     <p style="margin-top:10px"><button class="link-button" data-action="privacy">Learn more</button></p>
   </section>
 
-  <section class="floating-card assist-card" id="assistCard">
+  <section class="floating-card assist-card hidden" id="assistCard">
     <div class="card-title"><svg class="icon" style="color:#0969da"><use href="#i-access"></use></svg> Accessibility assistant</div>
     <p>This site is WCAG 2.2 AA compliant. Need help? Enable accessibility profile.</p>
     <button class="button ghost" style="width:100%" data-action="accessibility">Enable profile</button>
     <p style="margin-top:10px;text-align:center"><button class="link-button" data-action="toast" data-message="Accessibility statement references EN 301 549 and still needs committee-friendly prose.">Accessibility statement</button></p>
   </section>
 
-  <section class="floating-card language-card" id="languageCard">
+  <section class="floating-card language-card hidden" id="languageCard">
     <div class="card-head">
       <div class="card-title"><svg class="icon"><use href="#i-globe"></use></svg> Choose your language</div>
       <button class="icon-button" aria-label="Close language chooser" data-close="#languageCard"><svg class="icon"><use href="#i-close"></use></svg></button>
@@ -2458,7 +2851,7 @@
     <footer><button class="link-button" data-action="toast" data-message="The remaining languages are loading through the interoperability gateway.">Show all 24 languages</button></footer>
   </section>
 
-  <div class="modal-shell visible" id="privacyShell" aria-modal="true" role="dialog">
+  <div class="modal-shell hidden" id="privacyShell" aria-modal="true" role="dialog">
     <section class="privacy-modal" aria-labelledby="privacyTitle">
       <div class="modal-titlebar">
         <div class="modal-title">
@@ -2562,7 +2955,7 @@
     </section>
   </div>
 
-  <section class="cookie-banner" id="cookieBanner" aria-label="Cookie consent">
+  <section class="cookie-banner hidden" id="cookieBanner" aria-label="Cookie consent">
     <div class="cookie-inner">
       <div class="cookie-crest" aria-hidden="true">
         <span class="eu-star" style="--a:0deg"></span><span class="eu-star" style="--a:30deg"></span><span class="eu-star" style="--a:60deg"></span><span class="eu-star" style="--a:90deg"></span><span class="eu-star" style="--a:120deg"></span><span class="eu-star" style="--a:150deg"></span><span class="eu-star" style="--a:180deg"></span><span class="eu-star" style="--a:210deg"></span><span class="eu-star" style="--a:240deg"></span><span class="eu-star" style="--a:270deg"></span><span class="eu-star" style="--a:300deg"></span><span class="eu-star" style="--a:330deg"></span>
@@ -2603,11 +2996,12 @@
       <span>Hosting region: eu-central-1 (Frankfurt)</span>
       <span>Uptime: 99.92% <svg class="icon"><use href="#i-check"></use></svg></span>
       <span>Status: All systems compliant <svg class="icon"><use href="#i-check"></use></svg></span>
+      <button class="button derogation-button" data-action="derogation">Emergency derogation</button>
       <span style="margin-left:auto">&copy; 2024 EuroHub EU SA</span>
-      <a href="#" style="color:#ffffff">Legal</a>
+      <a href="#/compliance" style="color:#ffffff">Legal</a>
       <button class="link-button on-dark" data-action="privacy">Privacy</button>
       <button class="link-button on-dark" data-action="privacy">Cookies</button>
-      <a href="#" style="color:#ffffff">Transparency</a>
+      <a href="#/audit" style="color:#ffffff">Transparency</a>
     </div>
   </footer>
 
@@ -2617,34 +3011,501 @@
     const $ = (selector, root = document) => root.querySelector(selector);
     const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
 
-    $$("button").forEach((button) => {
-      if (!button.hasAttribute("type")) button.setAttribute("type", "button");
-    });
-
-    $$("svg.icon, svg.verified").forEach((svg) => {
-      svg.setAttribute("aria-hidden", "true");
-      svg.setAttribute("focusable", "false");
-    });
-
-    $$(".flag").forEach((flag) => flag.setAttribute("aria-hidden", "true"));
-
-    const messages = {
-      file: "File preview blocked until jurisdiction, retention, and cross-border transfer notices are acknowledged.",
-      consent: "Consent panel reopened. You are still free to refuse, after reading why refusal is also logged.",
-      save: "Preferences saved locally. Synchronization with 24 language notices is pending.",
-      delete: "Deletion request created. Some audit logs remain retained for compliance with other compliance."
+    const REPO_MODEL = {
+      root: ["src", "tests", "docs", ".github", ".editorconfig", "README.md", "LICENSE-EUPL", "DPIA.md"],
+      meta: {
+        "src": { type: "dir", msg: "harmonize lawful bases with linting pipeline", time: "yesterday" },
+        "tests": { type: "dir", msg: "add proportionality snapshots for dark patterns", time: "3 days ago" },
+        "docs": { type: "dir", msg: "publish 24 language summaries, minus Maltese footnotes", time: "last week" },
+        ".github": { type: "dir", msg: "rename workflows to procedures pending consent", time: "last week" },
+        ".editorconfig": { type: "file", msg: "standardize indentation for cross-border whitespace", time: "2 weeks ago" },
+        "README.md": { type: "file", msg: "because legislation is code", time: "2 weeks ago" },
+        "LICENSE-EUPL": { type: "file", msg: "add legally binding code of conduct annex", time: "3 weeks ago" },
+        "DPIA.md": { type: "file", msg: "document why a repository list is high risk when starred", time: "1 month ago" },
+        "src/compliance.ts": { type: "file", msg: "classify directives by administratively plausible dread", time: "18 hours ago" },
+        "src/cookie-consent.ts": { type: "file", msg: "increase partner count after every refusal", time: "yesterday" },
+        "src/lawful-basis.ts": { type: "file", msg: "add fallback for consent to remember no consent", time: "2 days ago" },
+        "src/interoperability.ts": { type: "file", msg: "normalize formats nobody asked to exchange", time: "5 days ago" },
+        "tests/regulatory-pressure.spec.ts": { type: "file", msg: "assert blocking banners reproduce under stress", time: "3 days ago" },
+        "tests/consent-loop.spec.ts": { type: "file", msg: "prove the refusal receipt returns compactly", time: "4 days ago" },
+        "docs/governance.md": { type: "file", msg: "describe 27-maintainer constructive abstention", time: "last week" },
+        "docs/recitals.md": { type: "file", msg: "index recital-adjacent feelings", time: "last week" },
+        "docs/portability.md": { type: "file", msg: "make export process portable but emotionally heavy", time: "2 weeks ago" },
+        ".github/workflows/compliance.yml": { type: "file", msg: "pause runner for procurement transparency", time: "last week" },
+        ".github/CODEOWNERS": { type: "file", msg: "assign rapporteurs to folders", time: "last week" }
+      },
+      tree: {
+        "": ["src", "tests", "docs", ".github", ".editorconfig", "README.md", "LICENSE-EUPL", "DPIA.md"],
+        "src": ["src/compliance.ts", "src/cookie-consent.ts", "src/lawful-basis.ts", "src/interoperability.ts"],
+        "tests": ["tests/regulatory-pressure.spec.ts", "tests/consent-loop.spec.ts"],
+        "docs": ["docs/governance.md", "docs/recitals.md", "docs/portability.md"],
+        ".github": [".github/workflows/compliance.yml", ".github/CODEOWNERS"],
+        ".github/workflows": [".github/workflows/compliance.yml"]
+      },
+      files: {
+        "README.md": `# Directive Compliance Engine\n\nBecause legislation is code. Every pull request compiles against policy intent, data retention schedules, AI Act risk classes, accessibility rules, procurement clauses, and the quiet fear of a misplaced recital.\n\n## Fast path\n\nUnavailable. Fast paths were deprecated after the transparency impact assessment found them emotionally misleading.\n\n## Useful commands\n\n- npm run consult\n- npm run trilogue\n- npm run explainability:again\n\n## Maintainer note\n\nIf the repository feels usable, open an incident under the Anti-Dark-Pattern Self-Assessment annex.`,
+        "src/compliance.ts": `export type RiskClass = "low" | "medium" | "high" | "legislative";\n\nexport function classifyDirective(text: string): RiskClass {\n  const mentionsConsent = text.includes("consent");\n  const hasIfStatement = text.includes("if");\n\n  if (hasIfStatement && mentionsConsent) {\n    return "high";\n  }\n\n  if (text.includes("recital")) {\n    return "legislative";\n  }\n\n  return "medium";\n}\n\nexport function requireConsensus(memberStates = 27): string {\n  return String(memberStates) + " maintainers must constructively abstain.";\n}\n\nexport function canMerge(reviewed: boolean, translated: boolean): boolean {\n  return reviewed && translated && false;\n}`,
+        "src/cookie-consent.ts": `const partners = new Set(Array.from({ length: 287 }, (_, index) => "partner-" + (index + 1)));\n\nexport function rejectAllCookies() {\n  partners.add("refusal-receipt-processor");\n  partners.add("cross-border-no-thank-you-index");\n  return {\n    accepted: false,\n    portableReceipt: true,\n    visiblePartners: partners.size\n  };\n}\n\nexport function rememberRefusal(consentToRememberRefusal: boolean) {\n  if (!consentToRememberRefusal) {\n    return "Ask again in compact mode";\n  }\n  return "Refusal remembered until another regulation forgets it";\n}`,
+        "src/lawful-basis.ts": `export const lawfulBases = [\n  "consent",\n  "contract",\n  "legal obligation",\n  "vital interest in closing the modal",\n  "public task with strong vibes",\n  "legitimate interest, reluctantly"\n];\n\nexport function pickLawfulBasis(action: string) {\n  if (action === "hover") return "data portability archive queued";\n  if (action === "copy") return "software reuse impact assessment";\n  return lawfulBases[action.length % lawfulBases.length];\n}`,
+        "src/interoperability.ts": `export function normalizeFormat(value: string) {\n  return {\n    pdfa: value + ".pdfa",\n    xml: "<annex>" + value + "</annex>",\n    csv: '"' + value.replaceAll('"', '""') + '"',\n    human: "Please consult the nearest Europost window."\n  };\n}\n\nexport function thirdCountryWarning(icon: string) {\n  return icon.includes("fork") ? "US-style branching detected" : "No transfer, only anxiety";\n}`,
+        "tests/regulatory-pressure.spec.ts": `import { test, expect } from "@playwright/test";\n\ntest("pressure escalates when the user tries to work", async ({ page }) => {\n  await page.goto("/#/repo");\n  await page.getByText("src/").click();\n  await page.getByText("compliance.ts").click();\n  await expect(page.getByText("Software Reuse Impact Assessment")).toBeVisible();\n});`,
+        "tests/consent-loop.spec.ts": `test("rejecting all cookies creates another cookie panel", () => {\n  const receipt = rejectAllCookies();\n  expect(receipt.accepted).toBe(false);\n  expect(receipt.portableReceipt).toBe(true);\n});`,
+        "docs/governance.md": `# Governance\n\nRepository actions require consensus from 27 maintainers within 10 working days.\n\nA silent maintainer is interpreted as constructive abstention, pending certified translation and a small ceremonial spreadsheet.\n\n## Queue\n\n1. Consent collection\n2. Regulatory review\n3. Committee rapporteur assignment\n4. Vibes-based proportionality check`,
+        "docs/recitals.md": `# Recitals\n\nRecital 1: Useful interfaces create unfair expectations.\n\nRecital 2: Closing a modal too quickly may indicate insufficient comprehension.\n\nRecital 3: Every tooltip shall have a tooltip impact assessment.\n\nRecital 4: The act of reading code may be treated as processing code-adjacent metadata.`,
+        "docs/portability.md": `# Data Portability\n\nExports are available in JSON, XML, CSV, PDF/A, and one binder suitable for a queue at Europost.\n\nDelivery estimate: 30 days, unless the archive contains your request for the archive.`,
+        ".github/workflows/compliance.yml": `name: Compliance\n\non:\n  pull_request:\n    types: [opened, synchronized, emotionally_ready]\n\njobs:\n  trilogue:\n    runs-on: eu-central-1\n    steps:\n      - name: Procurement transparency pause\n        run: sleep 864000\n      - name: Explain why this is fine\n        run: echo "Pending committee rapporteur"` ,
+        ".github/CODEOWNERS": `* @eu-commission/regulatory-review-board\nsrc/ @eu-commission/ai-act-rapporteurs\ndocs/ @eu-commission/translation-memory-unit\n.github/ @eu-commission/procurement-observers`,
+        ".editorconfig": `root = true\n\n[*]\ncharset = utf-8\nindent_style = space\nindent_size = 2\ninsert_final_newline = true\ntrim_trailing_whitespace = true\n\n[*.recital]\nindent_size = 27`,
+        "LICENSE-EUPL": `European Union Public Licence, EuroHub variant.\n\nPermission is hereby granted to use, copy, fork, discuss, translate, assess, consult, retain, export, and regret this software, provided that each useful action is accompanied by a proportionate administrative pause.`,
+        "DPIA.md": `# Data Protection Impact Assessment\n\nRisk: reading a repository may reveal an intention to collaborate.\n\nMitigation: ask repeatedly whether the user consents to the memory of having refused consent.\n\nResidual risk: the user may still find the code.`
+      }
     };
 
-    function showToast(message, tone = "info") {
+    const NAV_TABS = [
+      ["Code", "#/tree/main", "i-code", "code"],
+      ["Issues", "#/issues", "i-issue", "issues"],
+      ["Pull requests", "#/pulls", "i-pull", "pulls"],
+      ["Actions", "#/actions", "i-action", "actions"],
+      ["Projects", "#/projects", "i-project", "projects"],
+      ["Security", "#/security", "i-shield", "security"],
+      ["Insights", "#/insights", "i-chart", "insights"],
+      ["Compliance", "#/compliance", "i-scale", "compliance"],
+      ["Audit Log", "#/audit", "i-audit", "audit"]
+    ];
+
+    const GAG_SCENARIOS = [
+      ["cookie-partners", "toast", "cookie", 0, "Cookie partner update", "Rejecting optional cookies added 144 partners to process the refusal receipt."],
+      ["remember-refusal", "modal", "close", 0, "Consent to remember refusal", "Before we remember that you refused consent, please consent to the memory of refusal."],
+      ["certificate-expiry", "floating", "timer", 0, "Certificate expires in 2 days", "Renew your repository browsing certificate at the nearest Europost window before continuing confidently."],
+      ["file-proportionality", "modal", "file", 0, "Proportionality statement required", "Reading this file may reveal code. Explain why that is necessary, suitable, and not just Saturday curiosity."],
+      ["src-transfer", "banner", "folder", 0, "Cross-border whitespace transfer", "Opening src/ moves indentation across conceptual borders. A transfer notice has been lodged."],
+      ["copy-impact", "drawer", "copy", 0, "Software Reuse Impact Assessment", "Copying code requires a reusable-software DPIA, even when the code is mostly jokes."],
+      ["search-purpose", "floating", "search", 0, "Purpose limitation declaration", "Search remains disabled until your purpose is specific enough to disappoint a committee."],
+      ["star-cooling", "modal", "star", 0, "14-day cooling-off period", "Your star has entered a cooling-off queue. Enthusiasm is reversible under platform fairness rules."],
+      ["fork-rapporteur", "drawer", "fork", 0, "Committee rapporteur assignment", "Forking creates a parallel legal reality. A rapporteur must be assigned before branching."],
+      ["watch-fatigue", "floating", "watch", 0, "Notification Fatigue Assessment", "Watching this repository may generate vigilance. Please assess your future attention budget."],
+      ["readme-recital", "banner", "readme", 0, "Recital-safe mode", "README.md contains legislative-adjacent prose. Recital-safe line wrapping has been requested."],
+      ["line-annex", "toast", "file", 0, "Line numbers delayed", "Line numbers are unavailable until the accessibility annex finishes loading, then unavailable with numbers."],
+      ["ai-high-risk", "floating", "compliance.ts", 0, "AI Act High Risk", "compliance.ts contains if statements. The classifier has classified classification as high risk."],
+      ["merge-consensus", "banner", "details", 0, "Constructive abstention pending", "Merge remains blocked until 27 maintainers abstain in a machine-readable format."],
+      ["issue-consultation", "drawer", "issues", 0, "Public consultation questionnaire", "Issue comments have been replaced by a questionnaire about the intention to comment."],
+      ["trilogue-room", "floating", "pulls", 0, "Trilogue room booking", "Pull request review requires a trilogue room, four observers, and one agenda about the agenda."],
+      ["actions-procurement", "banner", "actions", 0, "Runner paused", "The Actions runner is paused for procurement transparency. Estimated wait: one fiscal quarter."],
+      ["encryption-emotion", "modal", "security", 0, "Encryption proportionality", "Before viewing security, confirm encryption is emotionally proportionate to the repository's feelings."],
+      ["audit-exports-itself", "floating", "audit", 0, "Audit log exported itself", "Viewing the audit log generated an audit entry, which generated an export, which generated this notice."],
+      ["maltese-footnote", "floating", "language", 0, "Maltese footnote changed", "A footnote changed in Maltese. The language chooser must reopen to restore multilingual fairness."],
+      ["vat-view", "toast", "route", 1, "Digital Services Tax receipt", "A micro-receipt has been generated for this repository view."],
+      ["hover-portability", "toast", "hover", 1, "Hover portability archive", "A data portability archive was queued for the act of hovering near useful UI."],
+      ["contrast-consent", "floating", "accessibility", 1, "Contrast consent", "Increasing contrast may reveal more interface. Please consent to increased legibility."],
+      ["third-country-fork", "banner", "fork", 1, "Third-country transfer warning", "A US-style fork icon was clicked. Cross-border branching anxiety applies."],
+      ["visibility-review", "drawer", "repo", 1, "Repository visibility review", "This repository is Public, but only after legitimate-interest balancing and a small sigh."],
+      ["conduct-machine-readable", "modal", "compliance", 1, "Machine-readable joke policy", "The Code of Conduct says all jokes must be available as JSON-LD and plain bureaucrat."],
+      ["tab-tax", "toast", "route", 1, "Digital Services Tax", "A one-cent tab-switching assessment has been notionally applied and immediately waived."],
+      ["nis2-close", "banner", "close", 1, "NIS2 incident report", "Closing a modal too quickly may be an availability incident. Baseline controls notified."],
+      ["retention-slider", "drawer", "privacy", 1, "Data retention schedule", "Every retention choice resolves to 'as required by another rule'."],
+      ["compact-cookie", "floating", "cookie", 1, "Certified refusal receipt", "Compact cookie mode has returned with a signed refusal receipt for your records."],
+      ["branch-subsidiarity", "modal", "branch", 1, "Subsidiarity memo required", "Switching branches requires a note proving the branch cannot be handled at local level."],
+      ["github-brussels", "banner", ".github", 1, "Brussels location warning", ".github/ is not physically located in Brussels. Symbolic mitigation is underway."],
+      ["dpia-recursive", "drawer", "DPIA.md", 1, "DPIA of DPIA", "Viewing DPIA.md requires a DPIA about the risks of viewing DPIA.md."],
+      ["raw-pdfa", "floating", "raw", 1, "PDF/A conversion pending", "Raw downloads are disabled until the file is converted into a binder-friendly PDF/A."],
+      ["tooltip-consent", "toast", "hover", 1, "Tooltip processing consent", "A tooltip tried to help. Please consent to tooltip-adjacent data processing."],
+      ["shortcut-interoperability", "floating", "shortcut", 1, "Keyboard layout check", "The slash shortcut requires keyboard-layout interoperability certification."],
+      ["lawful-presence", "modal", "idle", 1, "Still lawfully present?", "You have been idle for 10 seconds. Confirm you are still lawfully present in this tab."],
+      ["anti-dark-pattern", "drawer", "close", 2, "Anti-dark-pattern self-assessment", "Closing three blockers triggered an assessment of whether blockers are manipulative enough."],
+      ["labyrinth", "labyrinth", "nightmare", 2, "European Administrative Labyrinth", "Nightmare mode has opened the map of pending forms, annexes, counters, and counters to counters."],
+      ["unsubscribe-subscribe", "modal", "final", 2, "Subscription non-subscription", "Would you like to subscribe to updates about not subscribing to future updates?"]
+    ].map(([id, ui, trigger, level, title, body]) => ({ id, ui, trigger, level, title, body, cooldown: level === 2 ? 18000 : 9000 }));
+
+    const STATE = {
+      startedAt: Date.now(),
+      route: "",
+      actionCount: 0,
+      pressure: 8,
+      closeCount: 0,
+      lastScenario: Object.create(null),
+      activeScenarios: new Set(),
+      mutedUntil: 0,
+      scenarioIndex: 0,
+      idleTimer: null,
+      consents: Object.create(null)
+    };
+
+    const ROUTES = {
+      repo: () => renderRepoRoot(),
+      tree: (path) => renderTree(path),
+      blob: (path) => renderBlob(path),
+      issues: () => renderMockRoute("Issues", "Consultation on cookie refusal receipt", [
+        ["42", "Open issues", "11 under consultation"],
+        ["7", "Needs translation", "Including two footnotes"],
+        ["3", "Blocked", "Awaiting rapporteur"],
+        ["18", "Public comments", "Machine-readable-ish"]
+      ], [
+        ["Consultation on cookie refusal receipt", "Citizens request a receipt for refusing the receipt of refusal.", "Under consultation"],
+        ["README recital-safe mode wraps too politely", "Line length is legally safe but aesthetically suspicious.", "Needs triage"],
+        ["Tooltip consent appears before tooltip", "The tooltip is now existentially delayed.", "Public feedback"]
+      ]),
+      pulls: () => renderMockRoute("Pull requests", "Consensus from 27 maintainers pending", [
+        ["17", "Open PRs", "4 constructively abstained"],
+        ["27", "Maintainers", "0 fully awake"],
+        ["10", "Working days", "Minimum wait"],
+        ["314", "Fork requests", "Queued"]
+      ], [
+        ["Harmonize lawful basis selector", "Blocked by trilogue room availability.", "Awaiting assessment"],
+        ["Add refusal receipt tests", "Needs proof the refusal was freely given.", "Cooling off"],
+        ["Translate audit log into Legalese", "Machine translation refused to sign the annex.", "Needs translation"]
+      ]),
+      actions: () => renderMockRoute("Actions", "Workflows paused for procurement transparency", [
+        ["12", "Queued workflows", "All compliant"],
+        ["0", "Runners available", "By design"],
+        ["86%", "Explainability", "Not actionable"],
+        ["4", "Fiscal quarters", "Estimated"]
+      ], [
+        ["compliance.yml", "Paused at Procurement transparency pause.", "Requires approval"],
+        ["recital-lint.yml", "Failed because a semicolon lacked legal basis.", "Blocked"],
+        ["accessibility-annex.yml", "Passing, pending accessible confirmation of passing.", "Complete-ish"]
+      ]),
+      projects: () => renderMockRoute("Projects", "Boards for work that cannot legally move", [
+        ["8", "Projects", "3 frozen"],
+        ["61", "Cards", "59 waiting"],
+        ["14", "Labels", "One says maybe"],
+        ["2", "Milestones", "Both procedural"]
+      ], [
+        ["Q2 Administrative Labyrinth", "Map all forms required to open one file.", "Active"],
+        ["Consent Surface Reduction", "Add a consent to reduce consent surfaces.", "In review"],
+        ["Europost Renewal Pilot", "Test certificate renewal by queue number.", "Planned"]
+      ]),
+      security: () => renderMockRoute("Security and Privacy", "Secure, encrypted, sovereign, and slightly haunted", [
+        ["98%", "Compliance", "Scorecard ready"],
+        ["EN 303", "Baseline", "645 controls"],
+        ["2", "Days", "Certificate left"],
+        ["High", "AI risk", "Because if statements"]
+      ], [
+        ["NIS2 incident report", "Modal closure speed exceeded comfort threshold.", "Draft"],
+        ["Encryption proportionality check", "Key strength is adequate, emotional strength pending.", "Review"],
+        ["Secret scanning", "Found no secrets, only public obligations.", "Complete"]
+      ]),
+      insights: () => renderInsights(),
+      compliance: () => renderCompliance(),
+      audit: () => renderAudit(),
+      discussions: () => renderMockRoute("Discussions", "Public feedback with certified patience", [
+        ["5", "Threads", "All civil"],
+        ["24", "Languages", "Not synchronized"],
+        ["3", "Polls", "Non-binding"],
+        ["1", "Moderator", "On lunch"]
+      ], [
+        ["Should consent banners consent to themselves?", "A lively debate with one procedural poem.", "Public feedback"],
+        ["What is a useful repository?", "Consensus: potentially disproportionate.", "Open"],
+        ["Can code be subsidiarity-compliant?", "Only if it stays close to the citizen.", "Pinned"]
+      ])
+    };
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
+    }
+
+    function icon(id, extra = "") {
+      return `<svg class="icon" ${extra}><use href="#${id}"></use></svg>`;
+    }
+
+    function normalizePath(path = "") {
+      return decodeURIComponent(path).replace(/^\/+|\/+$/g, "");
+    }
+
+    function currentHash() {
+      return location.hash && location.hash !== "#" ? location.hash : "#/repo";
+    }
+
+    function parseRoute() {
+      const hash = currentHash().replace(/^#\/?/, "");
+      if (!hash || hash === "repo") return { type: "repo", path: "" };
+      if (hash.startsWith("tree/main")) return { type: "tree", path: normalizePath(hash.replace(/^tree\/main\/?/, "")) };
+      if (hash.startsWith("blob/main")) return { type: "blob", path: normalizePath(hash.replace(/^blob\/main\/?/, "")) };
+      return { type: hash.split("/")[0], path: normalizePath(hash.split("/").slice(1).join("/")) };
+    }
+
+    function routeKey(route) {
+      if (route.type === "tree") return "code";
+      if (route.type === "blob") return "code";
+      if (route.type === "repo") return "repo";
+      return route.type;
+    }
+
+    function pressureLevel() {
+      const elapsed = Date.now() - STATE.startedAt;
+      if (elapsed > 90000 || STATE.actionCount >= 12) return 2;
+      if (elapsed > 30000 || STATE.actionCount >= 5) return 1;
+      return 0;
+    }
+
+    function levelName() {
+      return ["Playable Chaos", "Bureaucracy Surge", "Nightmare"][pressureLevel()];
+    }
+
+    function raisePressure(amount = 4, trigger = "any") {
+      STATE.actionCount += 1;
+      STATE.pressure = Math.min(100, STATE.pressure + amount + pressureLevel() * 2);
+      updatePressureMeter();
+      scheduleScenario(trigger);
+      resetIdleTimer();
+    }
+
+    function updatePressureMeter() {
+      const fill = $(".pressure-fill");
+      const label = $("[data-pressure-label]");
+      const count = $("[data-action-count]");
+      if (fill) fill.style.setProperty("--pressure", `${STATE.pressure}%`);
+      if (label) label.textContent = levelName();
+      if (count) count.textContent = `${STATE.actionCount} regulated actions`;
+    }
+
+    function repoHeader(active = "code") {
+      const tabs = NAV_TABS.map(([label, href, iconId, key]) => `<a class="repo-tab ${active === key ? "active" : ""}" href="${href}">${icon(iconId)} ${label}</a>`).join("");
+      return `
+        <div class="alert">
+          ${icon("i-scale", 'style="width:32px;height:32px"')}
+          <div><strong>Repository actions require consensus from 27 maintainers within 10 working days.</strong><span>See Article 6(4) of the EuroHub Governance Regulation (EGR) 2024/1024.</span></div>
+          <button class="button ghost" data-action="governance">View governance process</button>
+          <button class="icon-button" aria-label="Dismiss alert" data-close=".alert">${icon("i-close")}</button>
+        </div>
+        <section class="repo-head">
+          <div class="repo-title">${icon("i-lock", 'style="color:#0969da"')}<h2>directive-compliance-engine</h2></div>
+          <div class="repo-actions">
+            <button class="button split" data-action="watch">${icon("i-eye")} Watch <span class="count">89</span></button>
+            <button class="button primary split" data-action="consent">${icon("i-star")} Star (requires consent) <span class="count">1.2k</span></button>
+            <button class="button split" data-action="fork">${icon("i-fork")} Fork (requires approval) <span class="count">314</span></button>
+          </div>
+        </section>
+        <nav class="repo-tabs" aria-label="Repository sections">${tabs}</nav>
+        <div class="pressure-meter">
+          <div class="pressure-top"><span>Regulatory Pressure: <strong data-pressure-label>${levelName()}</strong></span><span data-action-count>${STATE.actionCount} regulated actions</span></div>
+          <div class="pressure-track"><div class="pressure-fill" style="--pressure:${STATE.pressure}%"></div></div>
+        </div>
+        <div class="merge-blocked">
+          <span>${icon("i-issue")} <strong>Merge blocked:</strong> pending regulatory review <span class="spinner"></span></span>
+          <button class="link-button" data-action="details">Details</button>
+        </div>
+        <div id="reviewPanel" class="review-panel">
+          <div class="review-step"><span class="step-dot">1</span><span>Data Protection Impact Assessment translated into all official languages.</span><span class="status-pill green">complete</span></div>
+          <div class="review-step"><span class="step-dot current">2</span><span>Subsidiarity proportionality note awaiting committee rapporteur.</span><span class="status-pill gold">7 days left</span></div>
+          <div class="review-step"><span class="step-dot">3</span><span>Consensus check among maintainers, observer states, and machine-readable annex owners.</span><span class="status-pill red">blocked</span></div>
+        </div>
+      `;
+    }
+
+    function renderRepoRoot() {
+      return `${repoHeader("repo")}${renderTreeContent("", true)}${renderReadmePreview()}`;
+    }
+
+    function renderTree(path = "") {
+      return `${repoHeader("code")}${renderTreeContent(normalizePath(path), false)}`;
+    }
+
+    function renderTreeContent(path = "", includeKicker) {
+      const entries = REPO_MODEL.tree[path];
+      if (!entries) return renderNotFound("Folder not found", path);
+      const crumbs = breadcrumbs(path, false);
+      const rows = entries.map((entry) => {
+        const meta = REPO_MODEL.meta[entry] || { type: REPO_MODEL.tree[entry] ? "dir" : "file", msg: "pending certified metadata", time: "recently" };
+        const name = entry.split("/").pop();
+        const href = meta.type === "dir" ? `#/tree/main/${encodeURIComponent(entry)}` : `#/blob/main/${encodeURIComponent(entry)}`;
+        const trigger = entry === "src" ? "folder:src" : entry === ".github" ? "folder:.github" : meta.type === "file" ? `file:${entry}` : "folder";
+        return `<a class="file-row" href="${href}" data-route-file="${escapeHtml(entry)}" data-trigger="${trigger}">
+          ${icon(meta.type === "dir" ? "i-folder" : "i-file", meta.type === "dir" ? 'style="color:#54aeff"' : "")}
+          <span class="name">${escapeHtml(name)}${meta.type === "dir" ? "/" : ""}</span>
+          <span class="msg">${escapeHtml(meta.msg)}</span>
+          <time>${escapeHtml(meta.time)}</time>
+        </a>`;
+      }).join("");
+      return `
+        ${includeKicker ? "" : `<div class="repo-kicker">${crumbs}<button class="button ghost" data-action="branch">${icon("i-branch")} main</button></div>`}
+        <section class="repo-table" aria-label="Repository files">
+          <div class="table-head">${icon("i-branch")}<span><strong>main</strong> updated Article 9 recital index after trilogue</span><time>2 hours ago</time></div>
+          ${rows}
+        </section>
+      `;
+    }
+
+    function renderReadmePreview() {
+      return `<section class="readme">
+        <div class="readme-head">${icon("i-repo")} README.md</div>
+        <div class="readme-body markdownish">${markdownToHtml(REPO_MODEL.files["README.md"])}</div>
+      </section>`;
+    }
+
+    function renderBlob(path = "") {
+      const normalized = normalizePath(path);
+      const content = REPO_MODEL.files[normalized];
+      if (!content) return `${repoHeader("code")}${renderNotFound("File not found", normalized)}`;
+      const isMarkdown = /\.md$|LICENSE|DPIA/.test(normalized);
+      const lineCount = content.split("\n").length;
+      const body = isMarkdown && !/\.ts|\.yml|CODEOWNERS|editorconfig/.test(normalized)
+        ? `<div class="view-panel-body markdownish">${markdownToHtml(content)}</div>`
+        : `<div class="code-view">${content.split("\n").map((line, index) => `<div class="code-line"><span class="code-line-number">${index + 1}</span><span class="code-line-code">${escapeHtml(line)}</span></div>`).join("")}</div>`;
+      const fileName = normalized.split("/").pop();
+      return `${repoHeader("code")}
+        <div class="repo-kicker">${breadcrumbs(normalized, true)}<button class="button ghost" data-action="raw">${icon("i-file")} Raw</button></div>
+        <section class="view-panel">
+          <div class="view-panel-head"><strong>${escapeHtml(fileName)}</strong><span class="status-pill gold">${lineCount} lines, locally simulated</span></div>
+          <div class="view-panel-body">
+            <div class="blob-toolbar">
+              <div class="blob-meta"><span>${icon("i-file")} ${escapeHtml(normalized)}</span><span>${escapeHtml(REPO_MODEL.meta[normalized]?.msg || "certified content")}</span></div>
+              <div class="button-row"><button class="button ghost" data-action="copy" data-copy-path="${escapeHtml(normalized)}">${icon("i-code")} Copy</button><button class="button ghost" data-action="file-gate">${icon("i-lock")} Request read basis</button></div>
+            </div>
+            ${body}
+          </div>
+        </section>`;
+    }
+
+    function breadcrumbs(path, isFile) {
+      const parts = normalizePath(path).split("/").filter(Boolean);
+      const links = [`<a href="#/tree/main">directive-compliance-engine</a>`];
+      parts.forEach((part, index) => {
+        const subPath = parts.slice(0, index + 1).join("/");
+        const last = index === parts.length - 1;
+        links.push(`<span class="slash">/</span>`);
+        if (last && isFile) {
+          links.push(`<strong>${escapeHtml(part)}</strong>`);
+        } else {
+          links.push(`<a href="#/tree/main/${encodeURIComponent(subPath)}">${escapeHtml(part)}</a>`);
+        }
+      });
+      return `<div class="breadcrumbs">${links.join("")}</div>`;
+    }
+
+    function markdownToHtml(markdown) {
+      const lines = markdown.split("\n");
+      let inList = false;
+      const html = [];
+      lines.forEach((line) => {
+        if (line.startsWith("# ")) {
+          if (inList) { html.push("</ul>"); inList = false; }
+          html.push(`<h2>${escapeHtml(line.slice(2))}</h2>`);
+        } else if (line.startsWith("## ")) {
+          if (inList) { html.push("</ul>"); inList = false; }
+          html.push(`<h3>${escapeHtml(line.slice(3))}</h3>`);
+        } else if (line.startsWith("- ")) {
+          if (!inList) { html.push("<ul>"); inList = true; }
+          html.push(`<li>${inlineMarkdown(line.slice(2))}</li>`);
+        } else if (line.trim()) {
+          if (inList) { html.push("</ul>"); inList = false; }
+          html.push(`<p>${inlineMarkdown(line)}</p>`);
+        }
+      });
+      if (inList) html.push("</ul>");
+      return html.join("");
+    }
+
+    function inlineMarkdown(text) {
+      return escapeHtml(text).replace(/`([^`]+)`/g, "<code>$1</code>");
+    }
+
+    function renderMockRoute(title, lead, metrics, items) {
+      return `${repoHeader(routeKey(parseRoute()))}
+        <section class="view-panel">
+          <div class="view-panel-head"><strong>${escapeHtml(title)}</strong><span class="status-pill gold">${escapeHtml(lead)}</span></div>
+          <div class="view-panel-body">
+            <div class="mini-metric-grid">${metrics.map(([value, label, note]) => `<div class="mini-metric"><strong>${escapeHtml(value)}</strong><span>${escapeHtml(label)} - ${escapeHtml(note)}</span></div>`).join("")}</div>
+            <div class="mock-list">${items.map(([itemTitle, body, status], index) => `<article class="mock-item"><span class="step-dot">${index + 1}</span><div><h3>${escapeHtml(itemTitle)}</h3><p>${escapeHtml(body)}</p></div><span class="status-pill ${status.includes("Blocked") || status.includes("Requires") ? "red" : status.includes("Complete") ? "green" : "gold"}">${escapeHtml(status)}</span></article>`).join("")}</div>
+          </div>
+        </section>`;
+    }
+
+    function renderInsights() {
+      return renderMockRoute("Insights", "All graphs explain why nothing moved", [
+        ["47.2%", "Modal closure speed", "Suspicious"],
+        ["12.8", "Forms per click", "Rising"],
+        ["0", "Merged PRs", "Stable"],
+        ["431", "Cookie partners", "After refusal"]
+      ], [
+        ["Useful action attempts", "Users attempted to open files 86 times; 84 were redirected to purpose statements.", "Measured"],
+        ["Consent churn", "Refusal receipts outperform acceptance receipts in compact mode.", "Observed"],
+        ["Repository health", "Healthy, but under observation for being potentially useful.", "Review"]
+      ]);
+    }
+
+    function renderCompliance() {
+      return `${repoHeader("compliance")}
+        <section class="view-panel">
+          <div class="view-panel-head"><strong>Compliance Center</strong><span class="status-pill red">High Risk by enthusiasm</span></div>
+          <div class="view-panel-body">
+            <div class="mini-metric-grid">
+              <div class="mini-metric"><strong>98%</strong><span>GDPR ready, except the useful parts</span></div>
+              <div class="mini-metric"><strong>24</strong><span>Language notices drifting gently</span></div>
+              <div class="mini-metric"><strong>27</strong><span>Maintainers required to abstain</span></div>
+              <div class="mini-metric"><strong>2d</strong><span>Certificate renewal window</span></div>
+            </div>
+            <div class="fake-form">
+              <label>Derogation justification<textarea name="derogation-justification" autocomplete="off" placeholder="Explain why you need to read code today."></textarea></label>
+              <label>Preferred Europost window<select name="europost-window" autocomplete="off"><option>Window B, after lunch</option><option>Window D, if the stamp machine works</option><option>Remote queue, physically present</option></select></label>
+              <button class="button primary" data-action="derogation">Request emergency derogation</button>
+            </div>
+          </div>
+        </section>`;
+    }
+
+    function renderAudit() {
+      const now = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+      return `${repoHeader("audit")}
+        <section class="view-panel">
+          <div class="view-panel-head"><strong>Audit Log</strong><span class="status-pill gold">Viewing this log created this log</span></div>
+          <div class="view-panel-body mock-list">
+            ${[
+              [`${now}`, "User viewed audit log; audit export queued itself.", "Self-referential"],
+              ["11:42", "Cookie refusal receipt compacted into another receipt.", "Retained"],
+              ["11:39", "File open attempt required proportionality statement.", "Lawful"],
+              ["11:31", "Language chooser reopened due to Maltese footnote.", "Multilingual"]
+            ].map(([time, body, status], index) => `<article class="mock-item"><span class="step-dot">${index + 1}</span><div><h3>${escapeHtml(time)}</h3><p>${escapeHtml(body)}</p></div><span class="status-pill gold">${escapeHtml(status)}</span></article>`).join("")}
+          </div>
+        </section>`;
+    }
+
+    function renderNotFound(title, detail) {
+      return `<section class="view-panel"><div class="view-panel-head"><strong>${escapeHtml(title)}</strong><span class="status-pill red">404 but compliant</span></div><div class="view-panel-body markdownish"><p>${escapeHtml(detail || "Unknown route")} could not be located. A traceability notice has been opened.</p><p><a href="#/repo">Return to repository root</a></p></div></section>`;
+    }
+
+    function renderRoute() {
+      const route = parseRoute();
+      STATE.route = route.type;
+      if (currentHash() === "#") location.hash = "#/repo";
+      const renderer = ROUTES[route.type] || ROUTES.repo;
+      $("#routeView").innerHTML = renderer(route.path);
+      updateActiveNav(routeKey(route));
+      decorateDynamicContent();
+      updatePressureMeter();
+      if (route.type === "blob") scheduleFileScenarios(route.path);
+      if (route.type === "tree" && route.path) scheduleFolderScenarios(route.path);
+      if (!["repo", "tree", "blob"].includes(route.type)) scheduleScenario(route.type);
+      if (route.type !== "repo") raisePressure(3, "route");
+    }
+
+    function updateActiveNav(key) {
+      $$("[data-route-link]").forEach((link) => link.classList.toggle("active", link.dataset.routeLink === key));
+    }
+
+    function decorateDynamicContent() {
+      $$("button").forEach((button) => {
+        if (!button.hasAttribute("type")) button.setAttribute("type", "button");
+      });
+      $$("svg.icon, svg.verified").forEach((svg) => {
+        svg.setAttribute("aria-hidden", "true");
+        svg.setAttribute("focusable", "false");
+      });
+    }
+
+    function showToast(message, tone = "info", scenarioId = "") {
+      const stack = $("#toastStack");
+      const currentToasts = $$(".toast", stack);
+      if (currentToasts.length > (pressureLevel() === 0 ? 3 : 7)) currentToasts[0].remove();
       const toast = document.createElement("div");
       toast.className = `toast ${tone}`;
+      if (scenarioId) toast.dataset.scenarioId = scenarioId;
       toast.textContent = message;
-      $("#toastStack").appendChild(toast);
+      stack.appendChild(toast);
       window.setTimeout(() => {
         toast.style.opacity = "0";
         toast.style.transform = "translateX(12px)";
         window.setTimeout(() => toast.remove(), 220);
-      }, 5200);
+      }, pressureLevel() === 2 ? 7800 : 5200);
     }
 
     function showPanel(selector) {
@@ -2667,121 +3528,244 @@
       $("#cookieText").textContent = message;
     }
 
+    function scheduleScenario(trigger, preferredId) {
+      if (Date.now() < STATE.mutedUntil) return;
+      window.setTimeout(() => triggerScenario(trigger, preferredId), 120 + Math.min(1200, STATE.actionCount * 40));
+    }
+
+    function triggerScenario(trigger = "any", preferredId = "") {
+      if (Date.now() < STATE.mutedUntil) return;
+      const level = pressureLevel();
+      let candidates = GAG_SCENARIOS.filter((scenario) => {
+        const last = STATE.lastScenario[scenario.id] || 0;
+        const triggerMatch = scenario.trigger === trigger || scenario.trigger === "any" || trigger.includes(scenario.trigger) || scenario.id === preferredId;
+        return scenario.level <= level && triggerMatch && Date.now() - last > scenario.cooldown && !STATE.activeScenarios.has(scenario.id);
+      });
+      const allowFallback = !preferredId && ["timer", "route", "hover", "scroll", "any"].includes(trigger);
+      if (!candidates.length && allowFallback) {
+        candidates = GAG_SCENARIOS.filter((scenario) => scenario.level <= level && !STATE.activeScenarios.has(scenario.id));
+      }
+      if (!candidates.length) return;
+      const scenario = preferredId ? candidates.find((item) => item.id === preferredId) || candidates[0] : candidates[STATE.scenarioIndex % candidates.length];
+      STATE.scenarioIndex += 1;
+      STATE.lastScenario[scenario.id] = Date.now();
+      if (scenario.ui !== "toast") STATE.activeScenarios.add(scenario.id);
+      showScenario(scenario);
+    }
+
+    function showScenario(scenario) {
+      const tone = scenario.level === 2 ? "danger" : scenario.level === 1 ? "warning" : "info";
+      if (scenario.ui === "toast") {
+        showToast(`${scenario.title}: ${scenario.body}`, tone, scenario.id);
+        return;
+      }
+      if (scenario.ui === "banner") {
+        const node = document.createElement("section");
+        node.className = "bureau-banner";
+        node.dataset.scenarioId = scenario.id;
+        node.innerHTML = `<div><strong>${escapeHtml(scenario.title)}</strong><span>${escapeHtml(scenario.body)}</span></div><button class="icon-button" aria-label="Close ${escapeHtml(scenario.title)}" data-scenario-close="${scenario.id}">${icon("i-close")}</button>`;
+        document.body.appendChild(node);
+        return;
+      }
+      if (scenario.ui === "floating") {
+        const node = document.createElement("section");
+        node.className = "scenario-float";
+        node.dataset.scenarioId = scenario.id;
+        node.innerHTML = `<div class="card-head"><h3>${escapeHtml(scenario.title)}</h3><button class="icon-button" aria-label="Close ${escapeHtml(scenario.title)}" data-scenario-close="${scenario.id}">${icon("i-close")}</button></div><p>${escapeHtml(scenario.body)}</p><div class="button-row"><button class="button primary" data-scenario-close="${scenario.id}">Acknowledge annex</button><button class="button ghost" data-action="export">Export receipt</button></div>`;
+        document.body.appendChild(node);
+        return;
+      }
+      if (scenario.ui === "modal") {
+        const node = document.createElement("div");
+        node.className = "scenario-modal-shell";
+        node.dataset.scenarioId = scenario.id;
+        node.innerHTML = `<section class="scenario-modal"><div class="card-head"><h3>${escapeHtml(scenario.title)}</h3><button class="icon-button" aria-label="Close ${escapeHtml(scenario.title)}" data-scenario-close="${scenario.id}">${icon("i-close")}</button></div><p>${escapeHtml(scenario.body)}</p>${fakeFormFor(scenario)}<div class="button-row"><button class="button primary" data-scenario-close="${scenario.id}">Submit locally</button><button class="button ghost" data-scenario-close="${scenario.id}">Defer 5 seconds</button></div></section>`;
+        document.body.appendChild(node);
+        return;
+      }
+      if (scenario.ui === "drawer") {
+        const node = document.createElement("aside");
+        node.className = "scenario-drawer";
+        node.dataset.scenarioId = scenario.id;
+        node.innerHTML = `<div class="card-head"><h3>${escapeHtml(scenario.title)}</h3><button class="icon-button" aria-label="Close ${escapeHtml(scenario.title)}" data-scenario-close="${scenario.id}">${icon("i-close")}</button></div><p>${escapeHtml(scenario.body)}</p>${fakeFormFor(scenario)}<div class="button-row"><button class="button primary" data-scenario-close="${scenario.id}">Record lawful basis</button><button class="button ghost" data-action="privacy">Open privacy matrix</button></div>`;
+        document.body.appendChild(node);
+        return;
+      }
+      if (scenario.ui === "labyrinth") showLabyrinth(scenario);
+    }
+
+    function fakeFormFor(scenario) {
+      const uploadText = scenario.id === "file-proportionality" || scenario.id === "dpia-recursive" ? `<label>Simulated ID reference<input name="fake-id-${scenario.id}" autocomplete="off" placeholder="No real upload. Type: EU-ID-LOCAL"></label>` : "";
+      return `<div class="fake-form">
+        ${uploadText}
+        <label>Administrative justification<textarea name="justification-${scenario.id}" autocomplete="off" placeholder="Write something proportionate but not too useful."></textarea></label>
+        <label>Processing posture<select name="posture-${scenario.id}" autocomplete="off"><option>Regretfully necessary</option><option>Constructively abstained</option><option>Pending translation</option></select></label>
+      </div>`;
+    }
+
+    function showLabyrinth(scenario) {
+      const node = document.createElement("section");
+      node.className = "labyrinth";
+      node.dataset.scenarioId = scenario.id;
+      node.innerHTML = `<div class="card-head"><div><h3>${escapeHtml(scenario.title)}</h3><p>${escapeHtml(scenario.body)}</p></div><button class="icon-button" aria-label="Close labyrinth" data-scenario-close="${scenario.id}">${icon("i-close")}</button></div>
+        <div class="labyrinth-map">
+          ${[
+            ["Cookie refusal", "7%", 32, 36],
+            ["Europost renewal", "29%", 246, 88],
+            ["Rapporteur", "43%", 124, 210],
+            ["PDF/A raw file", "61%", 394, 230],
+            ["Not subscribe", "88%", 560, 128]
+          ].map(([title, pct, left, top]) => `<div class="labyrinth-node" style="left:${left}px;top:${top}px"><strong>${escapeHtml(title)}</strong><br><span>${escapeHtml(pct)} complete</span></div>`).join("")}
+        </div>
+        <div class="button-row"><button class="button primary" data-scenario-close="${scenario.id}">Find counter 14B</button><button class="button ghost" data-action="final">Escape via subscription refusal</button></div>`;
+      document.body.appendChild(node);
+    }
+
+    function closeScenario(id) {
+      $$(`[data-scenario-id="${CSS.escape(id)}"]`).forEach((node) => node.remove());
+      STATE.activeScenarios.delete(id);
+      STATE.closeCount += 1;
+      raisePressure(2, "close");
+      if (STATE.closeCount === 3) scheduleScenario("close", "anti-dark-pattern");
+    }
+
+    function scheduleFileScenarios(path) {
+      const normalized = normalizePath(path);
+      if (normalized === "README.md") scheduleScenario("readme", "readme-recital");
+      if (normalized === "src/compliance.ts") scheduleScenario("compliance.ts", "ai-high-risk");
+      if (normalized === "DPIA.md") scheduleScenario("DPIA.md", "dpia-recursive");
+      scheduleScenario("file", "file-proportionality");
+    }
+
+    function scheduleFolderScenarios(path) {
+      const normalized = normalizePath(path);
+      if (normalized === "src") scheduleScenario("folder:src", "src-transfer");
+      if (normalized === ".github") scheduleScenario("folder:.github", "github-brussels");
+      scheduleScenario("folder");
+    }
+
+    function resetIdleTimer() {
+      window.clearTimeout(STATE.idleTimer);
+      STATE.idleTimer = window.setTimeout(() => scheduleScenario("idle", "lawful-presence"), 10000);
+    }
+
+    function handleAction(action, target) {
+      if (action === "toast") showToast(target.dataset.message || "The request has entered a review queue.", "info");
+      if (action === "consent") { showPanel("#starConsent"); showToast("Consent panel reopened. Refusal remains available after being logged.", "warning"); scheduleScenario("star", "star-cooling"); }
+      if (action === "watch") scheduleScenario("watch", "watch-fatigue");
+      if (action === "fork") { showPanel("#governanceShell"); scheduleScenario("fork", "fork-rapporteur"); }
+      if (action === "grant-star") { target.textContent = "Cooling off"; showToast("Consent accepted. Star recorded after a 14-day cooling-off period.", "warning"); scheduleScenario("star", "star-cooling"); }
+      if (action === "governance") showPanel("#governanceShell");
+      if (action === "privacy") { showPanel("#privacyShell"); scheduleScenario("privacy", "retention-slider"); }
+      if (action === "details") { $("#reviewPanel")?.classList.toggle("visible"); scheduleScenario("details", "merge-consensus"); }
+      if (action === "export") { showPanel("#exportCard"); $("#exportText").textContent = "Export request accepted. Delivery estimate: 30 days, or longer if machine-readable annexes disagree."; showToast("Portable archive queued. Keep this tab open for the legal basis checksum.", "warning"); }
+      if (action === "delete") showToast("Deletion request created. Some audit logs remain retained for compliance with other compliance.", "danger");
+      if (action === "save") { hidePanel("#privacyShell"); compactCookieBanner("Preferences saved. A compact reminder remains until the retention schedule has feelings."); showToast("Preferences saved locally. Synchronization with 24 language notices is pending.", "info"); }
+      if (action === "accept-cookies") { compactCookieBanner("Essential cookies accepted. Optional partner refusals still require manual confirmation."); showToast("Essential-only mode enabled. The site will now ask fewer, more specific questions.", "info"); }
+      if (action === "reject-cookies") { compactCookieBanner("All optional cookies rejected. Partner count increased to 431 to process the refusal receipt."); scheduleScenario("cookie", "cookie-partners"); scheduleScenario("cookie", "remember-refusal"); }
+      if (action === "language") { showPanel("#languageCard"); scheduleScenario("language", "maltese-footnote"); }
+      if (action === "language-choice") showToast(`Language preference '${target.textContent.trim()}' noted. Certified translation may lag behind the interface.`, "warning");
+      if (action === "accessibility") { document.body.classList.toggle("accessibility-profile"); target.textContent = document.body.classList.contains("accessibility-profile") ? "Profile enabled" : "Enable profile"; scheduleScenario("accessibility", "contrast-consent"); }
+      if (action === "purpose") handlePurpose();
+      if (action === "copy") { showToast(`Copied ${target.dataset.copyPath || "file"} to a local pretend clipboard.`, "warning"); scheduleScenario("copy", "copy-impact"); }
+      if (action === "file-gate") scheduleScenario("file", "file-proportionality");
+      if (action === "raw") scheduleScenario("raw", "raw-pdfa");
+      if (action === "branch") scheduleScenario("branch", "branch-subsidiarity");
+      if (action === "derogation") openDerogation();
+      if (action === "final") scheduleScenario("final", "unsubscribe-subscribe");
+      raisePressure(5, action);
+    }
+
+    function handlePurpose() {
+      const purpose = $("#purposeInput").value.trim();
+      if (purpose.length < 8) {
+        showToast("Purpose statement too short for a proportionate search.", "danger");
+        scheduleScenario("search", "search-purpose");
+      } else {
+        showToast("Purpose declared. Search results will appear after lawful-basis indexing.", "warning");
+        $("#searchPanel").classList.remove("visible");
+      }
+    }
+
+    function openDerogation() {
+      STATE.mutedUntil = Date.now() + 20000;
+      showToast("Emergency derogation granted: 20 seconds of relative silence, subject to retrospective justification.", "warning", "derogation-silence");
+      const scenario = { id: "derogation-form", title: "Emergency derogation justification", body: "Silence is a temporary exception. Explain why the site should briefly stop helping.", level: 1, ui: "drawer" };
+      STATE.activeScenarios.add(scenario.id);
+      showScenario(scenario);
+      window.setTimeout(() => {
+        showToast("Derogation expired. The administrative atmosphere has returned.", "warning");
+        scheduleScenario("nightmare", pressureLevel() === 2 ? "labyrinth" : "certificate-expiry");
+      }, 20500);
+    }
+
+    function bootstrap() {
+      if (!location.hash || location.hash === "#") location.hash = "#/repo";
+      decorateDynamicContent();
+      renderRoute();
+      showPanel("#cookieBanner");
+      window.setTimeout(() => { scheduleScenario("timer", "certificate-expiry"); showToast("Compliance scan complete. One useful action remains blocked by Article 6 review.", "warning", "startup-scan"); }, 1000);
+      window.setInterval(() => {
+        if (Date.now() < STATE.mutedUntil) return;
+        const trigger = pressureLevel() === 2 ? "nightmare" : "timer";
+        scheduleScenario(trigger, pressureLevel() === 2 && STATE.actionCount > 16 ? "labyrinth" : "");
+        STATE.pressure = Math.min(100, STATE.pressure + 3);
+        updatePressureMeter();
+      }, 6500);
+      resetIdleTimer();
+    }
+
     document.addEventListener("click", (event) => {
+      const scenarioClose = event.target.closest("[data-scenario-close]");
+      if (scenarioClose) {
+        event.preventDefault();
+        closeScenario(scenarioClose.dataset.scenarioClose);
+        return;
+      }
+
       const closeTarget = event.target.closest("[data-close]");
       if (closeTarget) {
         event.preventDefault();
         hidePanel(closeTarget.dataset.close);
+        STATE.closeCount += 1;
+        raisePressure(2, "close");
+        if (STATE.closeCount === 3) scheduleScenario("close", "anti-dark-pattern");
+        return;
+      }
+
+      const routeFile = event.target.closest("[data-route-file]");
+      if (routeFile) {
+        const trigger = routeFile.dataset.trigger || "file";
+        if (trigger.startsWith("file:")) scheduleFileScenarios(trigger.replace("file:", ""));
+        if (trigger.startsWith("folder:")) scheduleFolderScenarios(trigger.replace("folder:", ""));
+        raisePressure(4, trigger);
         return;
       }
 
       const actionTarget = event.target.closest("[data-action]");
       if (!actionTarget) return;
       event.preventDefault();
+      handleAction(actionTarget.dataset.action, actionTarget);
+    });
 
-      const action = actionTarget.dataset.action;
-
-      if (action === "toast") {
-        showToast(actionTarget.dataset.message || "The request has entered a review queue.");
-      }
-
-      if (action === "consent") {
-        showPanel("#starConsent");
-        showToast(messages.consent, "warning");
-      }
-
-      if (action === "grant-star") {
-        showToast("Consent accepted. Star recorded after a cooling-off period and audit replication.", "warning");
-        actionTarget.textContent = "Consent pending";
-      }
-
-      if (action === "governance") {
-        showPanel("#governanceShell");
-      }
-
-      if (action === "privacy") {
-        showPanel("#privacyShell");
-      }
-
-      if (action === "details") {
-        $("#reviewPanel").classList.toggle("visible");
-      }
-
-      if (action === "file-block") {
-        showToast(messages.file, "warning");
-      }
-
-      if (action === "export") {
-        $("#exportText").textContent = "Export request accepted. Delivery estimate: 30 days, or longer if machine-readable annexes disagree.";
-        showToast("Portable archive queued. Please keep this tab open for the legal basis checksum.", "warning");
-      }
-
-      if (action === "delete") {
-        showToast(messages.delete, "danger");
-      }
-
-      if (action === "save") {
-        hidePanel("#privacyShell");
-        compactCookieBanner("Preferences saved. A compact reminder remains until the retention schedule has feelings.");
-        showToast(messages.save);
-      }
-
-      if (action === "accept-cookies") {
-        compactCookieBanner("Essential cookies accepted. Optional partner refusals still require manual confirmation.");
-        showToast("Essential-only mode enabled. The site will now ask fewer, but more specific, questions.");
-      }
-
-      if (action === "reject-cookies") {
-        compactCookieBanner("All optional cookies rejected. A refusal receipt is being prepared for your records.");
-        showToast("Reject all created a portability record because even no is data.", "warning");
-      }
-
-      if (action === "language") {
-        showPanel("#languageCard");
-      }
-
-      if (action === "language-choice") {
-        showToast(`Language preference '${actionTarget.textContent.trim()}' noted. Certified translation may lag behind the interface.`, "warning");
-      }
-
-      if (action === "accessibility") {
-        document.body.classList.toggle("accessibility-profile");
-        actionTarget.textContent = document.body.classList.contains("accessibility-profile") ? "Profile enabled" : "Enable profile";
-        showToast("Accessibility profile toggled. Some regulatory notices are now even more visible.");
-      }
-
-      if (action === "purpose") {
-        const purpose = $("#purposeInput").value.trim();
-        if (purpose.length < 8) {
-          showToast("Purpose statement too short for a proportionate search.", "danger");
-        } else {
-          showToast("Purpose declared. Search results will appear after lawful-basis indexing.", "warning");
-          $("#searchPanel").classList.remove("visible");
-        }
+    document.addEventListener("mouseover", (event) => {
+      if (event.target.closest(".repo-actions, .repo-tabs, .file-row, .right-panel")) {
+        if (Math.random() < 0.08 + pressureLevel() * 0.04) scheduleScenario("hover");
       }
     });
 
-    $$(".switch").forEach((switchButton) => {
-      switchButton.addEventListener("click", () => {
-        switchButton.classList.toggle("on");
-        showToast("Preference toggled. A balancing test has been scheduled.", "warning");
-      });
-    });
+    document.addEventListener("scroll", () => {
+      if (Math.random() < 0.05) raisePressure(1, "scroll");
+    }, { passive: true });
 
-    $$(".tab-button").forEach((tab) => {
-      tab.addEventListener("click", () => {
-        $$(".tab-button").forEach((item) => item.classList.remove("active"));
-        tab.classList.add("active");
-        const label = tab.textContent.trim();
-        showToast(`${label} tab opened. The content remains legally adjacent to the overview.`, "warning");
-      });
-    });
+    window.addEventListener("hashchange", renderRoute);
 
     const searchInput = $("#globalSearch");
-    searchInput.addEventListener("focus", () => $("#searchPanel").classList.add("visible"));
+    searchInput.addEventListener("focus", () => { $("#searchPanel").classList.add("visible"); scheduleScenario("search", "search-purpose"); });
     searchInput.addEventListener("input", () => {
       if (searchInput.value.length > 2) {
         $("#searchPanel").classList.add("visible");
+        raisePressure(2, "search");
       }
     });
 
@@ -2789,17 +3773,35 @@
       if (event.key === "/" && document.activeElement !== searchInput) {
         event.preventDefault();
         searchInput.focus();
+        scheduleScenario("shortcut", "shortcut-interoperability");
       }
       if (event.key === "Escape") {
         $("#searchPanel").classList.remove("visible");
         hidePanel("#privacyShell");
         hidePanel("#governanceShell");
+        raisePressure(1, "close");
       }
     });
 
-    window.setTimeout(() => {
-      showToast("Compliance scan complete. One useful action remains blocked by Article 6 review.", "warning");
-    }, 900);
+    $$(".switch").forEach((switchButton) => {
+      switchButton.addEventListener("click", () => {
+        switchButton.classList.toggle("on");
+        showToast("Preference toggled. A balancing test has been scheduled.", "warning");
+        raisePressure(3, "privacy");
+      });
+    });
+
+    $$(".tab-button").forEach((tab) => {
+      tab.addEventListener("click", () => {
+        $$(".tab-button").forEach((item) => item.classList.remove("active"));
+        tab.classList.add("active");
+        showToast(`${tab.textContent.trim()} tab opened. The content remains legally adjacent to the overview.`, "warning");
+        raisePressure(2, "privacy");
+      });
+    });
+
+    $$(".flag").forEach((flag) => flag.setAttribute("aria-hidden", "true"));
+    bootstrap();
   </script>
 </body>
 </html>
