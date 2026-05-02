@@ -55,6 +55,10 @@
       -webkit-tap-highlight-color: rgba(9, 105, 218, 0.16);
     }
 
+    body.regulatory-lock-active {
+      overflow: hidden;
+    }
+
     button,
     input {
       font: inherit;
@@ -2076,6 +2080,41 @@
       pointer-events: none;
     }
 
+    .scenario-stage.has-lock {
+      z-index: 320;
+      pointer-events: auto;
+    }
+
+    .scenario-lock-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 900;
+      background:
+        radial-gradient(circle at 50% 34%, rgba(255,255,255,0.18), transparent 36%),
+        rgba(31,35,40,0.46);
+      backdrop-filter: blur(6px) saturate(0.82);
+      pointer-events: auto;
+      animation: lock-backdrop-in 160ms ease both;
+    }
+
+    .scenario-lock-backdrop::after {
+      content: "The rest of EuroHub is unavailable until the active blocking procedure receives a locally simulated signature.";
+      position: fixed;
+      left: 50%;
+      bottom: 58px;
+      width: min(720px, calc(100vw - 32px));
+      transform: translateX(-50%);
+      border: 1px solid rgba(255,255,255,0.36);
+      border-radius: 8px;
+      padding: 10px 12px;
+      background: rgba(0,0,0,0.36);
+      color: rgba(255,255,255,0.88);
+      font-size: 12px;
+      line-height: 1.4;
+      text-align: center;
+      box-shadow: 0 12px 36px rgba(0,0,0,0.24);
+    }
+
     .stage-column,
     .stage-banners,
     .stage-drawers,
@@ -2487,9 +2526,36 @@
     }
 
     .chaos-lock {
+      pointer-events: auto;
       box-shadow:
+        0 0 0 9999px rgba(31,35,40,0.04),
         0 0 0 4px rgba(207,34,46,0.18),
         0 22px 60px rgba(31,35,40,0.32) !important;
+    }
+
+    .scenario-stage.has-lock .chaos-lock {
+      z-index: 920 !important;
+      border-width: 2px;
+      border-color: #cf222e;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.94), rgba(246,248,250,0.98)),
+        #ffffff;
+      color: #24292f;
+      animation: lock-arrive 180ms cubic-bezier(.2,.8,.2,1) both;
+    }
+
+    .scenario-stage.has-lock .chaos-lock p,
+    .scenario-stage.has-lock .chaos-lock .fake-form label,
+    .scenario-stage.has-lock .chaos-lock .scenario-assurance {
+      color: #57606a;
+    }
+
+    .scenario-stage.has-lock .chaos-lock .scenario-assurance strong {
+      color: #24292f;
+    }
+
+    .scenario-stage.has-lock .chaos-lock.is-nudged {
+      animation: lock-nudge 290ms ease both;
     }
 
     .chaos-lock::before {
@@ -2567,6 +2633,22 @@
     @keyframes obstruction-land {
       from { opacity: 0; transform: translateY(-8px) rotate(-0.6deg); }
       to { opacity: 1; transform: translateY(0) rotate(0); }
+    }
+
+    @keyframes lock-backdrop-in {
+      from { opacity: 0; backdrop-filter: blur(0) saturate(1); }
+      to { opacity: 1; backdrop-filter: blur(6px) saturate(0.82); }
+    }
+
+    @keyframes lock-arrive {
+      from { opacity: 0; transform: translate(-50%, -10px) scale(0.98); }
+      to { opacity: 1; transform: translate(-50%, 0) scale(1); }
+    }
+
+    @keyframes lock-nudge {
+      0%, 100% { transform: translate(-50%, 0) rotate(0deg) scale(1); }
+      28% { transform: translate(calc(-50% - 9px), -1px) rotate(-0.6deg) scale(1.01); }
+      58% { transform: translate(calc(-50% + 7px), 0) rotate(0.5deg) scale(1.01); }
     }
 
     .toast.warning {
@@ -4258,14 +4340,14 @@
         node.dataset.regulatorySpecies = speciesForScenario(scenario);
         node.innerHTML = `<div><strong>${escapeHtml(scenario.title)}</strong><span>${escapeHtml(scenario.body)}</span>${scenarioAssurance(scenario)}</div><button class="icon-button" aria-label="Close ${escapeHtml(scenario.title)}" data-scenario-close="${scenario.id}">${icon("i-close")}</button>`;
         placeScenarioNode(node, scenario);
-        placeObstruction(scenario);
+        if (node.dataset.lockingScenario !== "true") placeObstruction(scenario);
         pushToast(`Banner filed: ${scenario.title}`, tone, scenario.id);
         return;
       }
       if (scenario.ui === "floating" || scenario.ui === "modal") {
         const node = scenarioSurface(scenario, scenario.ui === "modal" ? "is-modal" : "is-floating");
         placeScenarioNode(node, scenario);
-        placeObstruction(scenario);
+        if (node.dataset.lockingScenario !== "true") placeObstruction(scenario);
         pushToast(`New ${surfaceLabel(scenario.ui)}: ${scenario.title}`, tone, scenario.id);
         return;
       }
@@ -4282,7 +4364,7 @@
         node.dataset.regulatorySpecies = speciesForScenario(scenario);
         node.innerHTML = `<div class="card-head"><h3>${escapeHtml(scenario.title)}</h3><button class="icon-button" aria-label="Close ${escapeHtml(scenario.title)}" data-scenario-close="${scenario.id}">${icon("i-close")}</button></div><p>${escapeHtml(scenario.body)}</p>${fakeFormFor(scenario)}${scenarioAssurance(scenario)}${scenarioActions(scenario, "drawer")}`;
         placeScenarioNode(node, scenario);
-        placeObstruction(scenario);
+        if (node.dataset.lockingScenario !== "true") placeObstruction(scenario);
         pushToast(`Side procedure opened: ${scenario.title}`, tone, scenario.id);
         return;
       }
@@ -4310,9 +4392,78 @@
         STATE.lockingScenarioId = scenario.id;
         node.classList.add("chaos-lock");
         node.dataset.lockingScenario = "true";
+        activateLockScenario(node, scenario);
+      } else {
+        applyChaosPlacement(node, scenario);
       }
-      applyChaosPlacement(node, scenario);
       decorateDynamicContent();
+    }
+
+    function ensureLockBackdrop() {
+      let backdrop = $("#scenarioLockBackdrop");
+      if (!backdrop) {
+        backdrop = document.createElement("div");
+        backdrop.id = "scenarioLockBackdrop";
+        backdrop.className = "scenario-lock-backdrop";
+        backdrop.dataset.lockBackdrop = "true";
+        $("#scenarioStage")?.prepend(backdrop);
+      }
+      return backdrop;
+    }
+
+    function activateLockScenario(node, scenario) {
+      const stage = $("#scenarioStage");
+      stage?.classList.add("has-lock");
+      document.body.classList.add("regulatory-lock-active");
+      ensureLockBackdrop();
+      applyLockPlacement(node, scenario);
+      window.setTimeout(() => node.querySelector("[data-scenario-close], input, textarea, select, button")?.focus({ preventScroll: true }), 60);
+    }
+
+    function clearLockLayer() {
+      $("#scenarioStage")?.classList.remove("has-lock");
+      document.body.classList.remove("regulatory-lock-active");
+      $("#scenarioLockBackdrop")?.remove();
+    }
+
+    function activeLockNode() {
+      return STATE.lockingScenarioId ? $(`.chaos-lock[data-scenario-id="${CSS.escape(STATE.lockingScenarioId)}"]`) : null;
+    }
+
+    function repositionActiveLock() {
+      const node = activeLockNode();
+      if (node) applyLockPlacement(node, { id: STATE.lockingScenarioId, ui: "modal" });
+      else if (STATE.lockingScenarioId) {
+        STATE.lockingScenarioId = "";
+        clearLockLayer();
+      }
+    }
+
+    function applyLockPlacement(node, scenario) {
+      const { route, viewport } = contentRects();
+      const width = clampNumber(route.width * 0.44, 360, 640);
+      const top = clampNumber(viewport.height * 0.15, 42, 128);
+      node.style.position = "fixed";
+      node.style.width = `${Math.round(Math.min(width, viewport.width - 28))}px`;
+      node.style.left = "50%";
+      node.style.top = `${Math.round(top)}px`;
+      node.style.right = "auto";
+      node.style.bottom = "auto";
+      node.style.transform = "translateX(-50%)";
+      node.style.maxHeight = `${Math.round(Math.max(260, viewport.height - top - 24))}px`;
+      node.style.overflow = "auto";
+      node.style.zIndex = "920";
+      node.style.borderRadius = "8px";
+    }
+
+    function nudgeActiveLock(message) {
+      if (!STATE.lockingScenarioId) return;
+      showToast(message || `${STATE.lockingScenarioId} is the active blocking procedure. The background has been placed in legal shade.`, "danger", "active-lock-attention");
+      const lock = $(`.chaos-lock[data-scenario-id="${CSS.escape(STATE.lockingScenarioId)}"]`);
+      if (!lock) return;
+      lock.classList.remove("is-nudged");
+      void lock.offsetWidth;
+      lock.classList.add("is-nudged");
     }
 
     function applyChaosPlacement(node, scenario) {
@@ -4461,6 +4612,7 @@
       STATE.activeScenarios.delete(id);
       if (STATE.lockingScenarioId === id) {
         STATE.lockingScenarioId = "";
+        clearLockLayer();
         showToast("Dependency lock released. Navigation is provisionally imaginable.", "warning", "lock-released");
       }
       STATE.closeCount += 1;
@@ -4577,6 +4729,13 @@
     }
 
     document.addEventListener("click", (event) => {
+      const lockBackdrop = event.target.closest("[data-lock-backdrop]");
+      if (lockBackdrop) {
+        event.preventDefault();
+        nudgeActiveLock("Background access denied: finish the active blocking popup first. The rest of the page is being kept in a tasteful legal fog.");
+        return;
+      }
+
       const scenarioClose = event.target.closest("[data-scenario-close]");
       if (scenarioClose) {
         event.preventDefault();
@@ -4640,7 +4799,10 @@
     }, { passive: true });
 
     window.addEventListener("hashchange", renderRoute);
-    window.addEventListener("resize", positionNotificationChrome);
+    window.addEventListener("resize", () => {
+      positionNotificationChrome();
+      repositionActiveLock();
+    });
 
     const searchInput = $("#globalSearch");
     searchInput.addEventListener("focus", () => { $("#searchPanel").classList.add("visible"); scheduleScenario("search", "search-purpose"); });
