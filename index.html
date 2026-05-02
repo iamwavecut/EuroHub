@@ -484,6 +484,161 @@
       background: rgba(255,255,255,0.08);
     }
 
+    .notification-center {
+      position: fixed;
+      top: 82px;
+      right: 16px;
+      z-index: 68;
+      width: min(430px, calc(100vw - 32px));
+      max-height: min(640px, calc(100dvh - 126px));
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+      overflow: hidden;
+      color: #24292f;
+      background: #ffffff;
+      border: 1px solid #d0d7de;
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      animation: notification-pop 180ms ease both;
+    }
+
+    .notification-center::before {
+      content: "";
+      position: absolute;
+      right: 86px;
+      top: -7px;
+      width: 14px;
+      height: 14px;
+      transform: rotate(45deg);
+      background: #ffffff;
+      border-left: 1px solid #d0d7de;
+      border-top: 1px solid #d0d7de;
+    }
+
+    .notification-head {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 14px 12px;
+      border-bottom: 1px solid #d8dee4;
+      background: linear-gradient(180deg, #ffffff, #f6f8fa);
+    }
+
+    .notification-head h3 {
+      margin: 0 0 3px;
+      font-size: 15px;
+    }
+
+    .notification-head p {
+      margin: 0;
+      color: #57606a;
+      font-size: 12px;
+    }
+
+    .notification-filters {
+      display: flex;
+      gap: 8px;
+      padding: 10px 12px;
+      overflow-x: auto;
+      border-bottom: 1px solid #eaeef2;
+      background: #ffffff;
+    }
+
+    .notification-filter {
+      border: 1px solid #d0d7de;
+      border-radius: 999px;
+      background: #f6f8fa;
+      padding: 5px 9px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #57606a;
+      white-space: nowrap;
+    }
+
+    .notification-list {
+      display: grid;
+      gap: 0;
+      overflow: auto;
+      overscroll-behavior: contain;
+      background: #ffffff;
+    }
+
+    .notification-item {
+      display: grid;
+      grid-template-columns: 10px minmax(0, 1fr);
+      gap: 10px;
+      width: 100%;
+      border: 0;
+      border-bottom: 1px solid #eaeef2;
+      background: #ffffff;
+      padding: 11px 12px;
+      text-align: left;
+      color: #24292f;
+    }
+
+    .notification-item:hover {
+      background: #f6f8fa;
+    }
+
+    .notification-item.is-expanded {
+      background: #fffdf5;
+    }
+
+    .notification-mark {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      margin-top: 4px;
+      background: #0969da;
+      box-shadow: 0 0 0 4px rgba(9,105,218,0.12);
+    }
+
+    .notification-item.warning .notification-mark {
+      background: #bf8700;
+      box-shadow: 0 0 0 4px rgba(191,135,0,0.14);
+    }
+
+    .notification-item.danger .notification-mark {
+      background: #cf222e;
+      box-shadow: 0 0 0 4px rgba(207,34,46,0.13);
+    }
+
+    .notification-title {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .notification-title time {
+      flex: 0 0 auto;
+      white-space: nowrap;
+      font-size: 12px;
+    }
+
+    .notification-meta {
+      margin-top: 2px;
+      color: #6e7781;
+      font-family: var(--mono);
+      font-size: 11px;
+    }
+
+    .notification-body {
+      margin: 7px 0 0;
+      color: #57606a;
+      font-size: 12px;
+      line-height: 1.45;
+      display: none;
+    }
+
+    .notification-item.is-expanded .notification-body {
+      display: block;
+    }
+
     .profile-button {
       height: 40px;
       display: flex;
@@ -1642,12 +1797,12 @@
 
     .toast-stack {
       position: fixed;
-      right: 18px;
-      top: 88px;
-      z-index: 60;
+      right: 88px;
+      top: 78px;
+      z-index: 66;
       display: grid;
       gap: 8px;
-      width: min(360px, calc(100vw - 36px));
+      width: min(380px, calc(100vw - 36px));
       pointer-events: none;
     }
 
@@ -1660,6 +1815,7 @@
       padding: 10px 12px;
       font-size: 13px;
       line-height: 1.45;
+      color: #24292f;
       animation: slide-in 180ms ease both;
     }
 
@@ -1966,23 +2122,183 @@
       font-size: 12px;
     }
 
-    .bureau-banner {
+    .scenario-stage {
       position: fixed;
+      inset: 0;
+      z-index: 48;
+      pointer-events: none;
+    }
+
+    .stage-column,
+    .stage-banners,
+    .stage-drawers {
+      position: fixed;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      pointer-events: none;
+    }
+
+    .stage-column > *,
+    .stage-banners > *,
+    .stage-drawers > * {
+      pointer-events: auto;
+    }
+
+    .stage-banners {
+      top: 92px;
       left: 50%;
-      top: 98px;
-      width: min(760px, calc(100vw - 32px));
       transform: translateX(-50%);
-      z-index: 45;
-      border: 1px solid #eac54f;
+      width: min(720px, calc(100vw - 380px));
+      max-height: calc(100dvh - 160px);
+      overflow: auto;
+      z-index: 51;
+    }
+
+    .stage-left {
+      left: 18px;
+      top: 156px;
+      bottom: 46px;
+      width: min(330px, calc(50vw - 34px));
+      overflow: auto;
+      z-index: 49;
+    }
+
+    .stage-right {
+      right: 462px;
+      top: 236px;
+      bottom: 46px;
+      width: min(330px, calc(50vw - 34px));
+      overflow: auto;
+      z-index: 49;
+    }
+
+    .stage-drawers {
+      right: 0;
+      top: 116px;
+      bottom: 32px;
+      width: min(390px, calc(100vw - 32px));
+      overflow: auto;
+      z-index: 52;
+      padding-left: 10px;
+    }
+
+    .scenario-surface,
+    .bureau-banner,
+    .scenario-drawer {
+      border: 1px solid #d8dee4;
+      border-radius: 8px;
+      background: #ffffff;
+      box-shadow: var(--shadow-soft);
+      color: #24292f;
+      animation: scenario-pop 210ms cubic-bezier(.2,.8,.2,1) both;
+    }
+
+    .scenario-surface {
+      padding: 13px;
+      width: 100%;
+      overflow-wrap: anywhere;
+    }
+
+    .scenario-surface h3,
+    .scenario-drawer h3 {
+      margin: 0 0 7px;
+      font-size: 15px;
+      line-height: 1.2;
+    }
+
+    .scenario-surface p,
+    .scenario-drawer p {
+      margin: 0 0 11px;
+      color: #57606a;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .scenario-surface.is-modal {
+      border-color: #b6d7ff;
+      box-shadow: 0 18px 40px rgba(9,105,218,0.18);
+    }
+
+    .scenario-surface.is-floating {
+      transform-origin: top right;
+    }
+
+    .scenario-surface[data-variant="stamp"] {
+      border-color: #d4a72c;
+      background:
+        radial-gradient(circle at 18px 18px, rgba(212,167,44,0.18) 0 16px, transparent 17px),
+        #fffdf3;
+    }
+
+    .scenario-surface[data-variant="receipt"] {
+      border-style: dashed;
+      background: linear-gradient(180deg, #ffffff 0, #f8fafc 100%);
+      font-family: var(--mono);
+    }
+
+    .scenario-surface[data-variant="receipt"] h3 {
+      font-family: var(--font);
+    }
+
+    .scenario-surface[data-variant="briefing"] {
+      border-left: 5px solid #0969da;
+      background: #f8fbff;
+    }
+
+    .scenario-surface[data-variant="warning"] {
+      border-color: #f0c36a;
+      background: #fff8db;
+    }
+
+    .scenario-surface[data-variant="danger"] {
+      border-color: #ffb3ba;
+      background: #fff1f1;
+    }
+
+    .scenario-surface[data-variant="blueprint"] {
+      color: #dbeafe;
+      border-color: rgba(255,255,255,0.22);
+      background:
+        linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px),
+        linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px),
+        #073f7d;
+      background-size: 22px 22px;
+    }
+
+    .scenario-surface[data-variant="blueprint"] p,
+    .scenario-surface[data-variant="blueprint"] .fake-form label {
+      color: #dbeafe;
+    }
+
+    .scenario-surface[data-variant="blueprint"] .icon-button {
+      color: #ffffff;
+    }
+
+    .scenario-drawer {
+      width: 100%;
+      max-height: 48dvh;
+      padding: 16px;
+      overflow: auto;
+      border-radius: 8px 0 0 8px;
+      border-right: 0;
+      animation-name: drawer-in;
+    }
+
+    .scenario-drawer:nth-child(2n) {
+      background: #fffdf5;
+      border-color: #eac54f;
+    }
+
+    .bureau-banner {
+      width: 100%;
+      border-color: #eac54f;
       background: #fff8db;
       color: #4f3a00;
-      border-radius: 8px;
-      box-shadow: var(--shadow-soft);
       padding: 10px 12px;
       display: grid;
       grid-template-columns: 1fr auto;
       gap: 12px;
-      animation: rise-centered 220ms ease both;
     }
 
     .bureau-banner strong {
@@ -1996,76 +2312,27 @@
       font-size: 12px;
     }
 
-    .scenario-float {
-      position: fixed;
-      z-index: 43;
-      width: min(315px, calc(100vw - 32px));
-      right: 18px;
-      top: 304px;
-      background: #ffffff;
+    .inline-scenario {
+      margin: 12px 0;
+      padding: 12px;
       border: 1px solid #d8dee4;
+      border-left: 5px solid #0969da;
       border-radius: 8px;
-      box-shadow: var(--shadow-soft);
-      padding: 13px;
-      animation: slide-in 180ms ease both;
+      background: linear-gradient(90deg, #f8fbff, #ffffff);
+      box-shadow: 0 7px 18px rgba(31,35,40,0.08);
+      animation: inline-fold 210ms ease both;
     }
 
-    .scenario-float:nth-child(2n) {
-      top: auto;
-      bottom: 104px;
-      left: 18px;
-      right: auto;
+    .inline-scenario h3 {
+      margin: 0 0 4px;
+      font-size: 14px;
     }
 
-    .scenario-float h3,
-    .scenario-modal h3,
-    .scenario-drawer h3 {
-      margin: 0 0 7px;
-      font-size: 15px;
-    }
-
-    .scenario-float p,
-    .scenario-modal p,
-    .scenario-drawer p {
-      margin: 0 0 11px;
+    .inline-scenario p {
+      margin: 0 0 8px;
       color: #57606a;
       font-size: 12px;
       line-height: 1.45;
-    }
-
-    .scenario-modal-shell {
-      position: fixed;
-      inset: 0;
-      z-index: 48;
-      display: grid;
-      place-items: center;
-      padding: 18px;
-      background: rgba(31,35,40,0.18);
-      animation: fade 160ms ease both;
-    }
-
-    .scenario-modal {
-      width: min(510px, 100%);
-      background: #ffffff;
-      border: 1px solid #d8dee4;
-      border-radius: 8px;
-      box-shadow: var(--shadow);
-      padding: 16px;
-    }
-
-    .scenario-drawer {
-      position: fixed;
-      right: 0;
-      top: 0;
-      bottom: 32px;
-      z-index: 46;
-      width: min(390px, 100vw);
-      background: #ffffff;
-      border-left: 1px solid #d8dee4;
-      box-shadow: var(--shadow);
-      padding: 18px;
-      overflow: auto;
-      animation: drawer-in 220ms ease both;
     }
 
     .fake-form {
@@ -2100,46 +2367,6 @@
       resize: vertical;
     }
 
-    .labyrinth {
-      position: fixed;
-      inset: 18px;
-      z-index: 58;
-      border: 1px solid #d8dee4;
-      border-radius: 8px;
-      background: #ffffff;
-      box-shadow: var(--shadow);
-      padding: 18px;
-      display: grid;
-      grid-template-rows: auto 1fr auto;
-      gap: 14px;
-      animation: rise 220ms ease both;
-    }
-
-    .labyrinth-map {
-      border: 1px solid #d8dee4;
-      border-radius: 8px;
-      background:
-        linear-gradient(90deg, rgba(9,105,218,0.08) 1px, transparent 1px),
-        linear-gradient(rgba(9,105,218,0.08) 1px, transparent 1px),
-        #f6f8fa;
-      background-size: 36px 36px;
-      padding: 16px;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .labyrinth-node {
-      position: absolute;
-      min-width: 120px;
-      max-width: 190px;
-      border: 1px solid #d0d7de;
-      background: #ffffff;
-      border-radius: 8px;
-      padding: 9px;
-      box-shadow: 0 8px 18px rgba(31,35,40,0.12);
-      font-size: 12px;
-    }
-
     .bottom-inner .derogation-button {
       border-color: rgba(255,255,255,0.4);
       background: rgba(255,255,255,0.12);
@@ -2152,12 +2379,56 @@
       to { opacity: 1; transform: translateX(0); }
     }
 
+    @keyframes scenario-pop {
+      from { opacity: 0; transform: translateY(8px) scale(0.985); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @keyframes inline-fold {
+      from { opacity: 0; transform: translateY(-6px); max-height: 0; }
+      to { opacity: 1; transform: translateY(0); max-height: 180px; }
+    }
+
+    @keyframes notification-pop {
+      from { opacity: 0; transform: translateY(-8px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
     .toast.warning {
       border-left-color: #d4a72c;
     }
 
     .toast.danger {
       border-left-color: var(--danger);
+    }
+
+    body.notifications-open .toast-stack {
+      right: 16px;
+      top: min(734px, calc(100dvh - 220px));
+    }
+
+    body.notifications-open .stage-banners {
+      left: 360px;
+      transform: none;
+      width: clamp(300px, calc(100vw - 912px), 560px);
+    }
+
+    body.notifications-open .stage-right {
+      right: 462px;
+      bottom: 420px;
+    }
+
+    body.notifications-open .stage-left {
+      bottom: 420px;
+    }
+
+    body.notifications-open .stage-drawers {
+      left: 18px;
+      right: auto;
+      top: auto;
+      bottom: 46px;
+      width: min(360px, calc(100vw - 36px));
+      height: 330px;
     }
 
     .governance-body {
@@ -2360,13 +2631,75 @@
         min-width: 560px;
       }
 
-      .bureau-banner {
-        top: 92px;
+      .toast-stack {
+        right: 12px;
+        top: 164px;
+        width: min(360px, calc(100vw - 24px));
       }
 
-      .scenario-drawer {
-        width: min(360px, 100vw);
-        bottom: 32px;
+      body.notifications-open .toast-stack {
+        right: 12px;
+        top: calc(154px + 52dvh + 10px);
+      }
+
+      .notification-center {
+        top: 154px;
+        right: 12px;
+        width: min(430px, calc(100vw - 24px));
+        max-height: 52dvh;
+      }
+
+      .stage-banners,
+      .stage-left,
+      .stage-right,
+      .stage-drawers {
+        left: 12px;
+        right: 12px;
+        width: auto;
+        transform: none;
+      }
+
+      .stage-banners {
+        top: 236px;
+        max-height: 30dvh;
+      }
+
+      .stage-left {
+        top: auto;
+        bottom: 42px;
+        max-height: 32dvh;
+      }
+
+      .stage-right {
+        display: none;
+      }
+
+      .stage-drawers {
+        top: 292px;
+        bottom: 42px;
+        padding-left: 0;
+        max-height: 42dvh;
+      }
+
+      body.notifications-open .stage-banners,
+      body.notifications-open .stage-left,
+      body.notifications-open .stage-right,
+      body.notifications-open .stage-drawers {
+        left: 12px;
+        right: 12px;
+        width: auto;
+        transform: none;
+      }
+
+      body.notifications-open .stage-right {
+        display: none;
+      }
+
+      body.notifications-open .stage-drawers {
+        top: auto;
+        bottom: 42px;
+        height: 22dvh;
+        max-height: 22dvh;
       }
 
       .rightbar {
@@ -2444,21 +2777,11 @@
         flex-direction: column;
       }
 
-      .scenario-modal-shell {
-        padding: 10px;
-        place-items: start center;
-      }
-
-      .scenario-modal {
-        margin-top: 112px;
-        max-height: calc(100dvh - 170px);
+      .scenario-surface,
+      .scenario-drawer,
+      .bureau-banner {
+        max-height: 32dvh;
         overflow: auto;
-      }
-
-      .labyrinth {
-        inset: 8px;
-        bottom: 40px;
-        padding: 12px;
       }
 
       .bottom-inner {
@@ -2671,7 +2994,7 @@
             <span>Digital Europe Compliant</span>
             <svg class="icon"><use href="#i-check"></use></svg>
           </div>
-          <button class="icon-button" aria-label="Notifications" data-action="toast" data-message="You have 12 unread procedural safeguards. None are actionable until translated."><svg class="icon"><use href="#i-bell"></use></svg><span class="count-badge">12</span></button>
+          <button class="icon-button notification-button" aria-label="Notifications" aria-expanded="false" aria-controls="notificationCenter" data-action="notifications"><svg class="icon"><use href="#i-bell"></use></svg><span class="count-badge" data-notification-count>12</span></button>
           <button class="icon-button" aria-label="Security"><svg class="icon"><use href="#i-shield"></use></svg></button>
           <button class="icon-button" aria-label="Help" data-action="toast" data-message="Help is available after accepting the Helpdesk Data Processing Annex."><svg class="icon"><use href="#i-help"></use></svg></button>
           <button class="profile-button" data-action="language">
@@ -2682,6 +3005,21 @@
             <svg class="icon"><use href="#i-branch"></use></svg>
           </button>
         </div>
+        <aside class="notification-center hidden" id="notificationCenter" aria-label="Procedural notifications">
+          <div class="notification-head">
+            <div>
+              <h3>Procedural notifications</h3>
+              <p>Every notice is retained until a different notice asks why.</p>
+            </div>
+            <button class="icon-button" aria-label="Close notifications" data-close="#notificationCenter"><svg class="icon"><use href="#i-close"></use></svg></button>
+          </div>
+          <div class="notification-filters" aria-label="Notification filters">
+            <button class="notification-filter" data-action="toast" data-message="Unread filter requires reading confirmation before filtering unread items.">Unread</button>
+            <button class="notification-filter" data-action="toast" data-message="Critical notices are critical pending translation of criticality.">Critical</button>
+            <button class="notification-filter" data-action="toast" data-message="Receipts can be exported after the export receipt is receipted.">Receipts</button>
+          </div>
+          <div class="notification-list" id="notificationList"></div>
+        </aside>
       </div>
     </header>
 
@@ -3006,6 +3344,12 @@
   </footer>
 
   <div class="toast-stack" id="toastStack" aria-live="polite" aria-atomic="false"></div>
+  <div class="scenario-stage" id="scenarioStage" aria-live="polite" aria-atomic="false">
+    <div class="stage-banners" data-stage-zone="banner"></div>
+    <div class="stage-column stage-left" data-stage-zone="left"></div>
+    <div class="stage-column stage-right" data-stage-zone="right"></div>
+    <div class="stage-drawers" data-stage-zone="drawer"></div>
+  </div>
 
   <script>
     const $ = (selector, root = document) => root.querySelector(selector);
@@ -3112,9 +3456,24 @@
       ["shortcut-interoperability", "floating", "shortcut", 1, "Keyboard layout check", "The slash shortcut requires keyboard-layout interoperability certification."],
       ["lawful-presence", "modal", "idle", 1, "Still lawfully present?", "You have been idle for 10 seconds. Confirm you are still lawfully present in this tab."],
       ["anti-dark-pattern", "drawer", "close", 2, "Anti-dark-pattern self-assessment", "Closing three blockers triggered an assessment of whether blockers are manipulative enough."],
-      ["labyrinth", "labyrinth", "nightmare", 2, "European Administrative Labyrinth", "Nightmare mode has opened the map of pending forms, annexes, counters, and counters to counters."],
+      ["pressure-atlas", "inline", "nightmare", 2, "Procedural pressure atlas", "The old full-screen map was rejected as disproportionate. A smaller atlas has been inserted into the repository flow instead."],
       ["unsubscribe-subscribe", "modal", "final", 2, "Subscription non-subscription", "Would you like to subscribe to updates about not subscribing to future updates?"]
-    ].map(([id, ui, trigger, level, title, body]) => ({ id, ui, trigger, level, title, body, cooldown: level === 2 ? 18000 : 9000 }));
+    ].map(([id, ui, trigger, level, title, body]) => ({ id, ui, trigger, level, title, body, cooldown: level === 2 ? 12000 : level === 1 ? 7000 : 5000 }));
+
+    const NOTIFICATION_SEED = [
+      ["Translation drift", "One Polish comma reached legal significance while you were loading the page.", "warning"],
+      ["Certificate renewal", "Repository browsing certificate expires in 2 days. Europost window B recommends snacks.", "danger"],
+      ["Public consultation", "Your silence was interpreted as a comment pending confirmation that silence was silent.", "info"],
+      ["Refusal receipt", "A receipt for refusing receipts is available in PDF/A after refusing the receipt notice.", "warning"],
+      ["Interoperability ping", "The interface noticed a non-harmonized hover and queued a portability archive.", "info"],
+      ["Data retention", "All choices currently resolve to another rule, which is retained by this one.", "warning"],
+      ["Rapporteur update", "Fork rapporteur assignment moved from maybe to plausibly maybe.", "info"],
+      ["NIS2 baseline", "Closing modals quickly may resemble an availability incident with good posture.", "danger"],
+      ["Maltese footnote", "A translated footnote changed shape. Language fairness has been gently reopened.", "warning"],
+      ["VAT micro-receipt", "A one-cent repository-view receipt was generated and immediately administratively waived.", "info"],
+      ["Accessibility annex", "Line numbers are accessible except when counted, read, copied, or useful.", "info"],
+      ["AI Act classifier", "The classifier classified the classifier as high risk after finding conditional logic.", "danger"]
+    ];
 
     const STATE = {
       startedAt: Date.now(),
@@ -3127,6 +3486,10 @@
       mutedUntil: 0,
       scenarioIndex: 0,
       idleTimer: null,
+      pulseTimer: null,
+      notificationSeq: 0,
+      notifications: [],
+      expandedNotification: "",
       consents: Object.create(null)
     };
 
@@ -3170,7 +3533,7 @@
         ["14", "Labels", "One says maybe"],
         ["2", "Milestones", "Both procedural"]
       ], [
-        ["Q2 Administrative Labyrinth", "Map all forms required to open one file.", "Active"],
+        ["Q2 Procedural Pressure Atlas", "Map all forms required to open one file without occupying the entire screen.", "Active"],
         ["Consent Surface Reduction", "Add a consent to reduce consent surfaces.", "In review"],
         ["Europost Renewal Pilot", "Test certificate renewal by queue number.", "Planned"]
       ]),
@@ -3468,9 +3831,13 @@
       STATE.route = route.type;
       if (currentHash() === "#") location.hash = "#/repo";
       const renderer = ROUTES[route.type] || ROUTES.repo;
+      $("#searchPanel")?.classList.remove("visible");
       $("#routeView").innerHTML = renderer(route.path);
       updateActiveNav(routeKey(route));
       decorateDynamicContent();
+      STATE.activeScenarios.forEach((id) => {
+        if (!$(`[data-scenario-id="${CSS.escape(id)}"]`)) STATE.activeScenarios.delete(id);
+      });
       updatePressureMeter();
       if (route.type === "blob") scheduleFileScenarios(route.path);
       if (route.type === "tree" && route.path) scheduleFolderScenarios(route.path);
@@ -3492,10 +3859,100 @@
       });
     }
 
-    function showToast(message, tone = "info", scenarioId = "") {
+    function hashNumber(value) {
+      return String(value).split("").reduce((sum, char) => sum + char.charCodeAt(0), 0);
+    }
+
+    function toneForScenario(scenario) {
+      return scenario.level === 2 ? "danger" : scenario.level === 1 ? "warning" : "info";
+    }
+
+    function variantForScenario(scenario) {
+      if (scenario.id.includes("cookie") || scenario.id.includes("receipt") || scenario.id.includes("vat")) return "receipt";
+      if (scenario.id.includes("certificate") || scenario.id.includes("europost")) return "stamp";
+      if (scenario.id.includes("ai") || scenario.id.includes("risk") || scenario.level === 2) return "danger";
+      if (scenario.id.includes("transfer") || scenario.id.includes("atlas")) return "blueprint";
+      if (scenario.ui === "modal") return "briefing";
+      if (scenario.level === 1) return "warning";
+      return ["plain", "stamp", "receipt", "briefing"][hashNumber(scenario.id) % 4];
+    }
+
+    function zoneForScenario(scenario) {
+      if (scenario.ui === "banner") return "banner";
+      if (scenario.ui === "drawer") return "drawer";
+      if (scenario.ui === "inline") return "inline";
+      if (scenario.ui === "modal") return hashNumber(scenario.id) % 2 ? "left" : "right";
+      return hashNumber(scenario.id) % 2 ? "right" : "left";
+    }
+
+    function surfaceLabel(ui) {
+      return ({ modal: "form", drawer: "side procedure", banner: "banner", floating: "notice", inline: "inline annex" }[ui] || "notice");
+    }
+
+    function notificationTime() {
+      return new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    }
+
+    function addNotification(title, body, tone = "info", scenarioId = "", source = "notice") {
+      const id = `${scenarioId || "notice"}-${Date.now()}-${STATE.notificationSeq}`;
+      STATE.notificationSeq += 1;
+      STATE.notifications.unshift({
+        id,
+        scenarioId,
+        title,
+        body,
+        tone,
+        source,
+        time: notificationTime()
+      });
+      STATE.notifications = STATE.notifications.slice(0, 80);
+      renderNotifications();
+      return id;
+    }
+
+    function renderNotifications() {
+      const count = $("[data-notification-count]");
+      if (count) count.textContent = String(STATE.notifications.length);
+      const list = $("#notificationList");
+      if (!list) return;
+      list.innerHTML = STATE.notifications.map((item, index) => `
+        <button class="notification-item ${escapeHtml(item.tone)} ${STATE.expandedNotification === item.id ? "is-expanded" : ""}" data-notification-toggle="${escapeHtml(item.id)}">
+          <span class="notification-mark" aria-hidden="true"></span>
+          <span>
+            <span class="notification-title"><span>${escapeHtml(item.title)}</span><time>${escapeHtml(item.time)}</time></span>
+            <span class="notification-meta">${escapeHtml(item.source)} / dossier ${String(index + 1).padStart(3, "0")}</span>
+            <span class="notification-body">${escapeHtml(item.body)}</span>
+          </span>
+        </button>
+      `).join("");
+      decorateDynamicContent();
+    }
+
+    function seedNotifications() {
+      if (STATE.notifications.length) return;
+      NOTIFICATION_SEED.forEach(([title, body, tone]) => addNotification(title, body, tone, "", "seeded safeguard"));
+    }
+
+    function toggleNotificationCenter(force) {
+      const panel = $("#notificationCenter");
+      const button = $("[data-action='notifications']");
+      if (!panel) return;
+      const shouldOpen = typeof force === "boolean" ? force : panel.classList.contains("hidden");
+      panel.classList.toggle("hidden", !shouldOpen);
+      document.body.classList.toggle("notifications-open", shouldOpen);
+      if (button) button.setAttribute("aria-expanded", String(shouldOpen));
+    }
+
+    function toggleNotification(id) {
+      STATE.expandedNotification = STATE.expandedNotification === id ? "" : id;
+      renderNotifications();
+      raisePressure(1, "notification");
+    }
+
+    function pushToast(message, tone = "info", scenarioId = "") {
       const stack = $("#toastStack");
       const currentToasts = $$(".toast", stack);
-      if (currentToasts.length > (pressureLevel() === 0 ? 3 : 7)) currentToasts[0].remove();
+      if (currentToasts.length > (pressureLevel() === 0 ? 3 : pressureLevel() === 1 ? 5 : 8)) currentToasts[0].remove();
       const toast = document.createElement("div");
       toast.className = `toast ${tone}`;
       if (scenarioId) toast.dataset.scenarioId = scenarioId;
@@ -3506,6 +3963,14 @@
         toast.style.transform = "translateX(12px)";
         window.setTimeout(() => toast.remove(), 220);
       }, pressureLevel() === 2 ? 7800 : 5200);
+    }
+
+    function showToast(message, tone = "info", scenarioId = "", options = {}) {
+      if (!options.skipNotification) {
+        const [title, ...rest] = String(message).split(": ");
+        addNotification(title || "Procedural notice", rest.join(": ") || message, tone, scenarioId, "toast");
+      }
+      pushToast(message, tone, scenarioId);
     }
 
     function showPanel(selector) {
@@ -3520,6 +3985,11 @@
       if (!panel) return;
       panel.classList.add("hidden");
       panel.classList.remove("visible");
+      if (selector === "#notificationCenter") {
+        const button = $("[data-action='notifications']");
+        if (button) button.setAttribute("aria-expanded", "false");
+        document.body.classList.remove("notifications-open");
+      }
     }
 
     function compactCookieBanner(message) {
@@ -3554,9 +4024,10 @@
     }
 
     function showScenario(scenario) {
-      const tone = scenario.level === 2 ? "danger" : scenario.level === 1 ? "warning" : "info";
+      const tone = toneForScenario(scenario);
+      addNotification(scenario.title, scenario.body, tone, scenario.id, surfaceLabel(scenario.ui));
       if (scenario.ui === "toast") {
-        showToast(`${scenario.title}: ${scenario.body}`, tone, scenario.id);
+        pushToast(`${scenario.title}: ${scenario.body}`, tone, scenario.id);
         return;
       }
       if (scenario.ui === "banner") {
@@ -3564,34 +4035,66 @@
         node.className = "bureau-banner";
         node.dataset.scenarioId = scenario.id;
         node.innerHTML = `<div><strong>${escapeHtml(scenario.title)}</strong><span>${escapeHtml(scenario.body)}</span></div><button class="icon-button" aria-label="Close ${escapeHtml(scenario.title)}" data-scenario-close="${scenario.id}">${icon("i-close")}</button>`;
-        document.body.appendChild(node);
+        placeScenarioNode(node, scenario);
+        pushToast(`Banner filed: ${scenario.title}`, tone, scenario.id);
         return;
       }
-      if (scenario.ui === "floating") {
-        const node = document.createElement("section");
-        node.className = "scenario-float";
-        node.dataset.scenarioId = scenario.id;
-        node.innerHTML = `<div class="card-head"><h3>${escapeHtml(scenario.title)}</h3><button class="icon-button" aria-label="Close ${escapeHtml(scenario.title)}" data-scenario-close="${scenario.id}">${icon("i-close")}</button></div><p>${escapeHtml(scenario.body)}</p><div class="button-row"><button class="button primary" data-scenario-close="${scenario.id}">Acknowledge annex</button><button class="button ghost" data-action="export">Export receipt</button></div>`;
-        document.body.appendChild(node);
+      if (scenario.ui === "floating" || scenario.ui === "modal") {
+        const node = scenarioSurface(scenario, scenario.ui === "modal" ? "is-modal" : "is-floating");
+        placeScenarioNode(node, scenario);
+        pushToast(`New ${surfaceLabel(scenario.ui)}: ${scenario.title}`, tone, scenario.id);
         return;
       }
-      if (scenario.ui === "modal") {
-        const node = document.createElement("div");
-        node.className = "scenario-modal-shell";
-        node.dataset.scenarioId = scenario.id;
-        node.innerHTML = `<section class="scenario-modal"><div class="card-head"><h3>${escapeHtml(scenario.title)}</h3><button class="icon-button" aria-label="Close ${escapeHtml(scenario.title)}" data-scenario-close="${scenario.id}">${icon("i-close")}</button></div><p>${escapeHtml(scenario.body)}</p>${fakeFormFor(scenario)}<div class="button-row"><button class="button primary" data-scenario-close="${scenario.id}">Submit locally</button><button class="button ghost" data-scenario-close="${scenario.id}">Defer 5 seconds</button></div></section>`;
-        document.body.appendChild(node);
+      if (scenario.ui === "inline") {
+        insertInlineScenario(scenario);
+        pushToast(`Inline annex inserted: ${scenario.title}`, tone, scenario.id);
         return;
       }
       if (scenario.ui === "drawer") {
         const node = document.createElement("aside");
         node.className = "scenario-drawer";
         node.dataset.scenarioId = scenario.id;
+        node.dataset.variant = variantForScenario(scenario);
         node.innerHTML = `<div class="card-head"><h3>${escapeHtml(scenario.title)}</h3><button class="icon-button" aria-label="Close ${escapeHtml(scenario.title)}" data-scenario-close="${scenario.id}">${icon("i-close")}</button></div><p>${escapeHtml(scenario.body)}</p>${fakeFormFor(scenario)}<div class="button-row"><button class="button primary" data-scenario-close="${scenario.id}">Record lawful basis</button><button class="button ghost" data-action="privacy">Open privacy matrix</button></div>`;
+        placeScenarioNode(node, scenario);
+        pushToast(`Side procedure opened: ${scenario.title}`, tone, scenario.id);
+        return;
+      }
+      insertInlineScenario(scenario);
+    }
+
+    function scenarioSurface(scenario, roleClass = "") {
+      const node = document.createElement("section");
+      node.className = `scenario-surface ${roleClass}`;
+      node.dataset.scenarioId = scenario.id;
+      node.dataset.variant = variantForScenario(scenario);
+      node.innerHTML = `<div class="card-head"><h3>${escapeHtml(scenario.title)}</h3><button class="icon-button" aria-label="Close ${escapeHtml(scenario.title)}" data-scenario-close="${scenario.id}">${icon("i-close")}</button></div><p>${escapeHtml(scenario.body)}</p>${fakeFormFor(scenario)}<div class="button-row"><button class="button primary" data-scenario-close="${scenario.id}">${scenario.ui === "modal" ? "Submit locally" : "Acknowledge annex"}</button><button class="button ghost" data-action="export">Export receipt</button></div>`;
+      return node;
+    }
+
+    function placeScenarioNode(node, scenario) {
+      const zone = zoneForScenario(scenario);
+      const target = $(`[data-stage-zone="${zone}"]`) || $("[data-stage-zone='left']");
+      if (!target) {
         document.body.appendChild(node);
         return;
       }
-      if (scenario.ui === "labyrinth") showLabyrinth(scenario);
+      target.appendChild(node);
+      decorateDynamicContent();
+    }
+
+    function insertInlineScenario(scenario) {
+      const node = document.createElement("section");
+      node.className = "inline-scenario";
+      node.dataset.scenarioId = scenario.id;
+      node.dataset.variant = variantForScenario(scenario);
+      node.innerHTML = `<div class="card-head"><h3>${escapeHtml(scenario.title)}</h3><button class="icon-button" aria-label="Close ${escapeHtml(scenario.title)}" data-scenario-close="${scenario.id}">${icon("i-close")}</button></div><p>${escapeHtml(scenario.body)}</p><div class="button-row"><button class="button ghost" data-action="details">Inspect annex</button><button class="button primary" data-scenario-close="${scenario.id}">Let it remain in the record</button></div>`;
+      const view = $("#routeView");
+      const anchors = $$(".merge-blocked, .repo-table, .view-panel, .readme", view);
+      const anchor = anchors[hashNumber(scenario.id) % Math.max(anchors.length, 1)];
+      if (anchor) anchor.insertAdjacentElement("afterend", node);
+      else view?.prepend(node);
+      decorateDynamicContent();
     }
 
     function fakeFormFor(scenario) {
@@ -3601,24 +4104,6 @@
         <label>Administrative justification<textarea name="justification-${scenario.id}" autocomplete="off" placeholder="Write something proportionate but not too useful."></textarea></label>
         <label>Processing posture<select name="posture-${scenario.id}" autocomplete="off"><option>Regretfully necessary</option><option>Constructively abstained</option><option>Pending translation</option></select></label>
       </div>`;
-    }
-
-    function showLabyrinth(scenario) {
-      const node = document.createElement("section");
-      node.className = "labyrinth";
-      node.dataset.scenarioId = scenario.id;
-      node.innerHTML = `<div class="card-head"><div><h3>${escapeHtml(scenario.title)}</h3><p>${escapeHtml(scenario.body)}</p></div><button class="icon-button" aria-label="Close labyrinth" data-scenario-close="${scenario.id}">${icon("i-close")}</button></div>
-        <div class="labyrinth-map">
-          ${[
-            ["Cookie refusal", "7%", 32, 36],
-            ["Europost renewal", "29%", 246, 88],
-            ["Rapporteur", "43%", 124, 210],
-            ["PDF/A raw file", "61%", 394, 230],
-            ["Not subscribe", "88%", 560, 128]
-          ].map(([title, pct, left, top]) => `<div class="labyrinth-node" style="left:${left}px;top:${top}px"><strong>${escapeHtml(title)}</strong><br><span>${escapeHtml(pct)} complete</span></div>`).join("")}
-        </div>
-        <div class="button-row"><button class="button primary" data-scenario-close="${scenario.id}">Find counter 14B</button><button class="button ghost" data-action="final">Escape via subscription refusal</button></div>`;
-      document.body.appendChild(node);
     }
 
     function closeScenario(id) {
@@ -3650,10 +4135,11 @@
     }
 
     function handleAction(action, target) {
+      if (action === "notifications") { toggleNotificationCenter(); raisePressure(2, "notification"); return; }
       if (action === "toast") showToast(target.dataset.message || "The request has entered a review queue.", "info");
-      if (action === "consent") { showPanel("#starConsent"); showToast("Consent panel reopened. Refusal remains available after being logged.", "warning"); scheduleScenario("star", "star-cooling"); }
+      if (action === "consent") { showToast("Consent panel reopened. Refusal remains available after being logged.", "warning"); scheduleScenario("star", "star-cooling"); }
       if (action === "watch") scheduleScenario("watch", "watch-fatigue");
-      if (action === "fork") { showPanel("#governanceShell"); scheduleScenario("fork", "fork-rapporteur"); }
+      if (action === "fork") { showToast("Governance process queued. A side procedure has been opened instead of the old central blockade.", "warning"); scheduleScenario("fork", "fork-rapporteur"); }
       if (action === "grant-star") { target.textContent = "Cooling off"; showToast("Consent accepted. Star recorded after a 14-day cooling-off period.", "warning"); scheduleScenario("star", "star-cooling"); }
       if (action === "governance") showPanel("#governanceShell");
       if (action === "privacy") { showPanel("#privacyShell"); scheduleScenario("privacy", "retention-slider"); }
@@ -3695,23 +4181,39 @@
       showScenario(scenario);
       window.setTimeout(() => {
         showToast("Derogation expired. The administrative atmosphere has returned.", "warning");
-        scheduleScenario("nightmare", pressureLevel() === 2 ? "labyrinth" : "certificate-expiry");
+        scheduleScenario("nightmare", pressureLevel() === 2 ? "pressure-atlas" : "certificate-expiry");
       }, 20500);
+    }
+
+    function schedulePressurePulse() {
+      window.clearTimeout(STATE.pulseTimer);
+      const level = pressureLevel();
+      const interval = Math.max(1800, [7200, 4300, 2400][level] - Math.min(1400, STATE.actionCount * 90));
+      STATE.pulseTimer = window.setTimeout(() => {
+        if (Date.now() >= STATE.mutedUntil) {
+          const trigger = level === 2 ? "nightmare" : level === 1 ? "route" : "timer";
+          const burst = Math.min(4, 1 + level + Math.floor(STATE.pressure / 72));
+          for (let index = 0; index < burst; index += 1) {
+            window.setTimeout(() => {
+              const preferred = level === 2 && index === burst - 1 ? "pressure-atlas" : "";
+              scheduleScenario(trigger, preferred);
+            }, index * 520);
+          }
+          STATE.pressure = Math.min(100, STATE.pressure + 3 + level * 2);
+          updatePressureMeter();
+        }
+        schedulePressurePulse();
+      }, interval);
     }
 
     function bootstrap() {
       if (!location.hash || location.hash === "#") location.hash = "#/repo";
+      seedNotifications();
       decorateDynamicContent();
       renderRoute();
       showPanel("#cookieBanner");
       window.setTimeout(() => { scheduleScenario("timer", "certificate-expiry"); showToast("Compliance scan complete. One useful action remains blocked by Article 6 review.", "warning", "startup-scan"); }, 1000);
-      window.setInterval(() => {
-        if (Date.now() < STATE.mutedUntil) return;
-        const trigger = pressureLevel() === 2 ? "nightmare" : "timer";
-        scheduleScenario(trigger, pressureLevel() === 2 && STATE.actionCount > 16 ? "labyrinth" : "");
-        STATE.pressure = Math.min(100, STATE.pressure + 3);
-        updatePressureMeter();
-      }, 6500);
+      schedulePressurePulse();
       resetIdleTimer();
     }
 
@@ -3739,6 +4241,13 @@
         if (trigger.startsWith("file:")) scheduleFileScenarios(trigger.replace("file:", ""));
         if (trigger.startsWith("folder:")) scheduleFolderScenarios(trigger.replace("folder:", ""));
         raisePressure(4, trigger);
+        return;
+      }
+
+      const notificationToggle = event.target.closest("[data-notification-toggle]");
+      if (notificationToggle) {
+        event.preventDefault();
+        toggleNotification(notificationToggle.dataset.notificationToggle);
         return;
       }
 
